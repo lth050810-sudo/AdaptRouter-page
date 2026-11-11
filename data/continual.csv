@@ -1,0 +1,18 @@
+method,group,S1 MATH-500,S1 ChartQA,S2 MATH-500,S2 ChartQA,S2 MMLU-Pro,S3 MATH-500,S3 ChartQA,S3 MMLU-Pro,S3 HumanEval+,S4 MATH-500,S4 ChartQA,S4 MMLU-Pro,S4 HumanEval+,S4 IFEval,S4 relative cost (%)
+Qwen3.5-9B (non-thinking),I. Direct and random baselines,92.6,85.88,92.6,85.88,74.4,92.6,85.88,74.4,84.15,92.6,85.88,74.4,84.15,85.4,20.15
+Qwen3.5-9B (thinking),I. Direct and random baselines,73.4,86.08,73.4,86.08,77.6,73.4,86.08,77.6,89.02,73.4,86.08,77.6,89.02,91.87,100.0
+Random,I. Direct and random baselines,53.6,14.88,53.6,14.88,58.2,53.6,14.88,58.2,68.29,53.6,14.88,58.2,68.29,77.26,13.09
+StartLux 0.8B (Original),II. Released and prompted routing methods,39.8,21.44,39.8,21.44,42.4,39.8,21.44,42.4,61.59,39.8,21.44,42.4,61.59,75.6,20.63
+JevAny-4B (Original),II. Released and prompted routing methods,42.2,31.0,42.2,31.0,51.8,42.2,31.0,51.8,73.78,42.2,31.0,51.8,73.78,84.1,24.97
+Arch (Image-to-Text),II. Released and prompted routing methods,30.8,5.84,30.8,5.84,33.0,30.8,5.84,33.0,42.07,30.8,5.84,33.0,42.07,12.01,13.37
+Qwen3.5-4B (Prompted Selector),II. Released and prompted routing methods,53.2,20.52,53.2,20.52,62.6,53.2,20.52,62.6,66.46,53.2,20.52,62.6,66.46,82.26,14.37
+Strands Qwen3.5-2B (Decider),II. Released and prompted routing methods,59.6,12.6,59.6,12.6,47.0,59.6,12.6,47.0,56.1,59.6,12.6,47.0,56.1,72.27,9.28
+Embedding-kNN,III. Feedback-trained routing methods,73.6,38.68,74.2,39.08,66.6,75.2,39.2,67.2,85.37,74.4,38.92,68.0,85.37,84.47,12.71
+MLP Reward Predictor,III. Feedback-trained routing methods,75.8,37.84,77.0,38.48,72.2,77.4,38.6,74.2,86.59,71.0,37.96,75.2,85.98,85.4,17.7
+EmbedLLM (adapted),III. Feedback-trained routing methods,74.8,38.28,75.6,38.48,75.6,76.4,38.56,75.6,88.41,77.2,38.48,75.0,89.63,82.81,15.71
+LinUCB,III. Feedback-trained routing methods,76.2,38.8,74.0,38.08,67.8,73.6,37.96,67.8,84.15,71.8,38.12,68.8,82.93,82.26,9.37
+LatentRouter (adapted),III. Feedback-trained routing methods,64.0,37.68,63.4,37.64,43.8,63.4,36.96,43.8,51.83,57.0,37.56,75.2,77.44,85.21,18.84
+"StartLux 0.8B (Full FT, ours)",IV. RL-trained routing methods,92.2,85.84,91.8,85.44,74.0,92.0,85.52,73.8,84.1,92.2,86.02,74.4,84.32,84.66,16.83
+"StartLux 0.8B (LoRA, ours)",IV. RL-trained routing methods,84.6,83.38,89.4,84.59,71.8,90.6,85.52,73.4,78.66,90.8,85.68,73.0,78.66,83.36,14.77
+"JevAny-0.8B (Full FT, ours)",Other,83.2,83.58,90.2,84.91,71.8,91.0,84.63,72.8,80.49,92.0,85.84,74.4,81.71,83.92,16.73
+"JevAny-0.8B (LoRA, ours)",Other,84.0,83.3,90.0,84.83,72.6,91.2,84.95,75.0,83.54,91.2,84.79,74.6,83.54,83.92,15.62

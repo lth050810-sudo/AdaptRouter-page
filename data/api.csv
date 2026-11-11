@@ -1,0 +1,15 @@
+method,group,Omni-MATH,BBEH Mini,HLE Text,IFBench,AA-LCR v1.1,LongBench v2,MMMU-Pro,ChartQAPro,Design2Code Hard,LiveCodeBench Pro,Weighted Avg.,Cost (USD)
+GPT-6.1 Sol (low),I. Direct models,64.32,20.49,17.77,48.0,66.0,60.18,62.39,26.79,82.36,69.15,47.23,429.79
+GPT-6 Astra (low),I. Direct models,65.52,21.71,16.99,44.4,74.0,57.3,63.51,26.97,84.05,62.77,47.57,2157.9
+Gemini 4 Argon,I. Direct models,84.14,22.68,46.7,58.0,72.0,66.59,85.94,52.18,70.71,71.28,68.35,260.53
+Claude Sonnet 5.5,I. Direct models,84.89,30.0,33.01,38.8,62.0,63.5,77.31,23.01,73.42,55.32,59.74,257.26
+GPT-6.1 Sol (max),I. Direct models,,,52.92,,83.0,,85.95,,,,,
+GPT-6 Astra (max),I. Direct models,,,54.68,,80.67,,86.88,,,,,
+StartLux 0.8B (Original),II. Released and prompted routing methods,79.3,21.71,34.55,51.2,74.0,56.42,76.85,51.65,77.56,68.09,62.14,196.7
+JevAny-4B (Original),II. Released and prompted routing methods,79.8,30.49,20.91,43.6,64.0,61.73,64.03,26.84,76.64,58.51,54.26,201.46
+Qwen3.5-4B (Prompted Selector),II. Released and prompted routing methods,76.46,40.73,30.23,65.2,76.0,56.86,68.8,45.36,76.31,69.15,59.19,75.01
+MLP Reward Predictor,III. Feedback-trained routing methods,86.27,19.76,46.55,58.0,62.0,58.41,84.76,48.34,82.91,73.4,67.9,246.87
+LatentRouter (adapted),III. Feedback-trained routing methods,80.93,44.88,38.11,67.6,58.0,60.4,77.83,49.61,83.16,67.02,64.67,123.31
+Router-R1 (PPO),III. Feedback-trained routing methods,86.78,23.66,48.92,60.0,72.0,66.81,88.29,53.8,79.7,74.47,70.53,283.26
+"StartLux 0.8B (Full FT, ours)",IV. RL-trained routing methods,86.68,49.02,48.66,66.8,82.0,62.83,87.44,53.42,83.43,74.47,71.31,120.46
+"JevAny-0.8B (Full FT, ours)",Other,86.6,33.9,48.92,64.4,82.0,62.83,88.36,53.75,83.43,74.47,70.86,134.3

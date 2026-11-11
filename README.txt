@@ -1,0 +1,1 @@
+AdaptRouter static research website. Upload all files to the root of a GitHub Pages publishing branch. No build step or API key is required. The included manuscript is AdaptRouter; the reference Route Anything paper is not included.

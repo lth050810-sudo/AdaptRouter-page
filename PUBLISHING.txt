@@ -1,0 +1,5 @@
+Target repository: lth050810-sudo/AdaptRouter
+Upload the extracted contents to main, keeping index.html at the repository root.
+Settings > Pages > Source: Deploy from a branch > main > /(root) > Save.
+Expected site URL after successful publication: https://lth050810-sudo.github.io/AdaptRouter/
+This URL is not claimed live until verified.

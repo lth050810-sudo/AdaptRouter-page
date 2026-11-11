@@ -1,0 +1,30 @@
+{
+  "title": "AdaptRouter: Continual Learning to Route across Evolving Tasks and Models",
+  "snapshot": "2026-11-08",
+  "prepared": "2026-11-11",
+  "manuscript_commit": "f1beee000d4282df8259ee33716773e930edf2be",
+  "sources": [
+    {
+      "file": "sec/3_problem.tex",
+      "sha256": "07f3c7c027c545270aa176a580009d1e1c950967c8e8ca7f20ded1fbc54bdeb6"
+    },
+    {
+      "file": "sec/5_experiments.tex",
+      "sha256": "2b12cef1c3b16cc1a95950ac7f8a58843dac603529b93d3c7f33ef8dbe23f828"
+    },
+    {
+      "file": "sec/appendix.tex",
+      "sha256": "72db217f5d2bd582a851d5f16216a26b098a7b68f5629e5ee667db4acd621ea6"
+    }
+  ],
+  "scope": "Archived research manuscript tables. Reported point estimates; no new training or model calls.",
+  "api_tasks": 10363,
+  "api_cost_note": "List-price cost of selected successful expert answers; excludes training, judges, router compute and unknown failed-attempt invoices. Router-R1 uses the documented conservative high-side comparison policy.",
+  "open_cost_note": "Parameter-weighted input/output token proxy relative to Qwen3.5-9B (thinking); not dollar cost or wall time.",
+  "training_note": "Main and continual experiments use feedback-based policy optimization. The API extension uses full-information soft targets with lambda=0.02 and tau=0.05.",
+  "coverage_note": "Open and API suites are different test sets; their averages are not directly comparable. Max-effort reference rows are partial external results, not complete matched local runs.",
+  "continual_note": "Each stage trains on new data only. Curves show reported per-task accuracy, not an average across a changing task set.",
+  "ablation_note": "Full model trained on one GPU, ablations on eight. The evaluation includes the documented 400-question training overlap; it is not a wholly independent held-out test.",
+  "precision_note": "Numbers reproduce displayed table precision. Narrative summaries are not used to overwrite explicit table cells.",
+  "manuscript_pdf_sha256": "0cb193a09612abe623972fe29b94009786196a76bc41d08fd7080028f949d864"
+}
