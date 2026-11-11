@@ -32,4 +32,4 @@
 }
 
 /* Site-specific CJK glyph subset, self-hosted. */
-@font-face {font-family:'AdaptRouter Han';font-style:normal;font-weight:400 700;font-display:swap;src:url('./refined-noto-sc.woff2') format('woff2');}
+@font-face {font-family:'AdaptRouter Han';font-style:normal;font-weight:400 700;font-display:swap;src:url('./refined-noto-sc.woff2?v=resources-20261111') format('woff2');}

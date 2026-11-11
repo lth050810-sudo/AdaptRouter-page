@@ -14,13 +14,13 @@
   <meta property="og:image" content="https://lth050810-sudo.github.io/AdaptRouter/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="style.css?v=lab-20261111">
-  <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=lab-20261111">
-  <link rel="stylesheet" href="polish.css?v=lab-20261111">
+  <link rel="stylesheet" href="style.css?v=resources-20261111">
+  <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=resources-20261111">
+  <link rel="stylesheet" href="polish.css?v=resources-20261111">
   <script>try{if(localStorage.getItem('ar-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
   <script defer src="data/results.js"></script>
-  <script defer src="app.js?v=lab-20261111"></script>
-  <script defer src="motion.js?v=lab-20261111"></script>
+  <script defer src="app.js?v=resources-20261111-crosshair"></script>
+  <script defer src="motion.js?v=resources-20261111"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -39,8 +39,7 @@
       <h1>Adapt<span>Router</span><span class="hero-period">.</span></h1>
       <p class="hero-title" data-i18n="heroTitle">Continual Learning to Route<br>across Evolving Tasks and Models</p>
       <p class="hero-lede" data-i18n="heroLede">New tasks. New experts. One adaptive policy.<br>A compact multimodal router learns from task feedback, keeps earlier capabilities, and selects the right expert for each question.</p>
-      <div class="hero-actions"><a class="button primary" href="#results"><span data-i18n="exploreResults">Explore the results</span><span aria-hidden="true">↓</span></a><a class="button outline" href="data/results.json" download><span data-i18n="downloadData">Download results</span><span aria-hidden="true">↗</span></a></div>
-      <div class="hero-caption"><span data-i18n="heroCaption">Research manuscript · Anonymous authors · Results snapshot: 8 Nov 2026</span></div>
+      <div class="hero-actions"><a class="button primary" href="#results"><span data-i18n="exploreResults">Explore the results</span><span class="action-icon" data-icon="arrowDown" aria-hidden="true"></span></a><a class="button outline" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener"><span translate="no">Hugging Face</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></a><a class="button outline" href="https://github.com/lth050810-sudo/AdaptRouter" target="_blank" rel="noopener"><span translate="no">GitHub</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></a></div>
       </div>
 
       <figure class="hero-board" aria-label="AdaptRouter research overview">
@@ -64,16 +63,14 @@
     <section class="section shell" id="method">
       <div class="section-intro"><span class="section-index" data-i18n="sectionMethod">01 / The method</span><h2 data-i18n="methodTitle">The world changes.<br>The router learns.</h2><p data-i18n="methodLede">A routing policy should keep learning as the questions and the available models change. AdaptRouter makes the expert pool part of the input.</p></div>
       <div class="method-columns"><article><span class="step-number">01</span><h3 data-i18n="methodA">Read the question and the cards.</h3><p data-i18n="methodAText">The compact decision model sees the full question, its images, and cards describing the available experts. A new expert enters as a new card.</p></article><article><span class="step-number">02</span><h3 data-i18n="methodB">Learn from task feedback.</h3><p data-i18n="methodBText">In the main and continual studies, sampled routing decisions receive native task scores. A quality-first advantage limits how cost can alter the learning signal.</p></article><article><span class="step-number">03</span><h3 data-i18n="methodC">Carry the policy forward.</h3><p data-i18n="methodCText">Each stage starts from the previous policy and optimizer state, trains only on newly introduced data, and is evaluated on all tasks seen so far.</p></article></div>
-      <div class="equation-strip"><span class="mono" data-i18n="objective">ROUTING OBJECTIVE</span><span class="equation">quality <span>−</span> λ · normalized cost</span><p data-i18n="objectiveNote">One router prefill. One selected expert. The expert generates the complete answer.</p></div>
       <details class="details-line"><summary data-i18n="trainingDetails">Two training protocols, reported separately</summary><p data-i18n="trainingDetailsText">The main and continual studies use task-feedback policy optimization. The API extension uses full-information expert scores and costs to form soft targets (λ = 0.02, τ = 0.05), with a regret term. API results are not presented as an online RL experiment.</p></details>
     </section>
 
     <section class="tinted-section" id="continual"><div class="section shell">
       <div class="section-intro"><span class="section-index" data-i18n="sectionContinual">02 / Continual adaptation</span><h2 data-i18n="continualTitle">Learn the next task.<br>Keep the earlier ones.</h2><p data-i18n="continualLede">Five benchmarks arrive over four stages. The policy learns only from the new stage’s questions, without replaying earlier training data.</p></div>
-      <div class="stage-rail"><div><span>S1</span><strong>MATH-500 + ChartQA</strong></div><div><span>S2</span><strong>+ MMLU-Pro</strong></div><div><span>S3</span><strong>+ HumanEval+</strong></div><div><span>S4</span><strong>+ IFEval</strong></div></div>
-      <div class="chart-card"><div class="chart-toolbar"><label><span data-i18n="trackedTask">Tracked task</span><select id="continual-task"><option value="0">MATH-500</option><option value="1">ChartQA</option><option value="2">MMLU-Pro</option><option value="3">HumanEval+</option><option value="4">IFEval</option></select></label><div class="segmented" id="continual-mode" role="group" aria-label="Continual chart scale"><button class="active" data-mode="change" data-i18n="changeMode">Change from first stage</button><button data-mode="absolute" data-i18n="accuracyMode">Accuracy</button></div><button class="icon-text" data-download-chart="continual-chart" aria-label="Download continual chart SVG">SVG ↓</button></div><div id="continual-chart" class="chart-host"></div><div id="continual-legend" class="chart-legend"></div><p class="chart-note" data-i18n="continualNote">Changes are relative to each task’s first observed stage. Fixed experts are not continually trained. Point estimates are reproduced from the manuscript; no confidence intervals are implied.</p></div>
+      <div class="stage-rail"><div><span translate="no">S1</span><strong translate="no">MATH-500 + ChartQA</strong></div><div><span translate="no">S2</span><strong translate="no">+ MMLU-Pro</strong></div><div><span translate="no">S3</span><strong translate="no">+ HumanEval+</strong></div><div><span translate="no">S4</span><strong translate="no">+ IFEval</strong></div></div>
+      <div class="continual-results"><div class="continual-table-heading"><h3 data-i18n="continualTableTitle">Stage-by-stage results</h3><span data-i18n="continualTableUnits">Accuracy (%) · S4 relative cost (%)</span></div><div id="continual-full-table" class="table-scroll continual-table" tabindex="0" role="region" aria-label="Continual learning results, horizontally scrollable"></div><p class="chart-note" data-i18n="continualTableNote">All methods and all four stages are shown. Benchmark cells report accuracy (%); the final column reports S4 relative cost (%). Fixed experts are not continually trained. Scroll horizontally to view all stage columns.</p></div>
       <div class="finding-strip"><span class="finding-marker">↗</span><p data-i18n="continualFinding">Across the StartLux variants, no earlier task falls more than <strong>0.4 points</strong> from a previous peak. The full-finetuning variant ends at <strong>92.20%</strong> on MATH-500, where it started.</p></div>
-      <details class="details-line"><summary data-i18n="continualTable">View the complete stage-by-stage table</summary><div id="continual-full-table" class="table-scroll"></div></details>
     </div></section>
 
     <section class="section shell" id="pool">
@@ -102,16 +99,15 @@
     </section>
 
     <section class="resource-section" id="resources"><div class="section shell">
-      <div class="section-intro"><span class="section-index" data-i18n="sectionResources">06 / Resources</span><h2 data-i18n="resourcesTitle">Explore the evidence.</h2><p data-i18n="resourcesLede">Read the working manuscript, download the reported numbers, and reuse the figures. All visualizations on this page are generated from the bundled result tables.</p></div>
-      <div class="resource-grid"><a class="resource" href="assets/adaptrouter-manuscript.pdf" target="_blank" rel="noopener"><span class="resource-icon">↗</span><h3 data-i18n="resourcePaper">Working manuscript</h3><p data-i18n="resourcePaperText">Archived paper snapshot · PDF</p><span class="resource-type">PDF</span></a><a class="resource" href="data/results.json" download><span class="resource-icon">{ }</span><h3 data-i18n="resourceData">Complete result tables</h3><p data-i18n="resourceDataText">Seven studies · structured data</p><span class="resource-type">JSON</span></a><a class="resource" href="data/provenance.json" download><span class="resource-icon">≡</span><h3 data-i18n="resourceSource">Source & definitions</h3><p data-i18n="resourceSourceText">Snapshot, hashes and metric notes</p><span class="resource-type">JSON</span></a><a class="resource" href="assets/figures/router.pdf" target="_blank" rel="noopener"><span class="resource-icon">⌘</span><h3 data-i18n="resourceFigure">Method figure</h3><p data-i18n="resourceFigureText">Original vector figure from the paper</p><span class="resource-type">PDF</span></a></div>
-      <div class="csv-links"><span class="mono">CSV</span><a href="data/open.csv" download data-i18n="csvOpen">Open-weight</a><a href="data/api.csv" download data-i18n="csvApi">API models</a><a href="data/continual.csv" download data-i18n="csvContinual">Continual</a><a href="data/pool.csv" download data-i18n="csvPools">Expert pools</a><a href="data/exploration.csv" download data-i18n="csvExplore">Exploration</a><a href="data/ablation.csv" download data-i18n="csvAblation">Ablations</a><a href="data/scale.csv" download data-i18n="csvScale">Router scale</a></div>
-      <div class="citation-block"><div><span class="section-index">REFERENCE</span><h3 data-i18n="citationTitle">AdaptRouter</h3><p data-i18n="citationNote">Anonymous working manuscript, November 2026. Public bibliographic identifiers and a research-code release are not listed in this archived snapshot.</p></div><div class="citation-code"><button class="icon-text" id="copy-citation" data-i18n="copyCitation">Copy reference</button><pre id="citation-text">AdaptRouter: Continual Learning to Route across Evolving Tasks and Models.
-Anonymous authors. Working manuscript, November 2026.</pre><span id="copy-status" aria-live="polite"></span></div></div>
+      <div class="section-intro"><span class="section-index" data-i18n="sectionResources">06 / Resources</span><h2 data-i18n="resourcesTitle">Model weights &amp; paper.</h2><p data-i18n="resourcesLede">Visit the official Hugging Face repository for the API router weights, or read the AdaptRouter manuscript.</p></div>
+      <div class="resource-grid resource-downloads">
+        <a class="resource resource-weights" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="download" aria-hidden="true"></span><span class="resource-label" data-i18n="resourceWeightsLabel">API expert pool</span></div><h3 data-i18n="resourceWeights">API router weights</h3><p class="resource-model" translate="no">AdaptRouter · StartLux 0.8B</p><p class="resource-meta" data-i18n="resourceWeightsText">Full fine-tuning · λ = 0.02 · FP32</p><span class="resource-action button primary"><span data-i18n="resourceWeightsAction">View on Hugging Face</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
+        <a class="resource resource-paper" href="assets/adaptrouter-manuscript.pdf" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="file" aria-hidden="true"></span><span class="resource-label">PDF</span></div><h3 data-i18n="resourcePaper">Paper</h3><p class="resource-paper-description" data-i18n="resourcePaperText">AdaptRouter research manuscript</p><span class="resource-action button outline"><span data-i18n="resourcePaperAction">Read the paper</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
+      </div>
     </div></section>
   </main>
-  <footer class="shell footer"><a class="brand" href="#top">AdaptRouter<span class="brand-dot">.</span></a><p data-i18n="footerText">Research snapshot · 8 November 2026<br>Interactive presentation prepared 11 November 2026</p><a href="#top" data-i18n="designCredit">Interactive research results ↗</a></footer>
-  <div id="chart-tooltip" role="tooltip" hidden></div>
+  <div id="chart-tooltip" role="tooltip" translate="no" hidden></div>
   <div id="toast" role="status" aria-live="polite"></div>
-  <noscript><p class="shell">JavaScript enables the interactive charts. The manuscript and JSON/CSV downloads remain available through the resource links above.</p></noscript>
+  <noscript><p class="shell">JavaScript enables the interactive charts. The paper and Hugging Face links remain available through the resource section above.</p></noscript>
 </body>
 </html>

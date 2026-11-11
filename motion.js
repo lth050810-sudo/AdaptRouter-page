@@ -53,21 +53,17 @@
     labelIcon(one('.nav-actions [data-i18n="paperButton"]'), 'arrowUpRight');
     one('#theme-toggle').innerHTML = icon(root.dataset.theme === 'dark' ? 'sun' : 'moon');
     one('#theme-toggle').setAttribute('aria-label', chinese() ? '切换明暗主题' : 'Toggle color theme');
-    all('.hero-actions .button').forEach((node, index) => {
-      const last = node.lastElementChild;
-      if (last && !last.hasAttribute('data-i18n')) last.innerHTML = icon(index ? 'download' : 'arrowDown');
-    });
+    all('.action-icon').forEach(node => { node.innerHTML=icon(node.dataset.icon || 'arrowUpRight'); });
     all('.input-symbol').forEach((node, index) => { node.innerHTML = icon(index ? 'image' : 'text'); });
     all('.new-task>span:first-child,.new-expert>span:first-child').forEach(node => { node.innerHTML = icon('plus'); });
     all('.method-columns .step-number').forEach((node,index) => {
       node.innerHTML = `<span class="step-icon">${icon(['layers','feedback','repeat'][index])}</span><span class="step-label">0${index+1}</span>`;
     });
     all('.finding-marker').forEach((node,index) => { node.innerHTML = icon(index ? 'plus' : 'trend'); });
-    all('.resource-icon').forEach((node,index) => { node.innerHTML = icon(['file','braces','source','route'][index]); });
+    all('.resource-icon').forEach(node => { node.innerHTML=icon(node.dataset.icon || 'file'); });
     all('[data-download-chart]').forEach(node => labelIcon(node, 'download'));
     labelIcon(one('#download-current'), 'download');
-    labelIcon(one('#copy-citation'), 'copy');
-    all('.inline-link,.footer>a:last-child').forEach(node => labelIcon(node,'arrowUpRight'));
+    all('.inline-link').forEach(node => labelIcon(node,'arrowUpRight'));
     all('.table-scroll').forEach(node => { node.setAttribute('tabindex','0'); node.setAttribute('role','region'); node.setAttribute('aria-label',chinese()?'可横向滚动的数据表':'Horizontally scrollable data table'); });
     all('.chart-host').forEach(node => { node.setAttribute('tabindex','0'); node.setAttribute('role','region'); node.setAttribute('aria-label',chinese()?'交互图表，可横向滚动':'Interactive chart, horizontally scrollable'); });
     topButton.setAttribute('aria-label', chinese() ? '返回顶部' : 'Back to top');
@@ -80,7 +76,7 @@
   }).observe(root,{ attributes:true, attributeFilter:['lang','data-theme'] });
 
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const revealNodes = all('.hero-intro,.hero-board,.hero-stats>a,.section-intro,.method-columns article,.equation-strip,.stage-rail,.chart-card,.finding-strip,.details-line,.selection-block>div,.resource,.csv-links,.citation-block,.footer');
+  const revealNodes = all('.hero-intro,.hero-board,.hero-stats>a,.section-intro,.method-columns article,.stage-rail,.chart-card,.finding-strip,.details-line,.selection-block>div,.resource');
   revealNodes.forEach(node => node.classList.add('reveal'));
   const nearby = new Set();
   const smooth = n => { const v = Math.max(0, Math.min(1, n)); return v*v*(3-2*v); };
