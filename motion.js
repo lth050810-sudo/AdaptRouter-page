@@ -1,0 +1,140 @@
+/* A small, dependency-free presentation enhancement. No network requests or data changes. */
+(() => {
+  'use strict';
+  const root = document.documentElement;
+  const paths = {
+    arrowDown: '<path d="M12 4v16m-6-6 6 6 6-6"/>',
+    arrowUp: '<path d="M12 20V4m-6 6 6-6 6 6"/>',
+    arrowUpRight: '<path d="M6 18 18 6M6 6h12v12"/>',
+    download: '<path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/>',
+    file: '<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8l-5-5Z"/><path d="M14 3v5h5M9 12h6m-6 4h6"/>',
+    layers: '<path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/>',
+    feedback: '<path d="M8 19H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-6l-5 3v-3Z"/><path d="m8 11 3 3 5-6"/>',
+    repeat: '<path d="M3 8h14a4 4 0 0 1 4 4v1M7 4 3 8l4 4M21 16H7a4 4 0 0 1-4-4v-1m14 1 4 4-4 4"/>',
+    text: '<path d="M4 5h16M8 10h12M4 15h16M8 20h8"/>',
+    image: '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5"/><path d="m3 16 5-5 5 5 3-3 5 5"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    trend: '<path d="m3 17 6-6 4 4 8-10m-6 0h6v6"/>',
+    braces: '<path d="M9 3H7a2 2 0 0 0-2 2v4l-2 3 2 3v4a2 2 0 0 0 2 2h2m6-18h2a2 2 0 0 1 2 2v4l2 3-2 3v4a2 2 0 0 1-2 2h-2"/><circle cx="12" cy="12" r=".6"/>',
+    source: '<path d="M9 5h11M9 12h11M9 19h11"/><circle cx="4" cy="5" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="19" r="1"/>',
+    route: '<rect x="3" y="9" width="5" height="6" rx="1"/><rect x="16" y="3" width="5" height="6" rx="1"/><rect x="16" y="15" width="5" height="6" rx="1"/><path d="M8 12h3a2 2 0 0 0 2-2V8a2 2 0 0 1 2-2h1m-5 6a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h1"/>',
+    copy: '<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',
+    moon: '<path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.7 8.7 0 1 0 11 11Z"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/>'
+  };
+  const icon = name => `<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths[name] || paths.arrowUpRight}</svg>`;
+  const one = selector => document.querySelector(selector);
+  const all = selector => [...document.querySelectorAll(selector)];
+  const chinese = () => root.lang.startsWith('zh');
+  const labelIcon = (node, name) => {
+    if (!node) return;
+    const text = node.textContent.replace(/[↗↓＋]/g, '').trim();
+    node.replaceChildren(Object.assign(document.createElement('span'), { textContent: text }));
+    node.insertAdjacentHTML('beforeend', icon(name));
+  };
+  const topButton = document.createElement('button');
+  topButton.className = 'back-to-top';
+  topButton.type = 'button';
+  topButton.innerHTML = icon('arrowUp');
+  document.body.append(topButton);
+  const progress = document.createElement('div');
+  progress.className = 'reading-progress';
+  progress.setAttribute('aria-hidden', 'true');
+  progress.innerHTML = '<span></span>';
+  document.body.prepend(progress);
+  const progressBar = progress.firstElementChild;
+  const header = one('.site-header');
+  const navLinks = all('.nav-links a');
+  const navSections = ['method','continual','pool','results','analysis','resources'].map(id => ({
+    node: document.getElementById(id),
+    hash: '#' + ({pool:'continual',analysis:'results'}[id] || id)
+  }));
+  function refreshIcons() {
+    labelIcon(one('.nav-actions [data-i18n="paperButton"]'), 'arrowUpRight');
+    one('#theme-toggle').innerHTML = icon(root.dataset.theme === 'dark' ? 'sun' : 'moon');
+    one('#theme-toggle').setAttribute('aria-label', chinese() ? '切换明暗主题' : 'Toggle color theme');
+    all('.hero-actions .button').forEach((node, index) => {
+      const last = node.lastElementChild;
+      if (last && !last.hasAttribute('data-i18n')) last.innerHTML = icon(index ? 'download' : 'arrowDown');
+    });
+    all('.input-symbol').forEach((node, index) => { node.innerHTML = icon(index ? 'image' : 'text'); });
+    all('.new-task>span:first-child,.new-expert>span:first-child').forEach(node => { node.innerHTML = icon('plus'); });
+    all('.method-columns .step-number').forEach((node,index) => {
+      node.innerHTML = `<span class="step-icon">${icon(['layers','feedback','repeat'][index])}</span><span class="step-label">0${index+1}</span>`;
+    });
+    all('.finding-marker').forEach((node,index) => { node.innerHTML = icon(index ? 'plus' : 'trend'); });
+    all('.resource-icon').forEach((node,index) => { node.innerHTML = icon(['file','braces','source','route'][index]); });
+    all('[data-download-chart]').forEach(node => labelIcon(node, 'download'));
+    labelIcon(one('#download-current'), 'download');
+    labelIcon(one('#copy-citation'), 'copy');
+    topButton.setAttribute('aria-label', chinese() ? '返回顶部' : 'Back to top');
+  }
+  refreshIcons();
+  let iconFrame = 0;
+  new MutationObserver(() => {
+    cancelAnimationFrame(iconFrame);
+    iconFrame = requestAnimationFrame(refreshIcons);
+  }).observe(root,{ attributes:true, attributeFilter:['lang','data-theme'] });
+
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const revealNodes = all('.hero-intro,.hero-board,.hero-stats>a,.section-intro,.method-columns article,.equation-strip,.stage-rail,.chart-card,.finding-strip,.details-line,.selection-block>div,.resource,.csv-links,.citation-block,.footer');
+  revealNodes.forEach(node => node.classList.add('reveal'));
+  const nearby = new Set();
+  const smooth = n => { const v = Math.max(0, Math.min(1, n)); return v*v*(3-2*v); };
+  let frame = 0;
+  let pageHeight = document.documentElement.scrollHeight;
+  function update(allNodes = false) {
+    frame = 0;
+    const vh = window.innerHeight;
+    const navHeight = header.offsetHeight;
+    const y = window.scrollY;
+    let activeHash = '';
+    navSections.forEach(({node,hash}) => {
+      if (node.getBoundingClientRect().top <= Math.max(navHeight+30,vh*.36)) activeHash = hash;
+    });
+    navLinks.forEach(link => {
+      const active = link.hash === activeHash;
+      link.classList.toggle('active',active);
+      if (active) link.setAttribute('aria-current','location');
+      else link.removeAttribute('aria-current');
+    });
+    const range = Math.max(1,pageHeight-vh);
+    progressBar.style.transform = `scaleX(${Math.min(1,Math.max(0,y/range))})`;
+    header.classList.toggle('is-scrolled', y > 12);
+    topButton.classList.toggle('is-visible', y > vh * .8);
+    if (reducedMotion.matches) return;
+    // Read geometry first, then write styles: scrolling never re-renders the charts.
+    const frames = [...(allNodes ? revealNodes : nearby)].map(node => {
+      const rect = node.getBoundingClientRect();
+      const enter = smooth((vh - rect.top - 14) / Math.max(1,Math.min(170,vh*.21,rect.height*.8)));
+      const leave = smooth((rect.bottom - navHeight - 5) / Math.max(1,Math.min(110,vh*.14,rect.height*.65)));
+      const alpha = enter * leave;
+      return { node, alpha, y: node.classList.contains('footer') ? 0 : 22*(1-enter)-14*(1-leave), scale: .99+.01*alpha };
+    });
+    frames.forEach(({node,alpha,y:offset,scale}) => {
+      node.style.setProperty('--reveal-alpha', alpha.toFixed(3));
+      node.style.setProperty('--reveal-y', `${offset.toFixed(2)}px`);
+      node.style.setProperty('--reveal-scale', scale.toFixed(4));
+    });
+  }
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(() => update()); };
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.isIntersecting ? nearby.add(entry.target) : nearby.delete(entry.target));
+      schedule();
+    },{rootMargin:'60% 0px',threshold:0});
+    revealNodes.forEach(node => observer.observe(node));
+  } else {
+    revealNodes.forEach(node => nearby.add(node));
+  }
+  // Start only once the visible positions are initialized, avoiding a hidden first frame.
+  update(true);
+  root.classList.add('motion-ready');
+  addEventListener('scroll', schedule, {passive:true});
+  addEventListener('resize', () => { pageHeight = root.scrollHeight; schedule(); }, {passive:true});
+  addEventListener('pageshow', () => { pageHeight = root.scrollHeight; update(true); });
+  if ('ResizeObserver' in window) new ResizeObserver(() => { pageHeight = root.scrollHeight; schedule(); }).observe(document.body);
+  document.fonts?.ready.then(() => { pageHeight = root.scrollHeight; update(true); });
+  reducedMotion.addEventListener('change', () => update(true));
+  topButton.addEventListener('click', () => scrollTo({top:0,behavior:reducedMotion.matches?'instant':'smooth'}));
+})();
