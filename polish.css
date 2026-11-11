@@ -127,7 +127,7 @@ h1>span:first-child { color: var(--ink); }
 .segmented { display: inline-flex; padding: 3px; background: var(--tint); border-radius: var(--button-radius); }
 .segmented button { min-height: 36px; padding: 7px 12px; background: transparent; border-radius: 6px; font-size: 12px; color: var(--muted); }
 .segmented button.active { color: var(--ink); background: var(--surface); box-shadow: 0 1px 4px #182C2708; }
-.finding-strip { display: flex; align-items: flex-start; gap: 16px; margin-top: 26px; padding: 4px 0; max-width: 1050px; }
+.finding-strip { display: flex; align-items: flex-start; gap: 16px; margin-top: 26px; padding: 4px 0; width: 100%; max-width: none; }
 .finding-marker { color: var(--teal); padding-top: 3px; }
 .finding-marker .ui-icon { width: 22px; height: 22px; }
 .finding-strip p { font-size: 15px; line-height: 1.85; color: var(--muted); }
@@ -346,3 +346,12 @@ th button:hover { color: var(--teal); }
 }
 .continual-table thead tr:nth-child(2) th { left: auto; z-index: 2; }
 .continual-table thead tr:first-child th:first-child { z-index: 4; }
+
+/* Compact findings and optional, readable study context. */
+.finding-strip p { flex: 1; min-width: 0; text-wrap: initial; }
+.study-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-block: 18px 26px; }
+.study-notes h4 { font-size: 15px; margin-bottom: 10px; }
+.study-notes p { font-size: 14px; line-height: 1.85; color: var(--muted); }
+details .chart-note { font-size: 14px; }
+#exploration-note { font-size: 13px; margin-top: 8px; }
+@media(max-width:700px) { .study-notes { grid-template-columns: 1fr; gap: 22px; } }
