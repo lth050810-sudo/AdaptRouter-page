@@ -67,6 +67,9 @@
     all('[data-download-chart]').forEach(node => labelIcon(node, 'download'));
     labelIcon(one('#download-current'), 'download');
     labelIcon(one('#copy-citation'), 'copy');
+    all('.inline-link,.footer>a:last-child').forEach(node => labelIcon(node,'arrowUpRight'));
+    all('.table-scroll').forEach(node => { node.setAttribute('tabindex','0'); node.setAttribute('role','region'); node.setAttribute('aria-label',chinese()?'可横向滚动的数据表':'Horizontally scrollable data table'); });
+    all('.chart-host').forEach(node => { node.setAttribute('tabindex','0'); node.setAttribute('role','region'); node.setAttribute('aria-label',chinese()?'交互图表，可横向滚动':'Interactive chart, horizontally scrollable'); });
     topButton.setAttribute('aria-label', chinese() ? '返回顶部' : 'Back to top');
   }
   refreshIcons();
@@ -109,7 +112,7 @@
       const enter = smooth((vh - rect.top - 14) / Math.max(1,Math.min(170,vh*.21,rect.height*.8)));
       const leave = smooth((rect.bottom - navHeight - 5) / Math.max(1,Math.min(110,vh*.14,rect.height*.65)));
       const alpha = enter * leave;
-      return { node, alpha, y: node.classList.contains('footer') ? 0 : 22*(1-enter)-14*(1-leave), scale: .99+.01*alpha };
+      return { node, alpha, y: node.classList.contains('footer') ? 0 : 10*(1-enter)-6*(1-leave), scale: 1 };
     });
     frames.forEach(({node,alpha,y:offset,scale}) => {
       node.style.setProperty('--reveal-alpha', alpha.toFixed(3));

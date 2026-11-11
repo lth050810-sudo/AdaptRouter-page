@@ -7,7 +7,7 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const english = new Map($$('[data-i18n]').map(e => [e.dataset.i18n, e.innerHTML]));
   const zh = {
-    navMethod:'方法',navAdapt:'适应能力',navResults:'实验结果',navResources:'资源',paperButton:'论文 ↗',
+    sectionMethod:'01 / 方法',sectionContinual:'02 / 持续适应',sectionPool:'03 / 动态专家池',sectionResults:'04 / 质量与成本',sectionAnalysis:'05 / 深入分析',sectionResources:'06 / 研究资源',routerSize:'0.8B 路由器',navMethod:'方法',navAdapt:'适应能力',navResults:'实验结果',navResources:'资源',paperButton:'论文 ↗',
     heroEyebrow:'持续学习的模型路由 · 2026年11月',heroTitle:'持续学习路由策略<br>适应不断变化的任务与模型',heroLede:'新任务，新专家，同一个自适应策略。<br>轻量多模态路由器从任务反馈中学习，保留已有能力，为每个问题选择合适的专家。',exploreResults:'探索实验结果',downloadData:'下载结果数据',heroCaption:'研究手稿 · 匿名作者 · 结果快照：2026年11月8日',
     boardTitle:'一次决策，适应变化的专家池',inputLabel:'任务输入',inputText:'文本与推理',inputVision:'图像与问题',newTask:'新任务随时间到来',routerCaption:'问题 + 专家卡片',oneExpert:'选择一个冻结的专家',expertLabel:'当前可用的专家',expertSmall:'小型高效模型',expertReason:'推理模型',expertApi:'API 模型',newExpert:'通过卡片加入新专家',feedbackLoop:'任务反馈更新路由策略',boardSchematic:'方法示意图',
     statApi:'API 基准加权得分',statApiSub:'10 个基准 · 10,363 个问题',statRetention:'相对历史峰值的最大下降',statRetentionSub:'早期任务 · StartLux 两种变体',statPool:'模型池中的专家数量',statPoolSub:'四任务得分：66.7% → 75.5%',statCost:'比较成本降低',statCostSub:'相对适配版 Router-R1 · API 基准',
@@ -26,23 +26,29 @@
   const shortName = s => s.replace(' (Full FT, ours)', ' · FT').replace(' (LoRA, ours)', ' · LoRA').replace('JevAny-0.8B','JevAny 0.8B').replace(' (Original)',' · Original').replace(' (Prompted Selector)',' · Prompted');
   const names = {full:'StartLux 0.8B (Full FT, ours)',lora:'StartLux 0.8B (LoRA, ours)',jev:'JevAny-0.8B (Full FT, ours)',mlp:'MLP Reward Predictor',lin:'LinUCB',latent:'LatentRouter (adapted)',embed:'EmbedLLM (adapted)'};
   const selectedContinual = new Set([names.full,names.mlp,names.lin,names.latent]);
-  function colors(){let c=getComputedStyle(document.documentElement);return Object.fromEntries(['ink','muted','line','teal','blue','amber','gray','surface','page','tint','soft-blue'].map(k=>[k,c.getPropertyValue('--'+k).trim()]));}
+  function colors(){let c=getComputedStyle(document.documentElement);return Object.fromEntries(['ink','muted','line','grid','teal','blue','amber','gray','violet','rose','surface','page','tint','soft-blue'].map(k=>[k,c.getPropertyValue('--'+k).trim()]));}
   function group(r){if(r.ours)return'ours';if(r.group.startsWith('I.'))return'direct';if(r.group.startsWith('II.'))return'released';return'feedback';}
   const groupName = g => ({ours:T('AdaptRouter','AdaptRouter'),direct:T('Direct / random','直接模型 / 随机'),released:T('Released / prompted','已发布 / 提示路由'),feedback:T('Feedback-trained','反馈训练')})[g];
   const groupColor = (r,c) => ({ours:c.teal,direct:c.gray,released:c.blue,feedback:c.amber})[group(r)];
-  function svg(w,h,content,label){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}" style="font-family:Inter,Arial,sans-serif"><title>${esc(label)}</title>${content}</svg>`;}
+  function svg(w,h,content,label){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}" style="font-family:Inter,'AdaptRouter Han',Arial,sans-serif"><title>${esc(label)}</title>${content}</svg>`;}
   const line = (x1,y1,x2,y2,color,width=1,dash='') => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="${width}"${dash?` stroke-dasharray="${dash}"`:''}/>`;
-  const text = (x,y,s,c,size=10,anchor='start',weight=400) => `<text x="${x}" y="${y}" fill="${c}" font-size="${size}" text-anchor="${anchor}" font-weight="${weight}">${esc(s)}</text>`;
+  const text = (x,y,s,c,size=10,anchor='start',weight=400) => `<text x="${x}" y="${y}" fill="${c}" font-size="${Math.max(12,size)}" text-anchor="${anchor}" font-weight="${weight}">${esc(s)}</text>`;
   function tipAttrs(t){return `data-tip="${esc(t)}" tabindex="0" aria-label="${esc(t.replaceAll('|',', '))}"`;}
   function dot(x,y,color,tip,r=4,extra=''){return `<circle class="chart-point" cx="${x}" cy="${y}" r="${r}" fill="${color}" stroke="${colors().surface}" stroke-width="2" ${tipAttrs(tip)} ${extra}/>`;}
-  function axes(w,h,p,xTicks,yTicks,xFn,yFn,xLabel,yLabel){const c=colors();let s='';for(const y of yTicks){const yy=yFn(y);s+=line(p.l,yy,w-p.r,yy,c.line,1,y===0?'':'3 4')+text(p.l-9,yy+3.5,Number.isInteger(y)?y:y.toFixed(1),c.muted,9,'end');}for(const [x,label]of xTicks){const xx=xFn(x);s+=text(xx,h-p.b+20,label,c.muted,9,'middle');}s+=text(p.l,13,yLabel,c.muted,9)+text(w-p.r,h-3,xLabel,c.muted,9,'end');return s;}
-  const W = id => Math.max(280, Math.round($('#'+id).clientWidth || 700));
+  function axes(w,h,p,xTicks,yTicks,xFn,yFn,xLabel,yLabel){const c=colors();let s='';for(const y of yTicks){const yy=yFn(y);s+=line(p.l,yy,w-p.r,yy,c.grid,1,y===0?'':'3 4')+text(p.l-9,yy+3.5,Number.isInteger(y)?y:y.toFixed(1),c.muted,9,'end');}for(const [x,label]of xTicks){const xx=xFn(x);s+=text(xx,h-p.b+20,label,c.muted,9,'middle');}s+=text(p.l,13,yLabel,c.muted,9)+text(w-p.r,h-3,xLabel,c.muted,9,'end');return s;}
+  const W = id => Math.max(({ 'continual-chart':560, 'results-chart':640, 'ablation-chart':450, 'latency-chart':440 })[id] || 320, Math.round($('#'+id).clientWidth || 700));
   let toastTimer;
   function toast(msg){const e=$('#toast');e.textContent=msg;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),2400);}
 
-  const continualColors = () => {const c=colors();return{[names.full]:c.teal,[names.lora]:c.blue,[names.jev]:'#7b9b80',[names.mlp]:c.amber,[names.lin]:'#a082ad',[names.latent]:'#c27b72',[names.embed]:c.gray};};
+  const continualColors = () => {const c=colors();return{[names.full]:c.teal,[names.lora]:c.teal,[names.jev]:c.teal,[names.mlp]:c.blue,[names.lin]:c.amber,[names.latent]:c.violet,[names.embed]:c.gray};};
+  const seriesStyle = name => ({[names.full]:{dash:'',shape:'circle'},[names.lora]:{dash:'8 5',shape:'square'},[names.jev]:{dash:'2 4',shape:'diamond'},[names.mlp]:{dash:'7 4',shape:'square'},[names.lin]:{dash:'2 5',shape:'triangle'},[names.latent]:{dash:'10 4 2 4',shape:'diamond'},[names.embed]:{dash:'4 4',shape:'circle'}}[name]);
+  function marker(shape,x,y,color,tip,r=5,extra=''){
+    if(shape==='circle')return dot(x,y,color,tip,r,extra);
+    const path=shape==='square'?`M${x-r},${y-r}h${2*r}v${2*r}h${-2*r}Z`:shape==='triangle'?`M${x},${y-r-1}l${r+1},${2*r+1}h${-2*r-2}Z`:`M${x},${y-r-1}l${r+1},${r+1}-${r+1},${r+1}-${r+1}-${r+1}Z`;
+    return `<path class="chart-point" d="${path}" fill="${color}" stroke="${colors().surface}" stroke-width="2" ${tipAttrs(tip)} ${extra}/>`;
+  }
   function renderContinual(){
-    const c=colors(),w=W('continual-chart'),h=w<500?290:345,p={l:46,r:w<500?22:70,t:35,b:49};
+    const c=colors(),w=W('continual-chart'),h=360,p={l:58,r:40,t:40,b:56};
     const indices=[[0,2,5,9],[1,3,6,10],[null,4,7,11],[null,null,8,12],[null,null,null,13]][state.task];
     const first=indices.findIndex(i=>i!==null), palette=continualColors();
     const series=D.continual.rows.filter(r=>selectedContinual.has(r.method)).map(r=>({name:r.method,points:indices.map(i=>i==null?null:r.values[i]),color:palette[r.method]}));
@@ -55,13 +61,13 @@
     const x=i=>p.l+i*(w-p.l-p.r)/3,y=v=>h-p.b-(v-lo)/(hi-lo)*(h-p.b-p.t),yt=[];
     for(let v=lo;v<=hi;v+=step)yt.push(v);
     let content=axes(w,h,p,[0,1,2,3].map(i=>[i,'S'+(i+1)]),yt,x,y,T('Training stage','训练阶段'),state.continualMode==='change'?T('Change (percentage points)','变化（百分点）'):T('Accuracy (%)','准确率（%）'));
-    for(let i=1;i<4;i++)content+=line(x(i),p.t,x(i),h-p.b,c.line,1,'2 5');
-    for(const s of series){const pts=s.points.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean);content+=`<polyline points="${pts.map(z=>z.join(',')).join(' ')}" stroke="${s.color}" fill="none" stroke-width="${s.name===names.full?3:2}" stroke-linejoin="round" stroke-linecap="round"/>`;s.points.forEach((v,i)=>{if(v!==null)content+=dot(x(i),y(v),s.color,`${shortName(s.name)}|S${i+1} · ${$('#continual-task').selectedOptions[0].text}|${fmt(v)}${state.continualMode==='change'?' pp':'%'}`,s.name===names.full?5:4);});}
+    for(let i=1;i<4;i++)content+=line(x(i),p.t,x(i),h-p.b,c.grid,1,'2 5');
+    for(const s of series){const pts=s.points.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean);content+=`<polyline points="${pts.map(z=>z.join(',')).join(' ')}" stroke="${s.color}" fill="none" stroke-width="${s.name===names.full?3:2}" stroke-dasharray="${seriesStyle(s.name).dash}" stroke-linejoin="round" stroke-linecap="round"/>`;s.points.forEach((v,i)=>{if(v!==null)content+=marker(seriesStyle(s.name).shape,x(i),y(v),s.color,`${shortName(s.name)}|S${i+1} · ${$('#continual-task').selectedOptions[0].text}|${fmt(v)}${state.continualMode==='change'?' pp':'%'}`,s.name===names.full?5:4);});}
     $('#continual-chart').innerHTML=svg(w,h,content,T('Task retention over four training stages','四个训练阶段的任务表现'));
-    $('#continual-legend').innerHTML=Object.entries(names).filter(([k])=>k!=='embed').map(([,n])=>`<button data-continual-method="${esc(n)}" class="${selectedContinual.has(n)?'':'inactive'}" aria-pressed="${selectedContinual.has(n)}"><i style="background:${palette[n]}"></i>${esc(shortName(n))}</button>`).join('');
+    $('#continual-legend').innerHTML=Object.entries(names).filter(([k])=>k!=='embed').map(([,n])=>`<button data-continual-method="${esc(n)}" class="${selectedContinual.has(n)?'':'inactive'}" aria-pressed="${selectedContinual.has(n)}"><i class="series-key ${seriesStyle(n).dash.startsWith('2')?'is-dotted':seriesStyle(n).dash?'is-dashed':''}" style="--series-color:${palette[n]}"></i>${esc(shortName(n))}</button>`).join('');
   }
   function renderPool(){
-    const c=colors(),w=W('pool-chart'),h=285,p={l:42,r:20,t:30,b:42},rows=D.pool.rows.filter(r=>r.method.includes('(M')),m=state.poolMetric;
+    const c=colors(),w=W('pool-chart'),h=350,p={l:52,r:24,t:38,b:54},rows=D.pool.rows.filter(r=>r.method.includes('(M')),m=state.poolMetric;
     const x=i=>p.l+(i+.5)*(w-p.l-p.r)/3,y=v=>h-p.b-v/100*(h-p.b-p.t);
     let s=axes(w,h,p,rows.map((r,i)=>[i,r.method.match(/M\d+/)[0]]),[0,25,50,75,100],x,y,T('Expert pool','专家池'),T('Score (%)','得分（%）'));
     const bw=Math.min(65,(w-p.l-p.r)/5.5);
@@ -70,7 +76,7 @@
     $('#pool-chart').innerHTML=svg(w,h,s,T('Performance as the expert pool grows','扩大专家池后的表现'));
   }
   function renderExploration(){
-    const c=colors(),w=W('exploration-chart'),h=285,p={l:42,r:23,t:30,b:42},rows=D.exploration.rows,at=rows[state.explore];
+    const c=colors(),w=W('exploration-chart'),h=250,p={l:44,r:24,t:38,b:54},rows=D.exploration.rows,at=rows[state.explore];
     const x=v=>p.l+(v-1)/89*(w-p.l-p.r),y=v=>h-p.b-(v-70)/11*(h-p.b-p.t);
     let s=axes(w,h,p,[[1,'1'],[20,'20'],[50,'50'],[90,'90']],[70,73,76,79,81],x,y,T('Exploration (%)','探索比例（%）'),T('Held-out score (%)','留出集得分（%）'));
     const xv=rows.map(r=>parseFloat(r.method)),pts=rows.map((r,i)=>[x(xv[i]),y(r.values[5])]);
@@ -91,7 +97,7 @@
     const c=colors(),s=suiteData(),api=state.suite==='api',avg=s.columns.length-2;
     const ours=s.rows.find(r=>r.ours&&r.method.includes('StartLux')&&r.method.includes('Full FT'));
     $('#result-summary').innerHTML=api?`<div><span class="number">71.31<small>%</small></span><p>${T('AdaptRouter · weighted average','AdaptRouter · 加权平均')}</p></div><div><span class="number">$120.46</span><p>${T('List-price inference comparison cost','公开单价折算的推理比较成本')}</p></div><div><span class="number">+0.78<small> pp</small></span><p>${T('vs. single-choice Router-R1 (PPO)','相对单次选择 Router-R1（PPO）')}</p></div>`:`<div><span class="number">65.08<small>%</small></span><p>${T('AdaptRouter · full finetuning','AdaptRouter · 全参数微调')}</p></div><div><span class="number">12.56<small>%</small></span><p>${T('Cost relative to Qwen3.5-9B (T)','相对 Qwen3.5-9B（T）的成本')}</p></div><div><span class="number">+20.99<small> pp</small></span><p>${T('vs. released StartLux 0.8B','相对原始 StartLux 0.8B')}</p></div>`;
-    const w=W('results-chart'),h=w<500?345:365,p={l:48,r:w<500?23:45,t:40,b:51};
+    const w=W('results-chart'),h=400,p={l:58,r:40,t:42,b:58};
     const all=s.rows.filter(r=>r.values[avg]!==null),rows=filteredRows(),maxX=Math.max(...all.map(r=>r.values.at(-1)))*1.25,minX=state.log?Math.min(...all.map(r=>r.values.at(-1)))*.75:0;
     const x=v=>p.l+(state.log?(Math.log(v)-Math.log(minX))/(Math.log(maxX)-Math.log(minX)):(v-minX)/(maxX-minX))*(w-p.l-p.r);
     const allY=all.map(r=>r.values[state.metric]).filter(v=>v!==null),minY=Math.max(0,Math.floor((Math.min(...allY)-5)/10)*10),maxY=Math.min(100,Math.ceil((Math.max(...allY)+5)/10)*10),y=v=>h-p.b-(v-minY)/(maxY-minY||10)*(h-p.b-p.t);
@@ -104,7 +110,7 @@
     const plotted=[...rows].sort((a,b)=>Number(a.ours)-Number(b.ours));
     for(const r of plotted){const val=r.values[state.metric];if(val===null)continue;const xx=x(r.values.at(-1)),yy=y(val),color=groupColor(r,c),tip=`${resultName(r)}|${s.columns[state.metric]}: ${fmt(val)}%|${api?'USD $':'Relative cost: '}${fmt(r.values.at(-1))}${api?'':'%'}`,extra=`data-method="${esc(r.method)}"`;
       if(r.ours)content+=`<path class="chart-point" d="M${xx},${yy-7}l7,7-7,7-7-7Z" fill="${color}" stroke="${c.surface}" stroke-width="2" ${tipAttrs(tip)} ${extra}/>`;
-      else content+=dot(xx,yy,color,tip,state.highlight===r.method?7:5,extra);
+      else content+=marker(({direct:'circle',released:'square',feedback:'triangle'})[group(r)],xx,yy,color,tip,state.highlight===r.method?7:5,extra);
       if(state.highlight===r.method)content+=`<circle cx="${xx}" cy="${yy}" r="11" fill="none" stroke="${color}" stroke-width="1.4"/>`;
       let label='',dx=9,dy=-9,anchor='start';
       if(r.method===ours.method){label='AdaptRouter';dy=-16;dx=2;}
@@ -115,11 +121,11 @@
       else if(!api&&r.method==='Qwen3.5-9B (thinking)'){label='9B (T)';dx=-9;anchor='end';dy=-12;}
       else if(!api&&r.method==='StartLux 0.8B (Original)'){label='StartLux (Original)';dy=-10;dx=9;}
       else if(state.highlight===r.method){label=resultName(r);dx=xx>w*.65?-10:9;anchor=xx>w*.65?'end':'start';dy=18;}
-      if(label){if(xx> w-100&&anchor==='start'){anchor='end';dx=-9;}content+=text(xx+dx,Math.max(p.t-9,yy+dy),label,color,w<500?9:10,anchor,r.ours?700:500);}
+      if(label){if(xx> w-100&&anchor==='start'){anchor='end';dx=-9;}content+=text(xx+dx,Math.max(p.t-9,yy+dy),label,r.ours?c.teal:c.muted,w<500?9:10,anchor,r.ours?700:500);}
     }
     if(!rows.length)content+=text(w/2,h/2,T('No methods match this filter','没有符合筛选条件的方法'),c.muted,12,'middle');
     $('#results-chart').innerHTML=svg(w,h,content,T('Quality versus comparison cost','质量与比较成本'));
-    $('#results-legend').innerHTML=['ours','direct','released','feedback'].map(g=>`<span><i style="background:${({ours:c.teal,direct:c.gray,released:c.blue,feedback:c.amber})[g]}"></i>${groupName(g)}</span>`).join('');
+    $('#results-legend').innerHTML=['ours','direct','released','feedback'].map(g=>`<span><i class="key-${g}" style="background:${({ours:c.teal,direct:c.gray,released:c.blue,feedback:c.amber})[g]}"></i>${groupName(g)}</span>`).join('');
     const sortIdx=state.sort==='cost'?s.columns.length-1:state.metric;
     rows.sort((a,b)=>{const av=a.values[sortIdx],bv=b.values[sortIdx];if(av==null)return 1;if(bv==null)return -1;return state.descending?bv-av:av-bv;});
     const sortMark=key=>state.sort===key?(state.descending?' ↓':' ↑'):' ↕';
@@ -133,9 +139,9 @@
   function fullTable(columns,rows){return `<table><thead><tr><th>${T('Method','方法')}</th>${columns.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr class="${r.ours?'ours':''}"><td>${esc(shortName(r.method))}</td>${r.values.map(v=>`<td>${fmt(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
   function initMetric(){const s=suiteData();$('#result-metric').innerHTML=s.columns.slice(0,-1).map((col,i)=>`<option value="${i}">${i===s.columns.length-2?T('Weighted average','加权平均'):esc(col)}</option>`).join('');$('#result-metric').value=state.metric;}
 
-  function renderSelection(){const c=colors(),palette=[c.gray,c.teal,c.amber,c.blue,'#9a8cb1'],vals=D.selection[state.selection];$('#selection-chart').innerHTML=D.selection.experts.map((n,i)=>`<div class="selection-row"><span class="name">${esc(n)}</span><div class="bar-track"><div class="bar" style="width:${vals[i]}%;background:${palette[i]}"></div></div><span class="value">${fmt(vals[i])}%</span></div>`).join('');}
-  function renderAblation(){const c=colors(),w=W('ablation-chart'),h=290,p={l:w<400?133:160,r:47,t:32,b:38},x=v=>p.l+(v-68.5)/2*(w-p.l-p.r);let s='';const labs=[T('Full model','完整模型'),T('w/o quality-first','无质量优先优势'),T('w/o small-expert term','无小专家项'),T('w/o reasoning-gain','无推理增益项'),T('w/o visual input','无视觉输入')];[69,69.5,70,70.5].forEach(v=>{s+=line(x(v),p.t,x(v),h-p.b,c.line,1,'3 4')+text(x(v),h-p.b+18,v.toFixed(1),c.muted,9,'middle');});D.ablation.rows.forEach((r,i)=>{const yy=p.t+12+i*40,v=r.values[4];s+=text(p.l-12,yy+4,labs[i],i===0?c.teal:c.muted,w<400?9:10,'end',i===0?600:400)+`<rect class="chart-point" x="${p.l}" y="${yy-8}" width="${Math.max(0,x(v)-p.l)}" height="17" rx="3" fill="${i===0?c.teal:c['soft-blue']}" ${tipAttrs(`${labs[i]}|${T('All four tasks','四任务得分')}: ${fmt(v)}%|${T('Small-expert share','小专家选择占比')}: ${fmt(r.values[5])}%`)}/>`+text(x(v)+7,yy+4,fmt(v),c.ink,10);});s+=text(w-p.r,h-1,T('Accuracy (%) · axis starts at 68.5','准确率（%）· 轴起点为 68.5'),c.muted,8,'end');$('#ablation-chart').innerHTML=svg(w,h,s,T('Four-task ablation results','四任务消融结果'));}
-  function renderLatency(){const c=colors(),w=W('latency-chart'),h=290,p={l:w<400?99:116,r:35,t:32,b:39},max=9.5,x=v=>p.l+v/max*(w-p.l-p.r);let s='';[0,2,4,6,8].forEach(v=>{s+=line(x(v),p.t,x(v),h-p.b,c.line,1,'3 4')+text(x(v),h-p.b+18,v,c.muted,9,'middle');});D.latency.forEach((r,i)=>{const yy=p.t+20+i*49,v=r[state.latency],width=x(v[0])-p.l;s+=text(p.l-10,yy+4,r.method.replace('Full FT','FT'),c.muted,w<400?8:9,'end');s+=`<rect class="chart-point" x="${p.l}" y="${yy-8}" width="${width}" height="17" rx="2" fill="${c.teal}" ${tipAttrs(`${r.method}|${T('Routing','路由')}: ${fmt(v[0])} s`)}/><rect class="chart-point" x="${x(v[0])+2}" y="${yy-8}" width="${x(v[1])-p.l}" height="17" rx="2" fill="${c['soft-blue']}" ${tipAttrs(`${r.method}|${T('Expert execution','专家执行')}: ${fmt(v[1])} GPU s`)}/>`+text(x(v[0])+x(v[1])-p.l+8,yy+4,fmt(v[0]+v[1]),c.muted,9);});s+=text(w-p.r,h-1,T('Reported seconds / question','报告的每题秒数'),c.muted,9,'end');$('#latency-chart').innerHTML=svg(w,h,s,T('Routing and expert execution timing','路由与专家执行耗时'));}
+  function renderSelection(){const c=colors(),palette=[c.gray,c.teal,c.amber,c.blue,c.violet],vals=D.selection[state.selection];$('#selection-chart').innerHTML=D.selection.experts.map((n,i)=>`<div class="selection-row"><span class="name">${esc(n)}</span><div class="bar-track"><div class="bar" style="width:${vals[i]}%;background:${palette[i]}"></div></div><span class="value">${fmt(vals[i])}%</span></div>`).join('');}
+  function renderAblation(){const c=colors(),w=W('ablation-chart'),h=320,p={l:178,r:60,t:35,b:48},x=v=>p.l+(v-68.5)/2*(w-p.l-p.r);let s='';const labs=[T('Full model','完整模型'),T('w/o quality-first','无质量优先优势'),T('w/o small-expert term','无小专家项'),T('w/o reasoning-gain','无推理增益项'),T('w/o visual input','无视觉输入')];[69,69.5,70,70.5].forEach(v=>{s+=line(x(v),p.t,x(v),h-p.b,c.grid,1,'3 4')+text(x(v),h-p.b+18,v.toFixed(1),c.muted,9,'middle');});D.ablation.rows.forEach((r,i)=>{const yy=p.t+12+i*46,v=r.values[4];s+=text(p.l-12,yy+4,labs[i],i===0?c.teal:c.muted,w<400?9:10,'end',i===0?600:400)+`<rect class="chart-point" x="${p.l}" y="${yy-8}" width="${Math.max(0,x(v)-p.l)}" height="17" rx="3" fill="${i===0?c.teal:c['soft-blue']}" ${tipAttrs(`${labs[i]}|${T('All four tasks','四任务得分')}: ${fmt(v)}%|${T('Small-expert share','小专家选择占比')}: ${fmt(r.values[5])}%`)}/>`+text(x(v)+7,yy+4,fmt(v),c.ink,10);});s+=text(w-p.r,h-5,T('Accuracy (%) · axis starts at 68.5','准确率（%）· 轴起点为 68.5'),c.muted,8,'end');$('#ablation-chart').innerHTML=svg(w,h,s,T('Four-task ablation results','四任务消融结果'));}
+  function renderLatency(){const c=colors(),w=W('latency-chart'),h=320,p={l:144,r:55,t:35,b:48},max=9.5,x=v=>p.l+v/max*(w-p.l-p.r);let s='';[0,2,4,6,8].forEach(v=>{s+=line(x(v),p.t,x(v),h-p.b,c.grid,1,'3 4')+text(x(v),h-p.b+18,v,c.muted,9,'middle');});D.latency.forEach((r,i)=>{const yy=p.t+20+i*52,v=r[state.latency],width=x(v[0])-p.l;s+=text(p.l-10,yy+4,r.method.replace('Full FT','FT'),c.muted,w<400?8:9,'end');s+=`<rect class="chart-point" x="${p.l}" y="${yy-8}" width="${width}" height="17" rx="2" fill="${c.teal}" ${tipAttrs(`${r.method}|${T('Routing','路由')}: ${fmt(v[0])} s`)}/><rect class="chart-point" x="${x(v[0])+2}" y="${yy-8}" width="${x(v[1])-p.l}" height="17" rx="2" fill="${c['soft-blue']}" ${tipAttrs(`${r.method}|${T('Expert execution','专家执行')}: ${fmt(v[1])} GPU s`)}/>`+text(x(v[0])+x(v[1])-p.l+8,yy+4,fmt(v[0]+v[1]),c.muted,9);});s+=text(w-p.r,h-5,T('Reported seconds / question','报告的每题秒数'),c.muted,9,'end');$('#latency-chart').innerHTML=svg(w,h,s,T('Routing and expert execution timing','路由与专家执行耗时'));}
   function renderScale(){const rows=D.scale.rows.map(r=>({...r,method:(r.group.includes('StartLux')?'StartLux':'JevAny')+' '+r.method,values:[r.values[4],r.values[5],r.values[6],r.values[7]]}));$('#scale-table').innerHTML=fullTable(['All (%)','Mean (ms)','p95 (ms)','Order (%)'],rows);}
   function renderAll(){renderContinual();renderPool();renderExploration();renderResults();renderSelection();renderAblation();renderLatency();renderScale();$('#continual-full-table').innerHTML=fullTable(D.continual.columns,D.continual.rows);}
 
