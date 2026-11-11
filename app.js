@@ -92,9 +92,13 @@
     else{const step=api?500:25;xt=[];for(let v=0;v<=maxX;v+=step)xt.push([v,api?'$'+v:v+'%']);}
     const yt=[];for(let v=minY;v<=maxY;v+=maxY-minY>60?20:10)yt.push(v);
     let content=axes(w,h,p,xt,yt,x,y,api?T('Comparison cost (USD) →','比较成本（美元）→'):T('Relative cost (%) →','相对成本（%）→'),`${s.columns[state.metric]} (%) ↑`);
-    if(ours.values[state.metric]!=null){
-      const guideX=x(ours.values.at(-1)),guideY=y(ours.values[state.metric]);
-      content+=`<g class="reference-crosshair" aria-hidden="true" pointer-events="none" opacity="0.8">${line(guideX,p.t,guideX,h-p.b,c.teal,1,'3 5')}${line(p.l,guideY,w-p.r,guideY,c.teal,1,'3 5')}</g>`;
+    const visibleRows=rows.filter(r=>r.values[state.metric]!=null);
+    if(state.highlight&&!visibleRows.some(r=>r.method===state.highlight))state.highlight='';
+    const reference=visibleRows.find(r=>r.method===state.highlight)||visibleRows.find(r=>r.method===ours.method);
+    if(reference){
+      const guideX=x(reference.values.at(-1)),guideY=y(reference.values[state.metric]);
+      content=`<rect class="reference-shade" data-reference="${esc(reference.method)}" x="${p.l}" y="${guideY}" width="${Math.max(0,guideX-p.l)}" height="${Math.max(0,h-p.b-guideY)}" fill="${c.blue}" fill-opacity="0.12" aria-hidden="true" pointer-events="none"/>`+content;
+      content+=`<g class="reference-crosshair" data-reference="${esc(reference.method)}" aria-hidden="true" pointer-events="none" opacity="0.8">${line(guideX,p.t,guideX,h-p.b,c.teal,1,'3 5')}${line(p.l,guideY,w-p.r,guideY,c.teal,1,'3 5')}</g>`;
     }
     const plotted=[...rows].sort((a,b)=>Number(a.ours)-Number(b.ours));
     for(const r of plotted){const val=r.values[state.metric];if(val===null)continue;const xx=x(r.values.at(-1)),yy=y(val),color=groupColor(r,c),tip=`${resultName(r)}|${s.columns[state.metric]}: ${fmt(val)}%|${api?'USD $':'Relative cost: '}${fmt(r.values.at(-1))}${api?'':'%'}`,extra=`data-method="${esc(r.method)}"`;
