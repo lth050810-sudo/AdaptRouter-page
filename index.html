@@ -15,11 +15,11 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="style.css?v=resources-20261111">
-  <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=real-examples-20261112">
-  <link rel="stylesheet" href="polish.css?v=real-examples-20261112">
+  <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=concise-method-20261112">
+  <link rel="stylesheet" href="polish.css?v=concise-method-20261112">
   <script>try{if(localStorage.getItem('ar-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
   <script defer src="data/results.js"></script>
-  <script defer src="app.js?v=real-examples-20261112"></script>
+  <script defer src="app.js?v=concise-method-20261112"></script>
   <script defer src="motion.js?v=real-examples-20261112"></script>
 </head>
 <body>
@@ -79,9 +79,9 @@
     </section>
 
     <section class="section shell" id="method">
-      <div class="section-intro"><span class="section-index" data-i18n="sectionMethod">01 / The method</span><h2 data-i18n="methodTitle">The world changes.<br>The router learns.</h2><p data-i18n="methodLede">A routing policy should keep learning as the questions and the available models change. AdaptRouter makes the expert pool part of the input.</p></div>
-      <div class="method-columns"><article><span class="step-number">01</span><h3 data-i18n="methodA">Read the question and the cards.</h3><p data-i18n="methodAText">The compact decision model sees the full question, its images, and cards describing the available experts. A new expert enters as a new card.</p></article><article><span class="step-number">02</span><h3 data-i18n="methodB">Learn from task feedback.</h3><p data-i18n="methodBText">In the main and continual studies, sampled routing decisions receive native task scores. A quality-first advantage limits how cost can alter the learning signal.</p></article><article><span class="step-number">03</span><h3 data-i18n="methodC">Carry the policy forward.</h3><p data-i18n="methodCText">Each stage starts from the previous policy and optimizer state, trains only on newly introduced data, and is evaluated on all tasks seen so far.</p></article></div>
-      <details class="details-line"><summary data-i18n="trainingDetails">Two training protocols, reported separately</summary><p data-i18n="trainingDetailsText">The main and continual studies use task-feedback policy optimization. The API extension uses full-information expert scores and costs to form soft targets (λ = 0.02, τ = 0.05), with a regret term. API results are not presented as an online RL experiment.</p></details>
+      <div class="section-intro"><span class="section-index" data-i18n="sectionMethod">01 / The method</span><h2 data-i18n="methodTitle">The world changes.<br>The router learns.</h2><p data-i18n="methodLede">New tasks. New experts. One continuously adapting router.</p></div>
+      <div class="method-columns"><article><span class="step-number">01</span><h3 data-i18n="methodA">Read the inputs.</h3><p data-i18n="methodAText">Question, images and expert cards.</p></article><article><span class="step-number">02</span><h3 data-i18n="methodB">Learn from feedback.</h3><p data-i18n="methodBText">Prioritize answer quality while balancing cost.</p></article><article><span class="step-number">03</span><h3 data-i18n="methodC">Adapt to new tasks.</h3><p data-i18n="methodCText">Continue learning; evaluate every task seen.</p></article></div>
+      <details class="details-line"><summary data-i18n="trainingDetails">Two training protocols, reported separately</summary><p data-i18n="trainingDetailsText">The main and continual studies use task-feedback policy optimization. The API extension uses full-information expert scores and costs to form soft targets (λ = 0.02, τ = 0.05), with a regret term. API results are not presented as an online RL experiment.</p><p data-i18n="methodStageDetails">New experts enter through new cards. Each stage carries forward the policy and optimizer state, trains only on new tasks, and evaluates all tasks seen so far.</p></details>
     </section>
 
     <section class="tinted-section" id="continual"><div class="section shell">
@@ -118,11 +118,11 @@
     </section>
 
     <section class="resource-section" id="resources"><div class="section shell">
-      <div class="section-intro"><span class="section-index" data-i18n="sectionResources">06 / Resources</span><h2 data-i18n="resourcesTitle">Code, weights &amp; paper.</h2><p data-i18n="resourcesLede">Explore the Table 3 API training code on GitHub, get the router weights on Hugging Face, or read the AdaptRouter manuscript.</p></div>
+      <div class="section-intro"><span class="section-index" data-i18n="sectionResources">06 / Resources</span><h2 data-i18n="resourcesTitle">Code, weights &amp; paper.</h2><p data-i18n="resourcesLede">Explore the AdaptRouter training code on GitHub, get the router weights on Hugging Face, or read the AdaptRouter manuscript.</p></div>
       <div class="resource-grid resource-downloads">
         <a class="resource resource-weights" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="download" aria-hidden="true"></span><span class="resource-label" data-i18n="resourceWeightsLabel">API expert pool</span></div><h3 data-i18n="resourceWeights">API router weights</h3><p class="resource-model" translate="no">AdaptRouter · StartLux 0.8B</p><p class="resource-meta" data-i18n="resourceWeightsText">Full fine-tuning · λ = 0.02 · FP32</p><span class="resource-action button primary"><span data-i18n="resourceWeightsAction">View on Hugging Face</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
         <a class="resource resource-paper" href="assets/adaptrouter-manuscript.pdf?v=5b1f726e24f0" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="file" aria-hidden="true"></span><span class="resource-label">PDF</span></div><h3 data-i18n="resourcePaper">Paper</h3><p class="resource-paper-description" data-i18n="resourcePaperText">AdaptRouter research manuscript</p><span class="resource-action button outline"><span data-i18n="resourcePaperAction">Read the paper</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
-        <a class="resource resource-code" href="https://github.com/lth050810-sudo/AdaptRouter" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="code" aria-hidden="true"></span><span class="resource-label" translate="no">GitHub</span></div><h3 data-i18n="resourceCode">Table 3 training code</h3><p class="resource-code-description" data-i18n="resourceCodeText">API router training code and configuration</p><span class="resource-action button outline"><span data-i18n="resourceCodeAction">View on GitHub</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
+        <a class="resource resource-code" href="https://github.com/lth050810-sudo/AdaptRouter" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="code" aria-hidden="true"></span><span class="resource-label" translate="no">GitHub</span></div><h3 data-i18n="resourceCode">Training code</h3><p class="resource-code-description" data-i18n="resourceCodeText">API router training code and configuration</p><span class="resource-action button outline"><span data-i18n="resourceCodeAction">View on GitHub</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
       </div>
     </div></section>
   </main>

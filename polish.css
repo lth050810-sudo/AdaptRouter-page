@@ -382,3 +382,12 @@ details .chart-note { font-size: 14px; }
   .example-source { min-height: 36px; }
   .example-image-expand { width: 30px; height: 30px; }
 }
+
+/* Concise method steps, with a consistent visual anchor for each action. */
+.step-icon { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 10px; color: var(--teal); background: var(--teal-tint); }
+.step-icon .ui-icon { width: 23px; height: 23px; }
+.method-columns h3 { max-width: none; }
+@media(max-width:700px) {
+  .step-icon { width: 32px; height: 32px; border-radius: 8px; }
+  .step-icon .ui-icon { width: 20px; height: 20px; }
+}
