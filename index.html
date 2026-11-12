@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdaptRouter — Continual Learning to Route</title>
   <meta name="description" content="A compact router that learns new tasks, retains earlier capabilities, and adapts to evolving expert pools. Explore the AdaptRouter research results.">
-  <meta name="author" content="Jingpu Yang, Fengxian Ji, Tianhao Li, Juanfan Wu, Xiuying Wu">
   <meta name="theme-color" content="#F8F9F5">
   <meta property="og:title" content="AdaptRouter — Continual Learning to Route">
   <meta property="og:description" content="New tasks. New experts. One adaptive routing policy. Interactive results across text, vision, and API model pools.">
@@ -16,12 +15,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="style.css?v=resources-20261111">
-  <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=resources-20261111-compact-notes">
-  <link rel="stylesheet" href="polish.css?v=resources-authors-20261112">
+  <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=real-examples-20261112">
+  <link rel="stylesheet" href="polish.css?v=real-examples-20261112">
   <script>try{if(localStorage.getItem('ar-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
   <script defer src="data/results.js"></script>
-  <script defer src="app.js?v=table3-code-20261112"></script>
-  <script defer src="motion.js?v=resources-authors-20261112"></script>
+  <script defer src="app.js?v=real-examples-20261112"></script>
+  <script defer src="motion.js?v=real-examples-20261112"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -39,23 +38,31 @@
       <div class="eyebrow"><span class="live-dot"></span><span data-i18n="heroEyebrow">Continual model routing · November 2026</span></div>
       <h1>Adapt<span>Router</span><span class="hero-period">.</span></h1>
       <p class="hero-title" data-i18n="heroTitle">Continual Learning to Route<br>across Evolving Tasks and Models</p>
-      <div class="hero-authors" role="group" aria-labelledby="authors-label">
-        <span id="authors-label" class="sr-only" data-i18n="authorsLabel">Authors</span>
-        <ul class="author-list">
-          <li><span class="author-name" translate="no">Jingpu Yang</span></li>
-          <li><span class="author-name" translate="no">Fengxian Ji</span></li>
-          <li><span class="author-name" translate="no">Tianhao Li</span></li>
-          <li><span class="author-name" translate="no">Juanfan Wu</span><span class="author-affiliation" translate="no">BIT</span></li>
-          <li><span class="author-name" translate="no">Xiuying Wu</span></li>
-        </ul>
-      </div>
       <p class="hero-lede" data-i18n="heroLede">New tasks. New experts. One adaptive policy.<br>A compact multimodal router learns from task feedback, keeps earlier capabilities, and selects the right expert for each question.</p>
       <div class="hero-actions"><a class="button primary" href="#results"><span data-i18n="exploreResults">Explore the results</span><span class="action-icon" data-icon="arrowDown" aria-hidden="true"></span></a><a class="button outline" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener"><span translate="no">Hugging Face</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></a></div>
       </div>
 
       <figure class="hero-board" aria-label="AdaptRouter research overview">
         <div class="routing-visual">
-          <div class="request-stack"><div class="visual-label" data-i18n="inputLabel">The input</div><div class="request-item"><span class="input-symbol">T<span>↗</span></span><div><b data-i18n="inputText">Text & reasoning</b><span>Math · Knowledge · Code</span></div></div><div class="request-item"><span class="input-symbol image-symbol">▧</span><div><b data-i18n="inputVision">Image + question</b><span>Charts · OCR · Visual QA</span></div></div><div class="new-task"><span>＋</span><span data-i18n="newTask">New tasks arrive over time</span></div></div>
+          <div class="request-stack">
+            <div class="visual-label" data-i18n="inputLabel">The input</div>
+            <article class="request-item request-example">
+              <div class="request-example-heading"><span class="input-symbol" aria-hidden="true"></span><b data-i18n="inputText">Text &amp; reasoning</b></div>
+              <p class="example-question" data-i18n="exampleTextQuestion">How many positive whole-number divisors does <strong>196</strong> have?</p>
+              <a class="example-source" href="https://huggingface.co/datasets/HuggingFaceH4/MATH-500" target="_blank" rel="noopener" translate="no">MATH-500 <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="request-item request-example">
+              <div class="request-example-heading"><span class="input-symbol image-symbol" aria-hidden="true"></span><b data-i18n="inputVision">Image + question</b></div>
+              <a class="example-image-link" href="assets/examples/chartqa-test-41810321001157.png" target="_blank" rel="noopener" aria-labelledby="chart-image-open chart-example-question">
+                <img src="assets/examples/chartqa-test-41810321001157.png" width="850" height="600" alt="ChartQA: three horizontal bars for Mauritania, Fiji and Madagascar, showing armed forces personnel as a share of population in 1985." decoding="async">
+                <span class="example-image-expand action-icon" data-icon="arrowUpRight" aria-hidden="true"></span>
+                <span id="chart-image-open" class="sr-only" data-i18n="exampleImageOpen">Open the full-size chart.</span>
+              </a>
+              <p id="chart-example-question" class="example-question" data-i18n="exampleImageQuestion">How many bars are shown in the chart?</p>
+              <a class="example-source" href="https://github.com/vis-nlp/ChartQA/blob/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/test_human.json" target="_blank" rel="noopener" translate="no">ChartQA <span aria-hidden="true">↗</span></a>
+            </article>
+            <div class="new-task"><span>＋</span><span data-i18n="newTask">New tasks arrive over time</span></div>
+          </div>
           <div class="connector"><svg class="connector-horizontal" viewBox="0 0 100 120" aria-hidden="true"><path d="M0 25H35Q50 25 50 40V60H95M0 95H35Q50 95 50 80V60"/><path class="arrow route-active" d="m87 54 8 6-8 6"/></svg><svg class="connector-vertical" viewBox="0 0 32 64" aria-hidden="true"><path class="route-active" d="M16 0v60m-5-7 5 7 5-7"/></svg></div>
           <div class="router-node"><div class="router-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 11h12l9 13-9 13H10M31 24h10M35 18l6 6-6 6"/></svg></div><strong>AdaptRouter</strong><span class="board-tag" data-i18n="routerSize">0.8B router</span><span data-i18n="routerCaption">Question + expert cards</span><div class="router-node-footer" data-i18n="oneExpert">Select one frozen expert</div></div>
           <div class="connector"><svg class="connector-horizontal" viewBox="0 0 100 120" aria-hidden="true"><path d="M0 60H40Q50 60 50 45V15H95M50 60H95M50 60V105H95"/><path class="route-active" d="M0 60H95m-8-6 8 6-8 6"/></svg><svg class="connector-vertical" viewBox="0 0 32 64" aria-hidden="true"><path class="route-active" d="M16 0v60m-5-7 5 7 5-7"/></svg></div>

@@ -1,0 +1,28 @@
+{
+  "purpose": "Authentic benchmark input examples for the architecture overview; no router outputs or new evaluation results are shown.",
+  "text": {
+    "dataset": "MATH-500",
+    "split": "test",
+    "unique_id": "test/number_theory/572.json",
+    "source": "https://huggingface.co/datasets/HuggingFaceH4/MATH-500",
+    "translation": "Chinese translation; English preserves the original question."
+  },
+  "image": {
+    "dataset": "ChartQA",
+    "split": "test/human",
+    "question_index": 2,
+    "image_name": "41810321001157.png",
+    "source": "https://github.com/vis-nlp/ChartQA",
+    "revision": "044eabfc306abfe9340c5741f0093aefc5973d06",
+    "asset": "assets/examples/chartqa-test-41810321001157.png",
+    "bytes": 28285,
+    "sha256": "f753bab919ed5cf525d79bad95a4d64372418a07072297ff3f731c5c81bb8e06",
+    "width": 850,
+    "height": 600,
+    "image_unchanged": true,
+    "attribution": "Our World in Data; IISS The Military Balance Dataset via the World Bank WDI. The original chart footer marks the image CC BY.",
+    "chart_source": "https://ourworldindata.org/military-spending",
+    "question_source": "https://github.com/vis-nlp/ChartQA/blob/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/test_human.json",
+    "translation": "Chinese translation; English preserves the original question."
+  }
+}

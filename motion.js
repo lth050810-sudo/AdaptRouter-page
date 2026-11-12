@@ -50,6 +50,27 @@
     node: document.getElementById(id),
     hash: '#' + ({pool:'continual',analysis:'results'}[id] || id)
   }));
+  function alignInputConnector() {
+    const stack = one('.request-stack');
+    const svg = one('.routing-visual>.connector:nth-child(2) .connector-horizontal');
+    const router = one('.router-node');
+    const examples = all('.request-example');
+    if (!stack || !svg || !router || examples.length !== 2 || !svg.getBoundingClientRect().width) return;
+    const height = stack.offsetHeight;
+    svg.style.height = `${height}px`;
+    svg.setAttribute('viewBox', `0 0 100 ${height}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    const top = svg.getBoundingClientRect().top;
+    const center = node => { const r = node.getBoundingClientRect(); return r.top + r.height / 2 - top; };
+    const middle = center(router);
+    const branch = node => {
+      const y = center(node);
+      const bend = y < middle ? Math.min(y + 10, middle) : Math.max(y - 10, middle);
+      return `M0 ${y}H30Q50 ${y} 50 ${bend}V${middle}H95`;
+    };
+    svg.querySelector('path').setAttribute('d', examples.map(branch).join(''));
+    svg.querySelector('path.arrow').setAttribute('d', `M87 ${middle - 6}l8 6-8 6`);
+  }
   function refreshIcons() {
     labelIcon(one('.nav-actions [data-i18n="paperButton"]'), 'arrowUpRight');
     one('#theme-toggle').innerHTML = icon(root.dataset.theme === 'dark' ? 'sun' : 'moon');
@@ -68,6 +89,7 @@
     all('.table-scroll').forEach(node => { node.setAttribute('tabindex','0'); node.setAttribute('role','region'); node.setAttribute('aria-label',chinese()?'可横向滚动的数据表':'Horizontally scrollable data table'); });
     all('.chart-host').forEach(node => { node.setAttribute('tabindex','0'); node.setAttribute('role','region'); node.setAttribute('aria-label',chinese()?'交互图表，可横向滚动':'Interactive chart, horizontally scrollable'); });
     topButton.setAttribute('aria-label', chinese() ? '返回顶部' : 'Back to top');
+    alignInputConnector();
   }
   refreshIcons();
   let iconFrame = 0;
@@ -134,7 +156,8 @@
   addEventListener('resize', () => { pageHeight = root.scrollHeight; schedule(); }, {passive:true});
   addEventListener('pageshow', () => { pageHeight = root.scrollHeight; update(true); });
   if ('ResizeObserver' in window) new ResizeObserver(() => { pageHeight = root.scrollHeight; schedule(); }).observe(document.body);
-  document.fonts?.ready.then(() => { pageHeight = root.scrollHeight; update(true); });
+  document.fonts?.ready.then(() => { alignInputConnector(); pageHeight = root.scrollHeight; update(true); });
+  if ('ResizeObserver' in window && one('.request-stack')) new ResizeObserver(alignInputConnector).observe(one('.request-stack'));
   reducedMotion.addEventListener('change', () => update(true));
   topButton.addEventListener('click', () => scrollTo({top:0,behavior:reducedMotion.matches?'instant':'smooth'}));
 })();

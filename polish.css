@@ -22,10 +22,6 @@ h1 { margin-top: 25px; margin-bottom: 22px; white-space: nowrap; }
 h1>span:first-child { color: var(--ink); }
 .hero-period { color: var(--teal); margin-left: 1px; }
 .hero-title { font: 500 29px/1.4 var(--heading); letter-spacing: -.035em; max-width: 520px; }
-.hero-authors { margin-top: 18px; }
-.author-list { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 14px; padding: 0; margin: 0; list-style: none; font-size: 14px; line-height: 1.8; color: var(--ink); }
-.author-list li { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-.author-affiliation { padding: 0 6px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-size: 12px; line-height: 1.6; }
 .hero-lede { font-size: 16px; color: var(--muted); line-height: 1.85; margin-top: 23px; }
 .hero-lede br { display: none; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
@@ -363,3 +359,26 @@ th button:hover { color: var(--teal); }
 details .chart-note { font-size: 14px; }
 #exploration-note { font-size: 13px; margin-top: 8px; }
 @media(max-width:700px) { .study-notes { grid-template-columns: 1fr; gap: 22px; } }
+
+/* Authentic public benchmark inputs, displayed in the routing overview. */
+.request-example { display: block; margin-bottom: 22px; }
+.request-example-heading { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.request-example .input-symbol { width: 24px; height: 24px; margin: 0; border: 0; background: transparent; }
+.request-example .input-symbol .ui-icon { width: 18px; height: 18px; }
+.request-example .example-question { font-size: 13px; line-height: 1.7; color: var(--ink); text-wrap: initial; }
+.example-source { display: inline-flex; align-items: center; gap: 4px; min-height: 28px; margin-top: 4px; font-size: 12px; line-height: 1.6; color: var(--muted); }
+.example-source:hover { color: var(--teal); }
+.example-image-link { display: block; position: relative; margin-bottom: 10px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
+.example-image-link img { width: 100%; height: auto; }
+.example-image-expand { display: flex; align-items: center; justify-content: center; position: absolute; right: 5px; top: 5px; width: 24px; height: 24px; border-radius: 5px; background: #fff; color: #182C27; border: 1px solid #DEE5DE; }
+.example-image-expand .ui-icon { width: 13px; height: 13px; }
+.example-image-link:hover { border-color: var(--teal); }
+@media(max-width:700px) {
+  .request-stack { grid-template-columns: 1fr; max-width: 360px; width: 100%; margin-inline: auto; }
+  .request-example .example-question { font-size: 15px; }
+  .request-example { margin-bottom: 20px; }
+  .request-example-heading { margin-bottom: 10px; }
+  .request-example .input-symbol { width: 24px; height: 24px; margin: 0; }
+  .example-source { min-height: 36px; }
+  .example-image-expand { width: 30px; height: 30px; }
+}

@@ -7,7 +7,8 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const english = new Map($$('[data-i18n]').map(e => [e.dataset.i18n, e.innerHTML]));
   const zh = {
-    authorsLabel:'作者',resourceCode:'表 3 训练代码',resourceCodeText:'API 版路由器训练代码与配置',resourceCodeAction:'前往 GitHub',
+    exampleTextQuestion:'<strong>196</strong> 有多少个正整数因数？',exampleImageQuestion:'图中一共有多少条柱？',exampleImageOpen:'打开完整尺寸的图表。',
+    resourceCode:'表 3 训练代码',resourceCodeText:'API 版路由器训练代码与配置',resourceCodeAction:'前往 GitHub',
     sectionMethod:'01 / 方法',sectionContinual:'02 / 持续适应',sectionPool:'03 / 动态专家池',sectionResults:'04 / 质量与成本',sectionAnalysis:'05 / 深入分析',sectionResources:'06 / 研究资源',routerSize:'0.8B 路由器',navMethod:'方法',navAdapt:'适应能力',navResults:'实验结果',navResources:'资源',paperButton:'论文 ↗',
     heroEyebrow:'持续学习的模型路由 · 2026年11月',heroTitle:'持续学习路由策略<br>适应不断变化的任务与模型',heroLede:'新任务，新专家，同一个自适应策略。<br>轻量多模态路由器从任务反馈中学习，保留已有能力，为每个问题选择合适的专家。',exploreResults:'探索实验结果',downloadData:'下载结果数据',heroCaption:'研究手稿 · 匿名作者 · 结果快照：2026年11月8日',
     boardTitle:'一次决策，适应变化的专家池',inputLabel:'任务输入',inputText:'文本与推理',inputVision:'图像与问题',newTask:'新任务随时间到来',routerCaption:'问题 + 专家卡片',oneExpert:'选择一个冻结的专家',expertLabel:'当前可用的专家',expertSmall:'小型高效模型',expertReason:'推理模型',expertApi:'API 模型',newExpert:'通过卡片加入新专家',feedbackLoop:'任务反馈更新路由策略',boardSchematic:'方法示意图',

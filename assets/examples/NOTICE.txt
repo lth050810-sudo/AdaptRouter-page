@@ -1,0 +1,18 @@
+Public benchmark example image
+
+chartqa-test-41810321001157.png is an unmodified ChartQA test image.
+ChartQA: https://github.com/vis-nlp/ChartQA
+Source revision: 044eabfc306abfe9340c5741f0093aefc5973d06
+Original path: ChartQA Dataset/test/png/41810321001157.png
+
+Original chart: Our World in Data, armed forces personnel as share of
+total population, 1985. Source: IISS The Military Balance Dataset via
+the World Bank WDI. The source image retains its original CC BY footer.
+https://ourworldindata.org/military-spending
+
+MATH-500 question source:
+https://huggingface.co/datasets/HuggingFaceH4/MATH-500
+Item: test/number_theory/572.json
+
+The overview displays public inputs only. No example router prediction,
+new model measurement or benchmark answer is presented.

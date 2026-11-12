@@ -1,12 +1,17 @@
-AdaptRouter 网页更新：表 3 训练代码入口
+AdaptRouter 网页更新：真实输入示例
 
-研究资源区包含模型权重、论文、表 3 训练代码三个入口。
-GitHub 链接：https://github.com/lth050810-sudo/AdaptRouter
-代码卡片标注：表 3 训练代码 / API 版路由器训练代码与配置。
-中文和英文同步更新。
-保留此前作者信息，并继续使用用户指定的带作者论文 PDF。
+1. 移除网页显示的作者姓名及单位标注，不再重复展示 BIT。
+2. Text 输入采用 MATH-500 的真实整数因数题。
+3. Image 输入采用 ChartQA 测试集原始图表及其配套问题，点击缩略图可打开完整图表。
+4. 真实样例来源与图像归属见 assets/examples/provenance.json、NOTICE.txt。
+5. 保留表 3 API 训练代码的 GitHub 入口、模型权重入口和用户指定的带作者 PDF。
+   本次未修改论文 PDF、任何实验数据或科研结论。
 
-解压后上传到 GitHub 仓库根目录，覆盖同名网页文件。
-此包是完整静态网页，无需构建；保留已有研究代码目录和仓库 README.md。
-如果已上传上一份 AdaptRouter-Paper-Update.zip，仅覆盖 index.html 和 app.js 即可。
-上传后由 GitHub Pages 发布生效。
+使用方法：
+解压后将网页文件及 assets、data 文件夹上传到仓库根目录，覆盖同名文件。
+这是完整静态网页，无需构建或启动本地服务器。
+保留仓库已有的研究代码目录和 README.md。
+如只更新上一版本，需上传 index.html、app.js、motion.js、polish.css，
+assets/fonts/refined-fonts.css、assets/fonts/refined-noto-sc-examples.woff2，
+以及整个 assets/examples/ 目录。
+GitHub Pages 发布完成后刷新网页，更新即可生效。
