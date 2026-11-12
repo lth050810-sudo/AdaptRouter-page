@@ -1,18 +1,25 @@
-AdaptRouter 项目页：改为常规论文项目页样式
+AdaptRouter 视觉更新：参照 RouteAnything 页面风格，结构与内容不变
 
-- 首屏改为论文标题、作者与单位、四个链接（论文 / 代码 / 权重 / 结果表格），去掉大字标语和四格数字。
-- 新增摘要（论文原文）与“主要结果”列表；方法部分改为四步说明，并放入论文的方法总览图。
-- 各节标题改为直述式（方法、四个阶段的持续学习、更换专家池、质量与成本、消融与路由开销、资源）。
-- 去掉滚动渐显动画、阅读进度条、返回顶部按钮、图标方块和卡片阴影；表格改为论文式横线表。
-- 资源部分改为链接列表，并列出全部 CSV。
-- 中英文同步；中文字体子集已按新文案重新生成。
+保留：全部章节、图表、表格、交互、中英文切换、明暗主题、数据文件。
+
+样式（style.css 的颜色/字体变量 + polish.css 末尾新增一段）：
+- 配色改为白 / 浅灰分段 + 单一蓝色强调，去掉绿色底和绿色字。
+- 导航改为浮动圆角条，按钮改为胶囊形。
+- 首屏和各节标题居中；路由示意图放到标题下方的浅灰圆角卡片里。
+- 图表卡片、方法步骤、资源卡片改为无边框的大圆角卡片。
+- 标题字体改为 Inter Tight（自托管，OFL），不再使用 Plus Jakarta Sans。
+
+少量文案和标记（index.html / app.js / motion.js）：
+- 去掉 logo 图标、标题后的绿色句点、首屏小圆点标签、“01 / …”编号、结论前的小图标、顶部阅读进度条。
+- 首屏简介和“方法”一节的引言改为一句直述的话（原来两处是同一句口号）。
+- 首屏按钮增加“论文”“代码”。
+- 资源一节顶部改为论文标题 + 作者 + 单位（取自论文 PDF 首页）。
 
 文件变化：
-- 修改：index.html、style.css、app.js、assets/fonts/refined-fonts.css
-- 新增：assets/figures/router.webp、assets/fonts/noto-sans-sc-subset.woff2
-- 删除（仓库里的旧文件也可删除）：polish.css、motion.js，
-  assets/fonts 下的 refined-noto-sc*.woff2、refined-jakarta-*、manrope-*、dm-sans-* 及对应 OFL 文本
+- 修改：index.html、style.css、polish.css、app.js、motion.js、assets/fonts/refined-fonts.css
+- 新增：assets/fonts/inter-tight-latin.woff2、inter-tight-OFL.txt、refined-noto-sc-style.woff2
+- 删除（不再使用）：assets/fonts 下的 refined-jakarta-*、manrope-*、dm-sans-* 及对应 OFL 文本
 
 使用方法：
-解压后将全部文件上传到仓库根目录并覆盖同名文件，保留已有研究代码目录与 README.md。
+解压后上传到仓库根目录并覆盖同名文件，保留已有研究代码目录与 README.md。
 GitHub Pages 发布完成后用 Ctrl+F5 强制刷新。

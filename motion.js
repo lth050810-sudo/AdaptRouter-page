@@ -38,12 +38,6 @@
   topButton.type = 'button';
   topButton.innerHTML = icon('arrowUp');
   document.body.append(topButton);
-  const progress = document.createElement('div');
-  progress.className = 'reading-progress';
-  progress.setAttribute('aria-hidden', 'true');
-  progress.innerHTML = '<span></span>';
-  document.body.prepend(progress);
-  const progressBar = progress.firstElementChild;
   const header = one('.site-header');
   const navLinks = all('.nav-links a');
   const navSections = ['method','continual','pool','results','analysis','resources'].map(id => ({
@@ -79,9 +73,8 @@
     all('.input-symbol').forEach((node, index) => { node.innerHTML = icon(index ? 'image' : 'text'); });
     all('.new-task>span:first-child,.new-expert>span:first-child').forEach(node => { node.innerHTML = icon('plus'); });
     all('.method-columns .step-number').forEach((node,index) => {
-      node.innerHTML = `<span class="step-icon">${icon(['layers','feedback','repeat'][index])}</span><span class="step-label">0${index+1}</span>`;
+      node.innerHTML = `<span class="step-icon">${icon(['layers','feedback','repeat'][index])}</span><span class="step-label">${chinese() ? '第 ' + (index+1) + ' 步' : 'Step ' + (index+1)}</span>`;
     });
-    all('.finding-marker').forEach((node,index) => { node.innerHTML = icon(index ? 'plus' : 'trend'); });
     all('.resource-icon').forEach(node => { node.innerHTML=icon(node.dataset.icon || 'file'); });
     all('[data-download-chart]').forEach(node => labelIcon(node, 'download'));
     labelIcon(one('#download-current'), 'download');
@@ -99,7 +92,7 @@
   }).observe(root,{ attributes:true, attributeFilter:['lang','data-theme'] });
 
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const revealNodes = all('.hero-intro,.hero-board,.hero-stats>a,.section-intro,.method-columns article,.stage-rail,.chart-card,.finding-strip,.details-line,.selection-block>div,.resource');
+  const revealNodes = all('.hero-intro,.hero-board,.hero-stats>a,.section-intro,.method-columns article,.stage-rail,.chart-card,.finding-strip,.details-line,.selection-block>div,.resource,.paper-block');
   revealNodes.forEach(node => node.classList.add('reveal'));
   const nearby = new Set();
   const smooth = n => { const v = Math.max(0, Math.min(1, n)); return v*v*(3-2*v); };
@@ -121,7 +114,6 @@
       else link.removeAttribute('aria-current');
     });
     const range = Math.max(1,pageHeight-vh);
-    progressBar.style.transform = `scaleX(${Math.min(1,Math.max(0,y/range))})`;
     header.classList.toggle('is-scrolled', y > 12);
     topButton.classList.toggle('is-visible', y > vh * .8);
     if (reducedMotion.matches) return;

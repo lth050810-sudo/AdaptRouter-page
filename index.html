@@ -3,173 +3,124 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdaptRouter: Continual Learning to Route across Evolving Tasks and Models</title>
-  <meta name="description" content="Project page for AdaptRouter, a compact multimodal router trained by reinforcement learning from task feedback, which learns new tasks without replay and adapts to changing expert pools.">
+  <title>AdaptRouter — Continual Learning to Route</title>
+  <meta name="description" content="A compact router that learns new tasks, retains earlier capabilities, and adapts to evolving expert pools. Explore the AdaptRouter research results.">
   <meta name="theme-color" content="#ffffff">
-  <meta property="og:title" content="AdaptRouter: Continual Learning to Route across Evolving Tasks and Models">
-  <meta property="og:description" content="Paper, code, router weights and interactive result tables for AdaptRouter.">
+  <meta property="og:title" content="AdaptRouter — Continual Learning to Route">
+  <meta property="og:description" content="New tasks. New experts. One adaptive routing policy. Interactive results across text, vision, and API model pools.">
   <meta property="og:type" content="website">
   <link rel="canonical" href="https://lth050810-sudo.github.io/AdaptRouter/">
   <meta property="og:url" content="https://lth050810-sudo.github.io/AdaptRouter/">
   <meta property="og:image" content="https://lth050810-sudo.github.io/AdaptRouter/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=20261112b">
-  <link rel="stylesheet" href="style.css?v=20261112b">
+  <link rel="stylesheet" href="style.css?v=ra-style-20261113">
+  <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=ra-style-20261113">
+  <link rel="stylesheet" href="polish.css?v=ra-style-20261113">
   <script>try{if(localStorage.getItem('ar-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
   <script defer src="data/results.js"></script>
-  <script defer src="app.js?v=20261112b"></script>
+  <script defer src="app.js?v=ra-style-20261113"></script>
+  <script defer src="motion.js?v=ra-style-20261113"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <nav class="nav shell" aria-label="Main navigation">
-      <a class="brand" href="#top" translate="no">AdaptRouter</a>
-      <div class="nav-links">
-        <a href="#method" data-i18n="navMethod">Method</a>
-        <a href="#continual" data-i18n="navContinual">Continual learning</a>
-        <a href="#pool" data-i18n="navPool">Expert pools</a>
-        <a href="#results" data-i18n="navResults">Results</a>
-        <a href="#analysis" data-i18n="navAnalysis">Analysis</a>
-        <a href="#resources" data-i18n="navResources">Resources</a>
-      </div>
-      <div class="nav-actions">
-        <button id="lang-toggle" class="plain-button" aria-label="Switch to Chinese">中文</button>
-        <button id="theme-toggle" class="plain-button" aria-label="Toggle color theme"></button>
-      </div>
+      <a class="brand" href="#top" aria-label="AdaptRouter home">AdaptRouter</a>
+      <div class="nav-links"><a href="#method" data-i18n="navMethod">Method</a><a href="#continual" data-i18n="navAdapt">Adaptation</a><a href="#results" data-i18n="navResults">Results</a><a href="#resources" data-i18n="navResources">Resources</a></div>
+      <div class="nav-actions"><button id="lang-toggle" class="text-button" aria-label="Switch to Chinese">中文</button><button id="theme-toggle" class="theme-button" aria-label="Toggle color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4a8.5 8.5 0 1 0 11.5 11.5Z"/></svg></button><a class="button small dark" href="assets/adaptrouter-manuscript.pdf?v=5b1f726e24f0" target="_blank" rel="noopener" data-i18n="paperButton">Paper ↗</a></div>
     </nav>
   </header>
 
   <main id="main">
     <section class="hero shell" id="top">
-      <h1 data-i18n="pageTitle">AdaptRouter: Continual Learning to Route across Evolving Tasks and Models</h1>
-      <p class="authors" translate="no">Jingpu Yang<sup>1</sup>, Tianhao Li<sup>2</sup>, Fengxian Ji<sup>2</sup>, Yufeng Wang<sup>3</sup>, Juanfan Wu<sup>5</sup>, Shuxin Zheng<sup>1</sup>, Xiaoqing Zhang<sup>1,4,*</sup></p>
-      <p class="affiliations" translate="no"><span><sup>1</sup>Beijing Zhongguancun Academy</span> <span><sup>2</sup>Northeastern University</span> <span><sup>3</sup>Beihang University</span> <span><sup>4</sup>Renmin University of China</span> <span><sup>5</sup>Beijing Institute of Technology</span></p>
-      <p class="hero-links">
-        <a class="button" href="assets/adaptrouter-manuscript.pdf?v=5b1f726e24f0" target="_blank" rel="noopener" data-i18n="linkPaper">Paper (PDF)</a>
-        <a class="button" href="https://github.com/lth050810-sudo/AdaptRouter" target="_blank" rel="noopener" data-i18n="linkCode">Code</a>
-        <a class="button" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener" data-i18n="linkWeights">Router weights</a>
-        <a class="button" href="#results" data-i18n="linkResults">Result tables</a>
-      </p>
+      <div class="hero-intro">
+      <h1>AdaptRouter</h1>
+      <p class="hero-title" data-i18n="heroTitle">Continual Learning to Route<br>across Evolving Tasks and Models</p>
+      <p class="hero-lede" data-i18n="heroLede">A compact multimodal router that learns from task feedback, keeps what it learned on earlier tasks, and picks one expert for each question.</p>
+      <div class="hero-actions"><a class="button primary" href="#results"><span data-i18n="exploreResults">See the results</span></a><a class="button outline" href="assets/adaptrouter-manuscript.pdf?v=5b1f726e24f0" target="_blank" rel="noopener"><span data-i18n="heroPaper">Paper</span></a><a class="button outline" href="https://github.com/lth050810-sudo/AdaptRouter" target="_blank" rel="noopener"><span data-i18n="heroCode">Code</span></a><a class="button outline" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener"><span translate="no">Hugging Face</span></a></div>
+      </div>
 
-      <figure class="overview">
+      <figure class="hero-board" aria-label="AdaptRouter research overview">
         <div class="routing-visual">
           <div class="request-stack">
-            <article class="request-example">
-              <b data-i18n="inputText">Text question</b>
-              <p class="example-question" data-i18n="exampleTextQuestion">How many positive whole-number divisors does 196 have?</p>
-              <a class="example-source" href="https://huggingface.co/datasets/HuggingFaceH4/MATH-500" target="_blank" rel="noopener" translate="no">MATH-500</a>
+            <article class="request-item request-example">
+              <div class="request-example-heading"><span class="input-symbol" aria-hidden="true"></span><b data-i18n="inputText">Text &amp; reasoning</b></div>
+              <p class="example-question" data-i18n="exampleTextQuestion">How many positive whole-number divisors does <strong>196</strong> have?</p>
+              <a class="example-source" href="https://huggingface.co/datasets/HuggingFaceH4/MATH-500" target="_blank" rel="noopener" translate="no">MATH-500 <span aria-hidden="true">↗</span></a>
             </article>
-            <article class="request-example">
-              <b data-i18n="inputVision">Image + question</b>
+            <article class="request-item request-example">
+              <div class="request-example-heading"><span class="input-symbol image-symbol" aria-hidden="true"></span><b data-i18n="inputVision">Image + question</b></div>
               <a class="example-image-link" href="assets/examples/chartqa-test-41810321001157.png" target="_blank" rel="noopener" aria-labelledby="chart-image-open chart-example-question">
                 <img src="assets/examples/chartqa-test-41810321001157.png" width="850" height="600" alt="ChartQA: three horizontal bars for Mauritania, Fiji and Madagascar, showing armed forces personnel as a share of population in 1985." decoding="async">
                 <span id="chart-image-open" class="sr-only" data-i18n="exampleImageOpen">Open the full-size chart.</span>
               </a>
               <p id="chart-example-question" class="example-question" data-i18n="exampleImageQuestion">How many bars are shown in the chart?</p>
-              <a class="example-source" href="assets/examples/chartqa-test-41810321001157.png" target="_blank" rel="noopener" translate="no">ChartQA</a>
+              <a class="example-source" href="assets/examples/chartqa-test-41810321001157.png" target="_blank" rel="noopener" aria-labelledby="chart-image-open chart-example-question" translate="no">ChartQA <span aria-hidden="true">↗</span></a>
             </article>
           </div>
-          <div class="connector"><svg class="connector-horizontal" viewBox="0 0 100 120" aria-hidden="true"><path d="M0 25H35Q50 25 50 40V60H95M0 95H35Q50 95 50 80V60"/><path class="arrow" d="m87 54 8 6-8 6"/></svg><svg class="connector-vertical" viewBox="0 0 32 64" aria-hidden="true"><path d="M16 0v60m-5-7 5 7 5-7"/></svg></div>
-          <div class="router-node"><strong translate="no">AdaptRouter</strong><span data-i18n="routerSize">0.8B decision model</span><span class="router-node-io" data-i18n="routerCaption">reads the question and one card per expert</span></div>
-          <div class="connector"><svg class="connector-horizontal" viewBox="0 0 100 120" aria-hidden="true"><path d="M0 60H40Q50 60 50 45V15H95M50 60V105H95"/><path class="chosen" d="M0 60H95m-8-6 8 6-8 6"/></svg><svg class="connector-vertical" viewBox="0 0 32 64" aria-hidden="true"><path d="M16 0v60m-5-7 5 7 5-7"/></svg></div>
-          <div class="expert-stack">
-            <div class="visual-label" data-i18n="expertLabel">Current expert pool</div>
-            <div class="expert-card"><b data-i18n="expertSmall">Small open-weight models</b><span>2B / 4B</span></div>
-            <div class="expert-card selected"><b data-i18n="expertReason">Reasoning model</b><span>9B</span><em data-i18n="expertChosen">selected</em></div>
-            <div class="expert-card"><b data-i18n="expertApi">API models</b><span data-i18n="expertApiCount">5 models</span></div>
-          </div>
+          <div class="connector"><svg class="connector-horizontal" viewBox="0 0 100 120" aria-hidden="true"><path d="M0 25H35Q50 25 50 40V60H95M0 95H35Q50 95 50 80V60"/><path class="arrow route-active" d="m87 54 8 6-8 6"/></svg><svg class="connector-vertical" viewBox="0 0 32 64" aria-hidden="true"><path class="route-active" d="M16 0v60m-5-7 5 7 5-7"/></svg></div>
+          <div class="router-node"><div class="router-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 11h12l9 13-9 13H10M31 24h10M35 18l6 6-6 6"/></svg></div><strong>AdaptRouter</strong><span class="board-tag" data-i18n="routerSize">0.8B router</span><span data-i18n="routerCaption">Question + expert cards</span><div class="router-node-footer" data-i18n="oneExpert">Select one frozen expert</div></div>
+          <div class="connector"><svg class="connector-horizontal" viewBox="0 0 100 120" aria-hidden="true"><path d="M0 60H40Q50 60 50 45V15H95M50 60H95M50 60V105H95"/><path class="route-active" d="M0 60H95m-8-6 8 6-8 6"/></svg><svg class="connector-vertical" viewBox="0 0 32 64" aria-hidden="true"><path class="route-active" d="M16 0v60m-5-7 5 7 5-7"/></svg></div>
+          <div class="expert-stack"><div class="visual-label" data-i18n="expertLabel">The current experts</div><div class="expert-card"><span class="expert-square teal"></span><b data-i18n="expertSmall">Small & efficient</b><span class="mono">2B / 4B</span></div><div class="expert-card selected"><span class="expert-square blue"></span><b data-i18n="expertReason">Reasoning models</b><span class="mono">9B</span></div><div class="expert-card"><span class="expert-square amber"></span><b data-i18n="expertApi">API models</b><span class="mono">5 models</span></div></div>
         </div>
-        <figcaption data-i18n="overviewCaption">For each question, AdaptRouter reads the text, any images, and a short card describing each expert currently in the pool, then sends the question to one frozen expert. The two inputs shown are public test items from MATH-500 and ChartQA.</figcaption>
       </figure>
-    </section>
-
-    <section class="section shell" id="abstract">
-      <h2 data-i18n="abstractTitle">Abstract</h2>
-      <p class="prose" data-i18n="abstractText">Model routing assigns each query to a suitable foundation model, but both the tasks and the available models keep changing, and existing routers are either untrained for the pool at hand or fit once and forget earlier tasks when updated. We present AdaptRouter, which casts routing as continual policy learning: a compact multimodal decision model reads each question with cards describing the current experts and learns from native task feedback by reinforcement learning, without routing labels, to select one frozen expert. New tasks are learned without replay, new experts enter as cards, and a quality-first advantage provably keeps cost from overriding quality. Learning five benchmarks in four stages, AdaptRouter loses at most 0.4 points on earlier tasks, whereas feedback-trained routers lose up to 7.0; as the pool grows from three to ten experts it uses the added ones, and exploring 5% of the questions comes within 1.9 held-out points of budgets up to 90%. On a pool of five API models, it exceeds GPT-6.1 Sol and GPT-6 Astra (low) by over 22 points in weighted average at under a third of their cost.</p>
-      <h3 class="list-heading" data-i18n="summaryTitle">Main results</h3>
-      <ul class="summary-list">
-        <li data-i18n="summaryContinual"><a href="#continual">Continual learning.</a> Across four stages and five benchmarks, with no replay, the StartLux variants lose at most <strong>0.4 points</strong> from their peak on earlier tasks.</li>
-        <li data-i18n="summaryPool"><a href="#pool">Expert pools.</a> Growing the pool from 3 to 10 experts raises four-task accuracy from <strong>66.7%</strong> to <strong>75.5%</strong>.</li>
-        <li data-i18n="summaryOpen"><a href="#results">Open-weight suite.</a> On 15 text and vision benchmarks, the router reaches a <strong>65.08%</strong> weighted average at <strong>12.56%</strong> of the cost of Qwen3.5-9B (thinking).</li>
-        <li data-i18n="summaryApi"><a href="#results">API suite.</a> On 10 benchmarks (10,363 questions), it scores <strong>71.31%</strong> for $120.46; the adapted Router-R1 scores 70.53% for $283.26, so the comparison cost is <strong>57.5%</strong> lower.</li>
-      </ul>
+      <div class="hero-stats">
+        <a href="#results"><span class="stat-number">71.31<span>%</span></span><span data-i18n="statApi">API-suite weighted score</span><small data-i18n="statApiSub">10 benchmarks · 10,363 questions</small></a>
+        <a href="#continual"><span class="stat-number">≤0.4<span>pt</span></span><span data-i18n="statRetention">Peak-to-later decline</span><small data-i18n="statRetentionSub">Earlier tasks · StartLux variants</small></a>
+        <a href="#pool"><span class="stat-number">3<span>→</span>10</span><span data-i18n="statPool">Experts in the pool</span><small data-i18n="statPoolSub">66.7% → 75.5% on four tasks</small></a>
+        <a href="#results"><span class="stat-number">57.5<span>%</span></span><span data-i18n="statCost">Lower comparison cost</span><small data-i18n="statCostSub">vs. adapted Router-R1 · API suite</small></a>
+      </div>
     </section>
 
     <section class="section shell" id="method">
-      <h2 data-i18n="methodTitle">Method</h2>
-      <p class="prose" data-i18n="methodLede">AdaptRouter trains a compact multimodal decision model (StartLux-0.8B) as the routing policy and keeps training it as tasks and expert pools change. The same procedure runs at every stage.</p>
-      <ol class="method-steps">
-        <li data-i18n="methodA"><strong>Read.</strong> The model takes the complete question, including any images, together with a short card for each expert (name, input modalities, reasoning mode), and outputs a distribution over the listed experts.</li>
-        <li data-i18n="methodB"><strong>Score.</strong> Sampled experts answer the question in full. Each answer receives the task's native quality score and a cost. No routing labels are used.</li>
-        <li data-i18n="methodC"><strong>Update.</strong> A quality-first advantage drives a policy-gradient step: cost ranks experts of equal quality, but never reverses a quality preference.</li>
-        <li data-i18n="methodD"><strong>Continue.</strong> Parameters and optimizer state carry over to the next stage, which trains only on its new questions, with no replay. A new pool changes the cards and prices, not the architecture.</li>
-      </ol>
-      <figure class="paper-figure wide"><img loading="lazy" src="assets/figures/router.webp" width="2440" height="878" alt="Method overview: a routing request with the question and expert cards enters the decision model, which outputs a routing distribution; sampled experts are executed and scored; a quality-first advantage drives the policy-gradient update; tasks arrive as a continual stream."><figcaption data-i18n="methodFigure">Overview figure from the paper. A decision model maps a question and expert cards to a policy; sampled experts are scored by quality and cost, and a quality-first advantage updates the policy. Each stage continues from the previous policy, and a new pool changes only the cards.</figcaption></figure>
+      <div class="section-intro"><span class="section-index" data-i18n="sectionMethod">How it works</span><h2 data-i18n="methodTitle">The world changes.<br>The router learns.</h2><p data-i18n="methodLede">The router reads each question together with a short card for every expert in the pool, is trained on the task’s own scores, and keeps training as tasks and experts change.</p></div>
+      <div class="method-columns"><article><span class="step-number">01</span><h3 data-i18n="methodA">Read the inputs.</h3><p data-i18n="methodAText">Question, images and expert cards.</p></article><article><span class="step-number">02</span><h3 data-i18n="methodB">Learn from feedback.</h3><p data-i18n="methodBText">Prioritize answer quality while balancing cost.</p></article><article><span class="step-number">03</span><h3 data-i18n="methodC">Adapt to new tasks.</h3><p data-i18n="methodCText">Continue learning; evaluate every task seen.</p></article></div>
     </section>
 
-    <section class="section shell" id="continual">
-      <h2 data-i18n="continualTitle">Continual learning over four stages</h2>
-      <p class="prose" data-i18n="continualLede">Five benchmarks arrive over four stages. The policy learns only from the new stage’s questions, without replaying earlier training data, and is evaluated on every task seen so far.</p>
-      <ol class="stage-rail"><li><span translate="no">S1</span> <strong translate="no">MATH-500 + ChartQA</strong></li><li><span translate="no">S2</span> <strong translate="no">+ MMLU-Pro</strong></li><li><span translate="no">S3</span> <strong translate="no">+ HumanEval+</strong></li><li><span translate="no">S4</span> <strong translate="no">+ IFEval</strong></li></ol>
-      <div class="table-heading"><h3 data-i18n="continualTableTitle">Results after each stage</h3><span data-i18n="continualTableUnits">Accuracy (%); last column is S4 relative cost (%)</span></div>
-      <div id="continual-full-table" class="table-scroll continual-table" tabindex="0" role="region" aria-label="Continual learning results, horizontally scrollable"></div>
-      <p class="finding" data-i18n="continualFinding">The StartLux variants decline by at most <strong>0.4 points</strong> from their peak on earlier tasks. The fully fine-tuned router starts and ends MATH-500 at <strong>92.20%</strong>.</p>
-    </section>
+    <section class="tinted-section" id="continual"><div class="section shell">
+      <div class="section-intro"><span class="section-index" data-i18n="sectionContinual">Continual adaptation</span><h2 data-i18n="continualTitle">Learn the next task.<br>Keep the earlier ones.</h2><p data-i18n="continualLede">Five benchmarks arrive over four stages. The policy learns only from the new stage’s questions, without replaying earlier training data.</p></div>
+      <div class="stage-rail"><div><span translate="no">S1</span><strong translate="no">MATH-500 + ChartQA</strong></div><div><span translate="no">S2</span><strong translate="no">+ MMLU-Pro</strong></div><div><span translate="no">S3</span><strong translate="no">+ HumanEval+</strong></div><div><span translate="no">S4</span><strong translate="no">+ IFEval</strong></div></div>
+      <div class="continual-results"><div class="continual-table-heading"><h3 data-i18n="continualTableTitle">Stage-by-stage results</h3><span data-i18n="continualTableUnits">Accuracy (%) · S4 relative cost (%)</span></div><div id="continual-full-table" class="table-scroll continual-table" tabindex="0" role="region" aria-label="Continual learning results, horizontally scrollable"></div></div>
+      <div class="finding-strip"><p data-i18n="continualFinding">StartLux variants: ≤<strong>0.4pt</strong> decline from earlier-task peaks; full FT starts and ends MATH-500 at <strong>92.20%</strong>.</p></div>
+    </div></section>
 
     <section class="section shell" id="pool">
-      <h2 data-i18n="poolTitle">Changing the expert pool</h2>
-      <p class="prose" data-i18n="poolLede">The same card-conditioned design is trained on pools of three, five, and ten experts. A frozen-backbone JevAny-style router learns its pointer head from feedback.</p>
-      <div class="two-charts">
-        <div class="chart-block"><div class="chart-toolbar"><h3 data-i18n="poolChartTitle">Accuracy by pool size</h3><label><span class="sr-only">Benchmark</span><select id="pool-metric"><option value="4">All four tasks</option><option value="0">MathBench</option><option value="1">KOR-Bench</option><option value="2">OCRBench</option><option value="3">FollowBench-zh</option></select></label><button class="text-button" data-download-chart="pool-chart">SVG ↓</button></div><div id="pool-chart" class="chart-host"></div></div>
-        <div class="chart-block"><div class="chart-toolbar"><h3 data-i18n="exploreChartTitle">Held-out accuracy by exploration budget</h3><button class="text-button" data-download-chart="exploration-chart">SVG ↓</button></div><div id="exploration-chart" class="chart-host"></div><div class="exploration-readout"><label for="exploration-slider" data-i18n="explorationBudget">Exploration budget</label><strong id="exploration-value">5%</strong></div><input id="exploration-slider" type="range" min="0" max="9" value="1" step="1"><p id="exploration-note" class="chart-note"></p></div>
-      </div>
-      <p class="finding" data-i18n="poolFinding">From 3 to 10 experts, four-task accuracy goes from <strong>66.7%</strong> to <strong>75.5%</strong>. With a <strong>5%</strong> exploration budget the held-out score is <strong>77.2%</strong>, 1.9 points below the best budget tested.</p>
-      <details><summary data-i18n="poolMore">Expert selection shares and study details</summary><p data-i18n="poolChartNote">Four-task study; matched reward and update budget. This is a separate test suite from the 15-benchmark main comparison.</p><p data-i18n="poolMoreText">The same fixed 10% of question families is held out across exploration budgets. Each run uses 500 updates. “All” and “Held-out” refer to different evaluation subsets and are kept separate in the downloadable data.</p><figure class="paper-figure"><img loading="lazy" src="assets/figures/pool_selection_share.svg" alt="Expert selection shares across M3, M5 and M10 pools"><figcaption data-i18n="paperFigureNote">Figure from the paper. T = thinking; NT = non-thinking.</figcaption></figure><p><a href="data/exploration.csv" download data-i18n="explorationCsv">Download all exploration results (CSV)</a></p></details>
+      <div class="section-intro"><span class="section-index" data-i18n="sectionPool">Evolving expert pools</span><h2 data-i18n="poolTitle">More experts.<br>A policy that puts them to work.</h2><p data-i18n="poolLede">The same card-conditioned design is trained on pools of three, five, and ten experts. A frozen-backbone JevAny-style router learns its pointer head from feedback.</p></div>
+      <div class="two-charts"><div class="chart-card"><div class="chart-toolbar"><h3 data-i18n="poolChartTitle">Growing the expert pool</h3><label class="compact-label"><span class="sr-only">Benchmark</span><select id="pool-metric"><option value="4">All four tasks</option><option value="0">MathBench</option><option value="1">KOR-Bench</option><option value="2">OCRBench</option><option value="3">FollowBench-zh</option></select></label><button class="icon-text" data-download-chart="pool-chart">SVG ↓</button></div><div id="pool-chart" class="chart-host"></div></div><div class="chart-card"><div class="chart-toolbar"><h3 data-i18n="exploreChartTitle">How much exploration is enough?</h3><button class="icon-text" data-download-chart="exploration-chart">SVG ↓</button></div><div id="exploration-chart" class="chart-host"></div><div class="exploration-readout"><span data-i18n="explorationBudget">Exploration budget</span><strong id="exploration-value">5%</strong></div><input id="exploration-slider" type="range" min="0" max="9" value="1" step="1" aria-label="Exploration budget"><p id="exploration-note" class="chart-note"></p></div></div>
+      <div class="finding-strip"><p data-i18n="poolFinding">3→10 experts: <strong>66.7%→75.5%</strong>. At <strong>5% exploration</strong>, held-out score is <strong>77.2%</strong>, 1.9pt below the best tested.</p></div>
+      <details class="details-line"><summary data-i18n="poolMore">Expert selection and pool-study details</summary><p data-i18n="poolChartNote">Four-task study; matched reward and update budget. This is a separate test suite from the 15-benchmark main comparison.</p><p data-i18n="poolMoreText">The same fixed 10% of question families is held out across exploration budgets. Each run uses 500 updates. “All” and “Held-out” refer to different evaluation subsets and are kept separate in the downloadable data.</p><figure class="paper-figure"><img loading="lazy" src="assets/figures/pool_selection_share.svg" alt="Expert selection shares across M3, M5 and M10 pools"><figcaption data-i18n="paperFigureNote">Original manuscript figure. T = thinking; NT = non-thinking.</figcaption></figure><a class="inline-link" href="data/exploration.csv" download data-i18n="explorationCsv">Download all exploration results ↗</a></details>
     </section>
 
-    <section class="section shell" id="results">
-      <h2 data-i18n="resultsTitle">Quality and cost</h2>
-      <p class="prose" data-i18n="resultsLede">Results on two suites, each with its own evaluation and cost definition. Click a point in the chart to use it as the reference; table columns sort.</p>
-      <div class="result-tabs" role="tablist" aria-label="Result suite"><button role="tab" aria-selected="true" data-suite="api" class="active"><span data-i18n="apiTab">API models</span> <small data-i18n="apiTabSub">10 benchmarks</small></button><button role="tab" aria-selected="false" data-suite="open"><span data-i18n="openTab">Open-weight models</span> <small data-i18n="openTabSub">15 benchmarks</small></button></div>
+    <section class="results-section" id="results"><div class="section shell">
+      <div class="section-intro"><span class="section-index" data-i18n="sectionResults">Quality and cost</span><h2 data-i18n="resultsTitle">The right expert.<br>At a better price.</h2><p data-i18n="resultsLede">Explore each benchmark, compare routing methods, and inspect the quality–cost trade-off. The open-weight and API suites retain their own evaluation and cost definitions.</p></div>
+      <div class="result-tabs" role="tablist" aria-label="Result suite"><button role="tab" aria-selected="true" data-suite="api" class="active"><span data-i18n="apiTab">API models</span><small>10 benchmarks</small></button><button role="tab" aria-selected="false" data-suite="open"><span data-i18n="openTab">Open-weight models</span><small>15 benchmarks</small></button></div>
       <div class="result-summary" id="result-summary"></div>
-      <div class="chart-block"><div class="chart-toolbar"><h3 data-i18n="qualityCost">Quality vs. cost</h3><label class="check-label"><input type="checkbox" id="log-scale" checked><span data-i18n="logScale">Log cost axis</span></label><button class="text-button" data-download-chart="results-chart">SVG ↓</button></div><div id="results-chart" class="chart-host"></div><div id="results-legend" class="chart-legend"></div></div>
-      <div class="table-controls"><input type="search" id="method-search" placeholder="Filter by method name" aria-label="Filter by method name"><label><span data-i18n="scoreColumn">Score</span> <select id="result-metric"></select></label><label><span data-i18n="filterLabel">Methods</span> <select id="result-group"><option value="all">All methods</option><option value="ours">AdaptRouter</option><option value="direct">Direct models</option><option value="released">Released / prompted</option><option value="feedback">Feedback-trained</option></select></label><a class="text-button" id="download-current" href="data/api.csv" download>CSV ↓</a></div>
+      <div class="chart-card results-chart-card"><div class="chart-toolbar"><h3 data-i18n="qualityCost">Quality vs. cost</h3><label class="check-label"><input type="checkbox" id="log-scale" checked><span data-i18n="logScale">Log cost axis</span></label><button class="icon-text" data-download-chart="results-chart">SVG ↓</button></div><div id="results-chart" class="chart-host"></div><div id="results-legend" class="chart-legend"></div></div>
+      <div class="table-controls"><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input type="search" id="method-search" placeholder="Find a method…" aria-label="Find a method"></label><label><span data-i18n="scoreColumn">Score</span><select id="result-metric"></select></label><label><span data-i18n="filterLabel">Methods</span><select id="result-group"><option value="all">All methods</option><option value="ours">AdaptRouter</option><option value="direct">Direct models</option><option value="released">Released / prompted</option><option value="feedback">Feedback-trained</option></select></label><a class="button outline small" id="download-current" href="data/api.csv" download>CSV ↓</a></div>
       <div id="results-table" class="table-scroll main-table"></div>
-      <details><summary data-i18n="fullMatrix">All benchmarks in one table</summary><label class="check-label"><input type="checkbox" id="include-partial"><span data-i18n="includePartial">Include partial max-effort reference rows</span></label><div id="results-full-table" class="table-scroll"></div></details>
-      <details><summary data-i18n="resultProtocol">Evaluation scope and comparison notes</summary><div class="notes-grid"><div><h4 data-i18n="scopeHeading">Averages and coverage</h4><p data-i18n="scopeText">Both suites report request-weighted averages. The API suite has 10,363 test questions. Partial max-effort reference rows are externally reported results, excluded from the complete-cohort scatter plot and ranking.</p></div><div><h4 data-i18n="costHeading">What the cost includes</h4><p data-i18n="costText">API cost is the list-price comparison cost of selected successful expert answers, excluding training, judges, local router compute, and unknown failed-attempt invoices. Open-weight cost is a parameter-weighted token proxy relative to Qwen3.5-9B (thinking).</p></div><div><h4 data-i18n="baselineHeading">Adapted baselines</h4><p data-i18n="baselineText">Router-R1 is a single-choice PPO adaptation, not the original multi-call system. Its $283.26 cost follows the documented conservative high-side accounting. The API AdaptRouter rows include the reported benchmark-specific training updates.</p></div></div><p data-i18n="pointEstimateNote">Scores retain the source-table precision. Point estimates and their differences alone do not establish statistical significance.</p></details>
-      <div class="selection-block"><div><h3 data-i18n="selectionTitle">Where the requests go</h3><p data-i18n="selectionText">Share of API-suite requests sent to each expert. Request share and cost share differ: on LongBench v2, the paper reports $9.54 for the routes StartLux selects, against $112.28 for sending every question to Gemini.</p></div><div><div class="chart-toolbar"><label><span data-i18n="routerLabel">Router</span> <select id="selection-router"><option>StartLux</option><option>JevAny</option></select></label></div><div id="selection-chart" aria-label="Expert selection shares"></div></div></div>
-    </section>
+      <details class="details-line"><summary data-i18n="fullMatrix">View all benchmarks in one table</summary><div class="matrix-actions"><label class="check-label"><input type="checkbox" id="include-partial"><span data-i18n="includePartial">Include partial max-effort reference rows</span></label></div><div id="results-full-table" class="table-scroll"></div></details>
+      <details class="details-line"><summary data-i18n="resultProtocol">Evaluation scope and comparison notes</summary><div class="protocol-grid"><div><h4 data-i18n="scopeHeading">Averages & coverage</h4><p data-i18n="scopeText">Both suites report request-weighted averages. The API suite has 10,363 test questions. Partial max-effort reference rows are externally reported results, excluded from the complete-cohort scatter plot and ranking.</p></div><div><h4 data-i18n="costHeading">What the cost includes</h4><p data-i18n="costText">API cost is the list-price comparison cost of selected successful expert answers, excluding training, judges, local router compute, and unknown failed-attempt invoices. Open-weight cost is a parameter-weighted token proxy relative to Qwen3.5-9B (thinking).</p></div><div><h4 data-i18n="baselineHeading">Adapted baselines</h4><p data-i18n="baselineText">Router-R1 is a single-choice PPO adaptation, not the original multi-call system. Its $283.26 cost follows the documented conservative high-side accounting. The API AdaptRouter rows include the reported benchmark-specific training updates.</p></div></div><p class="protocol-note" data-i18n="pointEstimateNote">Scores retain the source-table precision. Point estimates and their differences alone do not establish statistical significance.</p></details>
+      <div class="selection-block"><div><span class="section-index" data-i18n="selectionEyebrow">Where the requests go</span><h3 data-i18n="selectionTitle">Most questions go to strong models.<br>The expensive ones take a different route.</h3><p data-i18n="selectionText">On LongBench v2, the manuscript reports $9.54 for the selected StartLux routes versus $112.28 for Gemini alone. Request share and cost share tell different stories.</p></div><div><div class="chart-toolbar"><label><span data-i18n="routerLabel">Router</span><select id="selection-router"><option>StartLux</option><option>JevAny</option></select></label></div><div id="selection-chart" aria-label="Expert selection shares"></div></div></div>
+    </div></section>
 
     <section class="section shell" id="analysis">
-      <h2 data-i18n="analysisTitle">Ablations and routing overhead</h2>
-      <p class="prose" data-i18n="analysisLede">Ablations remove parts of the learning signal and the visual input. The timing study separates the routing decision from expert execution.</p>
-      <div class="two-charts even">
-        <div class="chart-block"><div class="chart-toolbar"><h3 data-i18n="ablationTitle">Ablation on four tasks</h3><button class="text-button" data-download-chart="ablation-chart">SVG ↓</button></div><div id="ablation-chart" class="chart-host"></div></div>
-        <div class="chart-block"><div class="chart-toolbar"><h3 data-i18n="latencyTitle">Routing and execution time</h3><select id="latency-suite" aria-label="Timing study"><option value="main">Main suite</option><option value="continual">Continual · final stage</option></select></div><div id="latency-chart" class="chart-host"></div><div class="chart-legend"><span><i style="background:var(--teal)"></i><span data-i18n="routingLabel">Routing (s)</span></span><span><i style="background:var(--soft-blue)"></i><span data-i18n="executionLabel">Expert execution (GPU s)</span></span></div></div>
+      <div class="section-intro"><span class="section-index" data-i18n="sectionAnalysis">A closer look</span><h2 data-i18n="analysisTitle">What makes the<br>routing policy work?</h2><p data-i18n="analysisLede">Ablations examine the learning signal and visual inputs. Timing and scale studies show the practical cost of making the routing decision.</p></div>
+      <div class="two-charts"><div class="chart-card"><div class="chart-toolbar"><h3 data-i18n="ablationTitle">Each component contributes</h3><button class="icon-text" data-download-chart="ablation-chart">SVG ↓</button></div><div id="ablation-chart" class="chart-host"></div></div><div class="chart-card"><div class="chart-toolbar"><h3 data-i18n="latencyTitle">A small decision overhead</h3><select id="latency-suite" aria-label="Timing study"><option value="main">Main suite</option><option value="continual">Continual · final stage</option></select></div><div id="latency-chart" class="chart-host"></div><div class="chart-legend"><span><i style="background:var(--teal)"></i><span data-i18n="routingLabel">Routing (s)</span></span><span><i style="background:var(--soft-blue)"></i><span data-i18n="executionLabel">Expert execution (GPU s)</span></span></div></div></div>
+      <details class="details-line"><summary data-i18n="tradeoffMore">Study details, trade-offs &amp; router scale</summary><div class="study-notes"><div><h4 data-i18n="ablationDetails">Ablation protocol</h4><p data-i18n="ablationNote">Four-task ablation, not the 15-benchmark main suite. Full: one training GPU; ablations: eight. The evaluation contains the documented 400-question training overlap.</p></div><div><h4 data-i18n="timingDetails">Timing units</h4><p data-i18n="latencyNote">Mean time per question, seconds. Expert execution is reported in GPU seconds; these observations do not imply a controlled end-to-end speedup.</p></div></div><div class="two-charts detail-charts"><figure class="paper-figure"><img loading="lazy" src="assets/figures/lambda_tradeoff.svg" alt="Accuracy and relative cost for different lambda values"><figcaption data-i18n="lambdaCaption">Original M5 trade-off figure. A lower λ allows higher accuracy at greater cost.</figcaption></figure><div><h3 data-i18n="scaleTitle">Larger routers are not always better</h3><div id="scale-table" class="table-scroll"></div><p class="chart-note" data-i18n="scaleNote">Matched LoRA budget on M5. Latency includes preprocessing. Order consistency is pairwise agreement across five cyclic candidate orders.</p></div></div></details>
+    </section>
+
+    <section class="resource-section" id="resources"><div class="section shell">
+      <div class="paper-block"><span class="section-index" data-i18n="sectionResources">Paper</span><h2 translate="no">AdaptRouter: Continual Learning to Route across Evolving Tasks and Models</h2><p class="authors" translate="no"><span>Jingpu Yang<sup>1</sup></span><span>Tianhao Li<sup>2</sup></span><span>Fengxian Ji<sup>2</sup></span><span>Yufeng Wang<sup>3</sup></span><span>Juanfan Wu<sup>5</sup></span><span>Shuxin Zheng<sup>1</sup></span><span>Xiaoqing Zhang<sup>1,4*</sup></span></p><p class="affil" translate="no"><span><sup>1</sup>Beijing Zhongguancun Academy</span><span><sup>2</sup>Northeastern University</span><span><sup>3</sup>Beihang University</span><span><sup>4</sup>Renmin University of China</span><span><sup>5</sup>Beijing Institute of Technology</span></p></div>
+      <div class="resource-grid resource-downloads">
+        <a class="resource resource-weights" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="download" aria-hidden="true"></span><span class="resource-label" data-i18n="resourceWeightsLabel">API expert pool</span></div><h3 data-i18n="resourceWeights">API router weights</h3><p class="resource-model" translate="no">AdaptRouter · StartLux 0.8B</p><p class="resource-meta" data-i18n="resourceWeightsText">Full fine-tuning · λ = 0.02 · FP32</p><span class="resource-action button primary"><span data-i18n="resourceWeightsAction">View on Hugging Face</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
+        <a class="resource resource-paper" href="assets/adaptrouter-manuscript.pdf?v=5b1f726e24f0" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="file" aria-hidden="true"></span><span class="resource-label">PDF</span></div><h3 data-i18n="resourcePaper">Paper</h3><p class="resource-paper-description" data-i18n="resourcePaperText">AdaptRouter research manuscript</p><span class="resource-action button outline"><span data-i18n="resourcePaperAction">Read the paper</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
+        <a class="resource resource-code" href="https://github.com/lth050810-sudo/AdaptRouter" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="code" aria-hidden="true"></span><span class="resource-label" translate="no">GitHub</span></div><h3 data-i18n="resourceCode">Training code</h3><p class="resource-code-description" data-i18n="resourceCodeText">API router training code and configuration</p><span class="resource-action button outline"><span data-i18n="resourceCodeAction">View on GitHub</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
       </div>
-      <details><summary data-i18n="tradeoffMore">Study details, λ trade-off and router size</summary><div class="notes-grid two"><div><h4 data-i18n="ablationDetails">Ablation protocol</h4><p data-i18n="ablationNote">Four-task ablation, not the 15-benchmark main suite. Full: one training GPU; ablations: eight. The evaluation contains the documented 400-question training overlap.</p></div><div><h4 data-i18n="timingDetails">Timing units</h4><p data-i18n="latencyNote">Mean time per question, seconds. Expert execution is reported in GPU seconds; these observations do not imply a controlled end-to-end speedup.</p></div></div><div class="two-charts even"><figure class="paper-figure"><img loading="lazy" src="assets/figures/lambda_tradeoff.svg" alt="Accuracy and relative cost for different lambda values"><figcaption data-i18n="lambdaCaption">Trade-off figure from the paper (M5 pool). A lower λ allows higher accuracy at greater cost.</figcaption></figure><div><h3 data-i18n="scaleTitle">Router size</h3><div id="scale-table" class="table-scroll"></div><p class="chart-note" data-i18n="scaleNote">Matched LoRA budget on M5. Latency includes preprocessing. Order consistency is pairwise agreement across five cyclic candidate orders.</p></div></div></details>
-    </section>
-
-    <section class="section shell" id="resources">
-      <h2 data-i18n="resourcesTitle">Resources</h2>
-      <dl class="resource-list">
-        <dt data-i18n="resourcePaper">Paper</dt>
-        <dd><a href="assets/adaptrouter-manuscript.pdf?v=5b1f726e24f0" target="_blank" rel="noopener" data-i18n="resourcePaperText">AdaptRouter manuscript (PDF)</a></dd>
-        <dt data-i18n="resourceCode">Code</dt>
-        <dd><a href="https://github.com/lth050810-sudo/AdaptRouter" target="_blank" rel="noopener" translate="no">github.com/lth050810-sudo/AdaptRouter</a><span data-i18n="resourceCodeText">Training code and configuration for the API router.</span></dd>
-        <dt data-i18n="resourceWeights">Weights</dt>
-        <dd><a href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener" translate="no">huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B</a><span data-i18n="resourceWeightsText">Router for the API expert pool: StartLux 0.8B, full fine-tuning, λ = 0.02, FP32.</span></dd>
-        <dt data-i18n="resourceData">Result tables</dt>
-        <dd class="csv-links" translate="no"><a href="data/api.csv" download>api.csv</a> <a href="data/open.csv" download>open.csv</a> <a href="data/continual.csv" download>continual.csv</a> <a href="data/pool.csv" download>pool.csv</a> <a href="data/exploration.csv" download>exploration.csv</a> <a href="data/ablation.csv" download>ablation.csv</a> <a href="data/scale.csv" download>scale.csv</a></dd>
-      </dl>
-    </section>
+    </div></section>
   </main>
-
-  <footer class="footer shell">
-    <p data-i18n="footerText">The example inputs in the overview are unmodified public test items from MATH-500 and ChartQA; see <a href="assets/examples/NOTICE.txt">the notice</a> for sources.</p>
-  </footer>
   <div id="chart-tooltip" role="tooltip" translate="no" hidden></div>
-  <noscript><p class="shell">The charts and tables on this page need JavaScript. The paper, code and weights links above work without it.</p></noscript>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="shell">JavaScript enables the interactive charts. GitHub, Hugging Face and paper links remain available through the resource section above.</p></noscript>
 </body>
 </html>
