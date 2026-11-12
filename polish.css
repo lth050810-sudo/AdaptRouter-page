@@ -682,3 +682,12 @@ tr.ours td:first-child, .continual-table tbody tr.ours th { color: var(--teal); 
   .resource-downloads .resource { padding: 24px 22px; }
   .resource-downloads .resource h3, .resource-downloads .resource-weights h3 { font-size: 24px; }
 }
+
+/* Method steps: centered content, larger line icons. */
+.method-columns article { padding: 36px 28px 34px; text-align: center; }
+.step-number { align-items: center; margin-bottom: 8px; }
+.step-icon { margin-bottom: 18px; }
+.step-icon .ui-icon { width: 40px; height: 40px; stroke-width: 1.4; }
+.method-columns p { text-wrap: balance; }
+@media(max-width:900px) { .method-columns article { padding: 30px 24px; } .step-number { align-items: center; margin: 0 0 8px; } }
+@media(max-width:700px) { .step-icon .ui-icon { width: 36px; height: 36px; } }

@@ -9,6 +9,9 @@
     download: '<path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/>',
     code: '<path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-14-2 16"/>',
     file: '<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8l-5-5Z"/><path d="M14 3v5h5M9 12h6m-6 4h6"/>',
+    stepRead: '<path d="M4 8V6.5A2.5 2.5 0 0 1 6.5 4H8M16 4h1.5A2.5 2.5 0 0 1 20 6.5V8M20 16v1.5a2.5 2.5 0 0 1-2.5 2.5H16M8 20H6.5A2.5 2.5 0 0 1 4 17.500V16"/><path d="M8 9.500h8M8 12.500h8M8 15.500h4.500"/>',
+    stepLearn: '<path d="M19.800 10.500A8 8 0 0 0 5.600 7.200M4.200 13.500a8 8 0 0 0 14.200 3.300"/><path d="M5 3.500v4h4M19 20.500v-4h-4"/><path d="m9 12.200 2.200 2.200 4-4.400"/>',
+    stepAdapt: '<path d="m12 3.500 8 4-8 4-8-4 8-4Z"/><path d="m4 12 8 4 8-4"/><path d="m4 16.500 8 4 2.500-1.250"/><path d="M19 15.500v5M16.500 18h5"/>',
     layers: '<path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/>',
     feedback: '<path d="M8 19H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-6l-5 3v-3Z"/><path d="m8 11 3 3 5-6"/>',
     repeat: '<path d="M3 8h14a4 4 0 0 1 4 4v1M7 4 3 8l4 4M21 16H7a4 4 0 0 1-4-4v-1m14 1 4 4-4 4"/>',
@@ -73,7 +76,7 @@
     all('.input-symbol').forEach((node, index) => { node.innerHTML = icon(index ? 'image' : 'text'); });
     all('.new-task>span:first-child,.new-expert>span:first-child').forEach(node => { node.innerHTML = icon('plus'); });
     all('.method-columns .step-number').forEach((node,index) => {
-      node.innerHTML = `<span class="step-icon">${icon(['layers','feedback','repeat'][index])}</span><span class="step-label">${chinese() ? '第 ' + (index+1) + ' 步' : 'Step ' + (index+1)}</span>`;
+      node.innerHTML = `<span class="step-icon">${icon(['stepRead','stepLearn','stepAdapt'][index])}</span><span class="step-label">${chinese() ? '第 ' + (index+1) + ' 步' : 'Step ' + (index+1)}</span>`;
     });
     all('.resource-icon').forEach(node => { node.innerHTML=icon(node.dataset.icon || 'file'); });
     all('[data-download-chart]').forEach(node => labelIcon(node, 'download'));
