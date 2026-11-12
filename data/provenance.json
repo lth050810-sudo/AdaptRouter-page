@@ -26,5 +26,6 @@
   "continual_note": "Each stage trains on new data only. Curves show reported per-task accuracy, not an average across a changing task set.",
   "ablation_note": "Full model trained on one GPU, ablations on eight. The evaluation includes the documented 400-question training overlap; it is not a wholly independent held-out test.",
   "precision_note": "Numbers reproduce displayed table precision. Narrative summaries are not used to overwrite explicit table cells.",
-  "manuscript_pdf_sha256": "0cb193a09612abe623972fe29b94009786196a76bc41d08fd7080028f949d864"
+  "manuscript_pdf_sha256": "5b1f726e24f0922282e81b32eae37ae808ccbea3228284bb7423079373a10e2f",
+  "manuscript_pdf_version": "Named-author version, 2026-11-12"
 }
