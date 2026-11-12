@@ -465,3 +465,6 @@ th,.continual-table thead .stage-group { font-size: 14px; }
   .selection-row { font-size: 13px; }
   .resource-label,.resource-downloads .resource-meta,.resource-downloads .resource-paper-description,.resource-downloads .resource-code-description,.resource-downloads .resource-action { font-size: 15px; }
 }
+
+/* A single, readable research label without a date. */
+.eyebrow { font-size: 16px; font-weight: 500; line-height: 1.7; letter-spacing: 0; }

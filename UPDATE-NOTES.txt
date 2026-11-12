@@ -1,9 +1,13 @@
-AdaptRouter：修复 ChartQA 示例入口
+AdaptRouter 完整更新：首屏标签与 ChartQA 入口
 
-原 ChartQA 链接错误地指向数据集 JSON 源文件。
-现在点击 ChartQA 或示例图片，都会打开完整的示例图表。
-数据集来源仍保留在 assets/examples/provenance.json 和 NOTICE.txt 中。
+- 左侧标签改为「持续学习的模型路由」，字号提高到 16px。
+- 删除该行日期，以及右侧「任务输入」标签；中英文同步。
+- ChartQA 标签与示例图片均打开完整图表，不再链接到 JSON 源文件。
+- 保留此前的小字清理、图例居中、阶段字号、真实样例、论文及代码/权重入口。
 
-此包为基于上一版网页的增量修复，只需将 index.html 覆盖上传到仓库根目录。
-不需要重新上传图片、论文、字体、数据或研究代码。
-GitHub Pages 发布后刷新页面即可；如仍看到旧链接，可按 Ctrl+F5 刷新。
+使用方法：
+先解压，将包内网页文件与 assets、data 文件夹上传至仓库根目录，覆盖同名文件。
+不要只把 ZIP 本身上传到仓库。保留已有研究代码目录与 README.md。
+如上一版已上传，仅覆盖 index.html、app.js、polish.css 即可。
+等 GitHub Pages 发布完成后刷新；必要时用 Ctrl+F5 强制刷新。
+此更新包不会自动修改线上站点，需要上传后才会生效。

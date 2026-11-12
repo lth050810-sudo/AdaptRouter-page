@@ -1,5 +1,9 @@
 'use strict';
 (() => {
+  // Keep older cached markup from sending the ChartQA preview to a JSON file.
+  const chartPreview = document.querySelector('.example-image-link');
+  const chartLabel = [...document.querySelectorAll('.example-source')].find(a => a.textContent.trim().startsWith('ChartQA'));
+  if (chartPreview && chartLabel) chartLabel.setAttribute('href', chartPreview.getAttribute('href'));
   const D = window.ADAPTROUTER_DATA;
   if (!D) return;
   const $ = s => document.querySelector(s);
@@ -11,7 +15,7 @@
     exampleTextQuestion:'<strong>196</strong> 有多少个正整数因数？',exampleImageQuestion:'图中一共有多少条柱？',exampleImageOpen:'打开完整尺寸的图表。',
     resourceCode:'训练代码',resourceCodeText:'API 版路由器训练代码与配置',resourceCodeAction:'前往 GitHub',
     sectionMethod:'01 / 方法',sectionContinual:'02 / 持续适应',sectionPool:'03 / 动态专家池',sectionResults:'04 / 质量与成本',sectionAnalysis:'05 / 深入分析',sectionResources:'06 / 研究资源',routerSize:'0.8B 路由器',navMethod:'方法',navAdapt:'适应能力',navResults:'实验结果',navResources:'资源',paperButton:'论文 ↗',
-    heroEyebrow:'持续学习的模型路由 · 2026年11月',heroTitle:'持续学习路由策略<br>适应不断变化的任务与模型',heroLede:'新任务，新专家，同一个自适应策略。<br>轻量多模态路由器从任务反馈中学习，保留已有能力，为每个问题选择合适的专家。',exploreResults:'探索实验结果',downloadData:'下载结果数据',heroCaption:'研究手稿 · 匿名作者 · 结果快照：2026年11月8日',
+    heroEyebrow:'持续学习的模型路由',heroTitle:'持续学习路由策略<br>适应不断变化的任务与模型',heroLede:'新任务，新专家，同一个自适应策略。<br>轻量多模态路由器从任务反馈中学习，保留已有能力，为每个问题选择合适的专家。',exploreResults:'探索实验结果',downloadData:'下载结果数据',heroCaption:'研究手稿 · 匿名作者 · 结果快照：2026年11月8日',
     boardTitle:'一次决策，适应变化的专家池',inputLabel:'任务输入',inputText:'文本与推理',inputVision:'图像与问题',newTask:'新任务随时间到来',routerCaption:'问题 + 专家卡片',oneExpert:'选择一个冻结的专家',expertLabel:'当前可用的专家',expertSmall:'小型高效模型',expertReason:'推理模型',expertApi:'API 模型',newExpert:'通过卡片加入新专家',feedbackLoop:'任务反馈更新路由策略',boardSchematic:'方法示意图',
     statApi:'API 基准加权得分',statApiSub:'10 个基准 · 10,363 个问题',statRetention:'相对历史峰值的最大下降',statRetentionSub:'早期任务 · StartLux 两种变体',statPool:'模型池中的专家数量',statPoolSub:'四任务得分：66.7% → 75.5%',statCost:'比较成本降低',statCostSub:'相对适配版 Router-R1 · API 基准',
     methodTitle:'环境在变。<br>路由器持续学习。',methodLede:'任务和专家不断变化，路由器持续学习。',methodA:'读取输入。',methodAText:'问题、图像与专家卡片。',methodB:'从反馈中学习。',methodBText:'质量优先，兼顾成本。',methodC:'持续适应。',methodCText:'学习新任务，评估已见任务。',objective:'路由目标',objectiveNote:'一次路由器预填充，选定一个专家，由专家生成完整答案。',trainingDetails:'两套训练协议分别报告',trainingDetailsText:'主实验与持续学习实验使用基于任务反馈的策略优化。API 扩展实验利用全专家的质量与成本构建软目标（λ = 0.02，τ = 0.05），并加入遗憾项；API 结果不作为在线强化学习实验展示。',
