@@ -370,8 +370,6 @@ details .chart-note { font-size: 14px; }
 .example-source:hover { color: var(--teal); }
 .example-image-link { display: block; position: relative; margin-bottom: 10px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
 .example-image-link img { width: 100%; height: auto; }
-.example-image-expand { display: flex; align-items: center; justify-content: center; position: absolute; right: 5px; top: 5px; width: 24px; height: 24px; border-radius: 5px; background: #fff; color: #182C27; border: 1px solid #DEE5DE; }
-.example-image-expand .ui-icon { width: 13px; height: 13px; }
 .example-image-link:hover { border-color: var(--teal); }
 @media(max-width:700px) {
   .request-stack { grid-template-columns: 1fr; max-width: 360px; width: 100%; margin-inline: auto; }
@@ -380,7 +378,6 @@ details .chart-note { font-size: 14px; }
   .request-example-heading { margin-bottom: 10px; }
   .request-example .input-symbol { width: 24px; height: 24px; margin: 0; }
   .example-source { min-height: 36px; }
-  .example-image-expand { width: 30px; height: 30px; }
 }
 
 /* Concise method steps, with a consistent visual anchor for each action. */
@@ -390,4 +387,81 @@ details .chart-note { font-size: 14px; }
 @media(max-width:700px) {
   .step-icon { width: 32px; height: 32px; border-radius: 8px; }
   .step-icon .ui-icon { width: 20px; height: 20px; }
+}
+
+/* Readable core content; secondary diagram and study notes are omitted. */
+body { font-size: 17px; }
+.nav-links { font-size: 14px; }
+.hero-board { padding-top: 0; }
+.hero-lede { font-size: 18px; line-height: 1.85; }
+.section-index { font-size: 14px; }
+.section-intro>p { font-size: 18px; }
+.method-columns p { font-size: 17px; }
+.visual-label { font-size: 14px; }
+.request-item b { font-size: 15px; }
+.request-example .example-question { font-size: 15px; }
+.example-source { font-size: 14px; }
+.expert-card b { font-size: 15px; }
+.expert-card>.mono { font-size: 14px; }
+.router-node strong { font-size: 20px; }
+.router-node>span,.router-node .board-tag,.router-node-footer { font-size: 14px; }
+.hero-stats>a>span:nth-child(2) { font-size: 16px; }
+.hero-stats small { font-size: 14px; }
+.stage-rail { gap: 0 8px; margin-bottom: 32px; }
+.stage-rail>div { align-items: flex-start; gap: 12px; padding-block: 15px; }
+.stage-rail span { font-size: 16px; line-height: 1.6; }
+.stage-rail strong { min-width: 0; font-size: 18px; line-height: 1.6; font-weight: 550; }
+.continual-table-heading h3 { font-size: 20px; }
+.continual-table-heading>span { font-size: 14px; }
+.table-scroll table,.continual-table tbody th { font-size: 15px; }
+th,.continual-table thead .stage-group { font-size: 14px; }
+.continual-table th,.continual-table td { padding: 15px 17px; }
+.continual-table thead tr:first-child { height: 56px; }
+.continual-table thead tr:nth-child(2) th { top: 56px; }
+.chart-toolbar h3 { font-size: 19px; }
+.chart-toolbar label,.chart-toolbar select,.check-label { font-size: 15px; }
+.chart-legend { justify-content: center; text-align: center; font-size: 16px; line-height: 1.8; gap: 10px 26px; margin-top: 20px; padding-top: 6px; }
+.chart-legend>span,.chart-legend>button { min-height: 32px; font-size: inherit; }
+#results-legend .key-ours,#results-legend .key-direct,#results-legend .key-released { width: 12px; height: 12px; }
+#results-legend .key-feedback { width: 14px; height: 13px; }
+.finding-strip p { font-size: 17px; }
+.result-tabs button { font-size: 18px; }
+.result-tabs small,.result-summary p { font-size: 14px; }
+.table-controls>label:not(.search-box),.table-controls select,.search-box input { font-size: 15px; }
+.selection-row { font-size: 14px; }
+.selection-block p { font-size: 17px; }
+.details-line,.details-line summary,.details-line>p,.protocol-grid p,.study-notes p,details .chart-note { font-size: 16px; }
+.paper-figure figcaption { font-size: 14px; }
+.exploration-readout,#exploration-note { font-size: 15px; }
+.resource-label,.resource-downloads .resource-meta,.resource-downloads .resource-paper-description,.resource-downloads .resource-code-description,.resource-downloads .resource-action { font-size: 16px; }
+@media(min-width:701px) and (max-width:1000px) {
+  .stage-rail { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px 24px; }
+  .stage-rail>div:nth-child(odd) { padding-left: 0; border-left: 0; }
+}
+@media(max-width:700px) {
+  body,.hero-lede,.section-intro>p,.method-columns p,.finding-strip p,.selection-block p { font-size: 16px; }
+  .section-index,.visual-label,.example-source { font-size: 13px; }
+  .request-item b,.request-example .example-question { font-size: 15px; }
+  .expert-card b { font-size: 15px; }
+  .expert-card>.mono { font-size: 13px; }
+  .router-node strong { font-size: 22px; }
+  .router-node>span,.router-node .board-tag,.router-node-footer { font-size: 14px; }
+  .hero-stats>a>span:nth-child(2) { font-size: 15px; }
+  .hero-stats small { font-size: 13px; }
+  .stage-rail { gap: 12px 16px; }
+  .stage-rail>div { gap: 8px; padding: 10px 0 10px 12px; }
+  .stage-rail span { font-size: 14px; }
+  .stage-rail strong { font-size: 16px; }
+  .continual-table-heading h3 { font-size: 18px; }
+  .continual-table-heading>span { font-size: 13px; }
+  .table-scroll table,.continual-table tbody th { font-size: 14px; }
+  th,.continual-table thead .stage-group { font-size: 13px; }
+  .chart-toolbar h3 { font-size: 18px; }
+  .chart-toolbar label,.chart-toolbar select,.check-label { font-size: 14px; }
+  .chart-legend { font-size: 15px; gap: 8px 20px; }
+  .result-tabs button { font-size: 16px; }
+  .result-tabs small,.result-summary p { font-size: 13px; }
+  .table-controls>label:not(.search-box),.table-controls select { font-size: 14px; }
+  .selection-row { font-size: 13px; }
+  .resource-label,.resource-downloads .resource-meta,.resource-downloads .resource-paper-description,.resource-downloads .resource-code-description,.resource-downloads .resource-action { font-size: 15px; }
 }

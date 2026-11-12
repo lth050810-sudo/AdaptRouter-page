@@ -37,7 +37,7 @@
   const text = (x,y,s,c,size=10,anchor='start',weight=400,attrs='') => `<text x="${x}" y="${y}" fill="${c}" font-size="${Math.max(12,size)}" text-anchor="${anchor}" font-weight="${weight}" ${attrs}>${esc(s)}</text>`;
   function tipAttrs(t){return `data-tip="${esc(t)}" tabindex="0" aria-label="${esc(t.replaceAll('|',', '))}"`;}
   function dot(x,y,color,tip,r=4,extra=''){return `<circle class="chart-point" cx="${x}" cy="${y}" r="${r}" fill="${color}" stroke="${colors().surface}" stroke-width="2" ${tipAttrs(tip)} ${extra}/>`;}
-  function axes(w,h,p,xTicks,yTicks,xFn,yFn,xLabel,yLabel){const c=colors();let s='';for(const y of yTicks){const yy=yFn(y);s+=line(p.l,yy,w-p.r,yy,c.grid,1,y===0?'':'3 4')+text(p.l-9,yy+3.5,Number.isInteger(y)?y:y.toFixed(1),c.muted,9,'end');}for(const [x,label]of xTicks){const xx=xFn(x);s+=text(xx,h-p.b+20,label,c.muted,9,'middle');}s+=text(p.l,13,yLabel,c.muted,9)+text(w-p.r,h-3,xLabel,c.muted,9,'end');return s;}
+  function axes(w,h,p,xTicks,yTicks,xFn,yFn,xLabel,yLabel){const c=colors();let s='';for(const y of yTicks){const yy=yFn(y);s+=line(p.l,yy,w-p.r,yy,c.grid,1,y===0?'':'3 4')+text(p.l-9,yy+4,Number.isInteger(y)?y:y.toFixed(1),c.muted,13,'end');}for(const [x,label]of xTicks){const xx=xFn(x);s+=text(xx,h-p.b+22,label,c.muted,13,'middle');}s+=text(p.l,16,yLabel,c.muted,14)+text(w-p.r,h-4,xLabel,c.muted,14,'end');return s;}
   const W = id => Math.max(({ 'continual-chart':560, 'results-chart':640, 'ablation-chart':450, 'latency-chart':440 })[id] || 320, Math.round($('#'+id).clientWidth || 700));
   let toastTimer;
   function toast(msg){const e=$('#toast');e.textContent=msg;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),2400);}

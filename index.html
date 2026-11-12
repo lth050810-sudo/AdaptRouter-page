@@ -16,10 +16,10 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="style.css?v=resources-20261111">
   <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=concise-method-20261112">
-  <link rel="stylesheet" href="polish.css?v=concise-method-20261112">
+  <link rel="stylesheet" href="polish.css?v=readability-20261112">
   <script>try{if(localStorage.getItem('ar-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
   <script defer src="data/results.js"></script>
-  <script defer src="app.js?v=concise-method-20261112"></script>
+  <script defer src="app.js?v=readability-20261112"></script>
   <script defer src="motion.js?v=real-examples-20261112"></script>
 </head>
 <body>
@@ -55,20 +55,17 @@
               <div class="request-example-heading"><span class="input-symbol image-symbol" aria-hidden="true"></span><b data-i18n="inputVision">Image + question</b></div>
               <a class="example-image-link" href="assets/examples/chartqa-test-41810321001157.png" target="_blank" rel="noopener" aria-labelledby="chart-image-open chart-example-question">
                 <img src="assets/examples/chartqa-test-41810321001157.png" width="850" height="600" alt="ChartQA: three horizontal bars for Mauritania, Fiji and Madagascar, showing armed forces personnel as a share of population in 1985." decoding="async">
-                <span class="example-image-expand action-icon" data-icon="arrowUpRight" aria-hidden="true"></span>
                 <span id="chart-image-open" class="sr-only" data-i18n="exampleImageOpen">Open the full-size chart.</span>
               </a>
               <p id="chart-example-question" class="example-question" data-i18n="exampleImageQuestion">How many bars are shown in the chart?</p>
               <a class="example-source" href="https://github.com/vis-nlp/ChartQA/blob/044eabfc306abfe9340c5741f0093aefc5973d06/ChartQA%20Dataset/test/test_human.json" target="_blank" rel="noopener" translate="no">ChartQA <span aria-hidden="true">↗</span></a>
             </article>
-            <div class="new-task"><span>＋</span><span data-i18n="newTask">New tasks arrive over time</span></div>
           </div>
           <div class="connector"><svg class="connector-horizontal" viewBox="0 0 100 120" aria-hidden="true"><path d="M0 25H35Q50 25 50 40V60H95M0 95H35Q50 95 50 80V60"/><path class="arrow route-active" d="m87 54 8 6-8 6"/></svg><svg class="connector-vertical" viewBox="0 0 32 64" aria-hidden="true"><path class="route-active" d="M16 0v60m-5-7 5 7 5-7"/></svg></div>
           <div class="router-node"><div class="router-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 11h12l9 13-9 13H10M31 24h10M35 18l6 6-6 6"/></svg></div><strong>AdaptRouter</strong><span class="board-tag" data-i18n="routerSize">0.8B router</span><span data-i18n="routerCaption">Question + expert cards</span><div class="router-node-footer" data-i18n="oneExpert">Select one frozen expert</div></div>
           <div class="connector"><svg class="connector-horizontal" viewBox="0 0 100 120" aria-hidden="true"><path d="M0 60H40Q50 60 50 45V15H95M50 60H95M50 60V105H95"/><path class="route-active" d="M0 60H95m-8-6 8 6-8 6"/></svg><svg class="connector-vertical" viewBox="0 0 32 64" aria-hidden="true"><path class="route-active" d="M16 0v60m-5-7 5 7 5-7"/></svg></div>
-          <div class="expert-stack"><div class="visual-label" data-i18n="expertLabel">The current experts</div><div class="expert-card"><span class="expert-square teal"></span><b data-i18n="expertSmall">Small & efficient</b><span class="mono">2B / 4B</span></div><div class="expert-card selected"><span class="expert-square blue"></span><b data-i18n="expertReason">Reasoning models</b><span class="mono">9B</span></div><div class="expert-card"><span class="expert-square amber"></span><b data-i18n="expertApi">API models</b><span class="mono">5 models</span></div><div class="new-expert"><span>＋</span><span data-i18n="newExpert">Add experts through cards</span></div></div>
+          <div class="expert-stack"><div class="visual-label" data-i18n="expertLabel">The current experts</div><div class="expert-card"><span class="expert-square teal"></span><b data-i18n="expertSmall">Small & efficient</b><span class="mono">2B / 4B</span></div><div class="expert-card selected"><span class="expert-square blue"></span><b data-i18n="expertReason">Reasoning models</b><span class="mono">9B</span></div><div class="expert-card"><span class="expert-square amber"></span><b data-i18n="expertApi">API models</b><span class="mono">5 models</span></div></div>
         </div>
-        <figcaption class="architecture-caption"><span data-i18n="boardTitle">One decision. An evolving expert pool.</span><span class="architecture-feedback"><i class="mini-line"></i><span data-i18n="feedbackLoop">Task feedback updates the routing policy</span></span><span class="sr-only" data-i18n="boardSchematic">Conceptual overview</span></figcaption>
       </figure>
       <div class="hero-stats">
         <a href="#results"><span class="stat-number">71.31<span>%</span></span><span data-i18n="statApi">API-suite weighted score</span><small data-i18n="statApiSub">10 benchmarks · 10,363 questions</small></a>
@@ -81,7 +78,6 @@
     <section class="section shell" id="method">
       <div class="section-intro"><span class="section-index" data-i18n="sectionMethod">01 / The method</span><h2 data-i18n="methodTitle">The world changes.<br>The router learns.</h2><p data-i18n="methodLede">New tasks. New experts. One continuously adapting router.</p></div>
       <div class="method-columns"><article><span class="step-number">01</span><h3 data-i18n="methodA">Read the inputs.</h3><p data-i18n="methodAText">Question, images and expert cards.</p></article><article><span class="step-number">02</span><h3 data-i18n="methodB">Learn from feedback.</h3><p data-i18n="methodBText">Prioritize answer quality while balancing cost.</p></article><article><span class="step-number">03</span><h3 data-i18n="methodC">Adapt to new tasks.</h3><p data-i18n="methodCText">Continue learning; evaluate every task seen.</p></article></div>
-      <details class="details-line"><summary data-i18n="trainingDetails">Two training protocols, reported separately</summary><p data-i18n="trainingDetailsText">The main and continual studies use task-feedback policy optimization. The API extension uses full-information expert scores and costs to form soft targets (λ = 0.02, τ = 0.05), with a regret term. API results are not presented as an online RL experiment.</p><p data-i18n="methodStageDetails">New experts enter through new cards. Each stage carries forward the policy and optimizer state, trains only on new tasks, and evaluates all tasks seen so far.</p></details>
     </section>
 
     <section class="tinted-section" id="continual"><div class="section shell">
@@ -89,7 +85,6 @@
       <div class="stage-rail"><div><span translate="no">S1</span><strong translate="no">MATH-500 + ChartQA</strong></div><div><span translate="no">S2</span><strong translate="no">+ MMLU-Pro</strong></div><div><span translate="no">S3</span><strong translate="no">+ HumanEval+</strong></div><div><span translate="no">S4</span><strong translate="no">+ IFEval</strong></div></div>
       <div class="continual-results"><div class="continual-table-heading"><h3 data-i18n="continualTableTitle">Stage-by-stage results</h3><span data-i18n="continualTableUnits">Accuracy (%) · S4 relative cost (%)</span></div><div id="continual-full-table" class="table-scroll continual-table" tabindex="0" role="region" aria-label="Continual learning results, horizontally scrollable"></div></div>
       <div class="finding-strip"><span class="finding-marker">↗</span><p data-i18n="continualFinding">StartLux variants: ≤<strong>0.4pt</strong> decline from earlier-task peaks; full FT starts and ends MATH-500 at <strong>92.20%</strong>.</p></div>
-      <details class="details-line study-details"><summary data-i18n="studyDetails">Study details</summary><p data-i18n="continualTableNote">All methods and all four stages are shown. Benchmark cells report accuracy (%); the final column reports S4 relative cost (%). Fixed experts are not continually trained. Scroll horizontally to view all stage columns.</p></details>
     </div></section>
 
     <section class="section shell" id="pool">
