@@ -1,12 +1,12 @@
-AdaptRouter 网页更新 · 带作者论文 · 2026-11-12
+AdaptRouter 网页更新：表 3 训练代码入口
 
-本次已将用户指定的 AdaptRouter_with_authors.pdf 原样替换为网站的论文文件。
-顶部 Paper/论文按钮和资源区 Read the paper/阅读论文按钮均指向该版本。
-链接附有 PDF 内容版本号，以避免继续打开浏览器缓存中的旧论文。
-保留此前的 GitHub 入口、网页作者名单、双语、深浅主题与图表交互。
+研究资源区包含模型权重、论文、表 3 训练代码三个入口。
+GitHub 链接：https://github.com/lth050810-sudo/AdaptRouter
+代码卡片标注：表 3 训练代码 / API 版路由器训练代码与配置。
+中文和英文同步更新。
+保留此前作者信息，并继续使用用户指定的带作者论文 PDF。
 
-使用方法：
-解压后将文件及 assets、data 文件夹上传到仓库根目录，覆盖同名网页文件。
-这是完整静态网页文件集，无需构建；保留仓库内的研究代码与 README.md。
-若仅增量更新，上传 index.html 与 assets/adaptrouter-manuscript.pdf 即可。
-更新上传后由 GitHub Pages 发布。
+解压后上传到 GitHub 仓库根目录，覆盖同名网页文件。
+此包是完整静态网页，无需构建；保留已有研究代码目录和仓库 README.md。
+如果已上传上一份 AdaptRouter-Paper-Update.zip，仅覆盖 index.html 和 app.js 即可。
+上传后由 GitHub Pages 发布生效。
