@@ -7,6 +7,7 @@
     arrowUp: '<path d="M12 20V4m-6 6 6-6 6 6"/>',
     arrowUpRight: '<path d="M6 18 18 6M6 6h12v12"/>',
     download: '<path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/>',
+    code: '<path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-14-2 16"/>',
     file: '<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8l-5-5Z"/><path d="M14 3v5h5M9 12h6m-6 4h6"/>',
     layers: '<path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/>',
     feedback: '<path d="M8 19H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-6l-5 3v-3Z"/><path d="m8 11 3 3 5-6"/>',

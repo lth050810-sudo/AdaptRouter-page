@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdaptRouter — Continual Learning to Route</title>
   <meta name="description" content="A compact router that learns new tasks, retains earlier capabilities, and adapts to evolving expert pools. Explore the AdaptRouter research results.">
+  <meta name="author" content="Jingpu Yang, Fengxian Ji, Tianhao Li, Juanfan Wu, Xiuying Wu">
   <meta name="theme-color" content="#F8F9F5">
   <meta property="og:title" content="AdaptRouter — Continual Learning to Route">
   <meta property="og:description" content="New tasks. New experts. One adaptive routing policy. Interactive results across text, vision, and API model pools.">
@@ -16,11 +17,11 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="style.css?v=resources-20261111">
   <link rel="stylesheet" href="assets/fonts/refined-fonts.css?v=resources-20261111-compact-notes">
-  <link rel="stylesheet" href="polish.css?v=resources-20261111-compact-notes">
+  <link rel="stylesheet" href="polish.css?v=resources-authors-20261112">
   <script>try{if(localStorage.getItem('ar-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
   <script defer src="data/results.js"></script>
-  <script defer src="app.js?v=resources-20261111-compact-notes"></script>
-  <script defer src="motion.js?v=resources-20261111"></script>
+  <script defer src="app.js?v=resources-authors-20261112"></script>
+  <script defer src="motion.js?v=resources-authors-20261112"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -28,7 +29,7 @@
     <nav class="nav shell" aria-label="Main navigation">
       <a class="brand" href="#top" aria-label="AdaptRouter home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 7h8l6 9-6 9H5M19 16h8M23 12l4 4-4 4"/></svg>AdaptRouter<span class="brand-dot">.</span></a>
       <div class="nav-links"><a href="#method" data-i18n="navMethod">Method</a><a href="#continual" data-i18n="navAdapt">Adaptation</a><a href="#results" data-i18n="navResults">Results</a><a href="#resources" data-i18n="navResources">Resources</a></div>
-      <div class="nav-actions"><button id="lang-toggle" class="text-button" aria-label="Switch to Chinese">中文</button><button id="theme-toggle" class="theme-button" aria-label="Toggle color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4a8.5 8.5 0 1 0 11.5 11.5Z"/></svg></button><a class="button small dark" href="assets/adaptrouter-manuscript.pdf?v=authors-20261112" target="_blank" rel="noopener" data-i18n="paperButton">Paper ↗</a></div>
+      <div class="nav-actions"><button id="lang-toggle" class="text-button" aria-label="Switch to Chinese">中文</button><button id="theme-toggle" class="theme-button" aria-label="Toggle color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4a8.5 8.5 0 1 0 11.5 11.5Z"/></svg></button><a class="button small dark" href="assets/adaptrouter-manuscript.pdf?v=5b1f726e24f0" target="_blank" rel="noopener" data-i18n="paperButton">Paper ↗</a></div>
     </nav>
   </header>
 
@@ -38,6 +39,16 @@
       <div class="eyebrow"><span class="live-dot"></span><span data-i18n="heroEyebrow">Continual model routing · November 2026</span></div>
       <h1>Adapt<span>Router</span><span class="hero-period">.</span></h1>
       <p class="hero-title" data-i18n="heroTitle">Continual Learning to Route<br>across Evolving Tasks and Models</p>
+      <div class="hero-authors" role="group" aria-labelledby="authors-label">
+        <span id="authors-label" class="sr-only" data-i18n="authorsLabel">Authors</span>
+        <ul class="author-list">
+          <li><span class="author-name" translate="no">Jingpu Yang</span></li>
+          <li><span class="author-name" translate="no">Fengxian Ji</span></li>
+          <li><span class="author-name" translate="no">Tianhao Li</span></li>
+          <li><span class="author-name" translate="no">Juanfan Wu</span><span class="author-affiliation" translate="no">BIT</span></li>
+          <li><span class="author-name" translate="no">Xiuying Wu</span></li>
+        </ul>
+      </div>
       <p class="hero-lede" data-i18n="heroLede">New tasks. New experts. One adaptive policy.<br>A compact multimodal router learns from task feedback, keeps earlier capabilities, and selects the right expert for each question.</p>
       <div class="hero-actions"><a class="button primary" href="#results"><span data-i18n="exploreResults">Explore the results</span><span class="action-icon" data-icon="arrowDown" aria-hidden="true"></span></a><a class="button outline" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener"><span translate="no">Hugging Face</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></a></div>
       </div>
@@ -100,15 +111,16 @@
     </section>
 
     <section class="resource-section" id="resources"><div class="section shell">
-      <div class="section-intro"><span class="section-index" data-i18n="sectionResources">06 / Resources</span><h2 data-i18n="resourcesTitle">Model weights &amp; paper.</h2><p data-i18n="resourcesLede">Visit the official Hugging Face repository for the API router weights, or read the AdaptRouter manuscript.</p></div>
+      <div class="section-intro"><span class="section-index" data-i18n="sectionResources">06 / Resources</span><h2 data-i18n="resourcesTitle">Code, weights &amp; paper.</h2><p data-i18n="resourcesLede">Explore the API training code on GitHub, get the router weights on Hugging Face, or read the AdaptRouter manuscript.</p></div>
       <div class="resource-grid resource-downloads">
         <a class="resource resource-weights" href="https://huggingface.co/lyyyk/AdaptRouter-StartLux-0.8B" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="download" aria-hidden="true"></span><span class="resource-label" data-i18n="resourceWeightsLabel">API expert pool</span></div><h3 data-i18n="resourceWeights">API router weights</h3><p class="resource-model" translate="no">AdaptRouter · StartLux 0.8B</p><p class="resource-meta" data-i18n="resourceWeightsText">Full fine-tuning · λ = 0.02 · FP32</p><span class="resource-action button primary"><span data-i18n="resourceWeightsAction">View on Hugging Face</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
-        <a class="resource resource-paper" href="assets/adaptrouter-manuscript.pdf?v=authors-20261112" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="file" aria-hidden="true"></span><span class="resource-label">PDF</span></div><h3 data-i18n="resourcePaper">Paper</h3><p class="resource-paper-description" data-i18n="resourcePaperText">AdaptRouter research manuscript</p><span class="resource-action button outline"><span data-i18n="resourcePaperAction">Read the paper</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
+        <a class="resource resource-paper" href="assets/adaptrouter-manuscript.pdf?v=5b1f726e24f0" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="file" aria-hidden="true"></span><span class="resource-label">PDF</span></div><h3 data-i18n="resourcePaper">Paper</h3><p class="resource-paper-description" data-i18n="resourcePaperText">AdaptRouter research manuscript</p><span class="resource-action button outline"><span data-i18n="resourcePaperAction">Read the paper</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
+        <a class="resource resource-code" href="https://github.com/lth050810-sudo/AdaptRouter" target="_blank" rel="noopener"><div class="resource-heading"><span class="resource-icon" data-icon="code" aria-hidden="true"></span><span class="resource-label" translate="no">GitHub</span></div><h3 data-i18n="resourceCode">Training code</h3><p class="resource-code-description" data-i18n="resourceCodeText">API router training implementation</p><span class="resource-action button outline"><span data-i18n="resourceCodeAction">View on GitHub</span><span class="action-icon" data-icon="arrowUpRight" aria-hidden="true"></span></span></a>
       </div>
     </div></section>
   </main>
   <div id="chart-tooltip" role="tooltip" translate="no" hidden></div>
   <div id="toast" role="status" aria-live="polite"></div>
-  <noscript><p class="shell">JavaScript enables the interactive charts. The paper and Hugging Face links remain available through the resource section above.</p></noscript>
+  <noscript><p class="shell">JavaScript enables the interactive charts. GitHub, Hugging Face and paper links remain available through the resource section above.</p></noscript>
 </body>
 </html>

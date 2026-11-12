@@ -22,6 +22,10 @@ h1 { margin-top: 25px; margin-bottom: 22px; white-space: nowrap; }
 h1>span:first-child { color: var(--ink); }
 .hero-period { color: var(--teal); margin-left: 1px; }
 .hero-title { font: 500 29px/1.4 var(--heading); letter-spacing: -.035em; max-width: 520px; }
+.hero-authors { margin-top: 18px; }
+.author-list { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 14px; padding: 0; margin: 0; list-style: none; font-size: 14px; line-height: 1.8; color: var(--ink); }
+.author-list li { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.author-affiliation { padding: 0 6px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-size: 12px; line-height: 1.6; }
 .hero-lede { font-size: 16px; color: var(--muted); line-height: 1.85; margin-top: 23px; }
 .hero-lede br { display: none; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
@@ -298,8 +302,8 @@ th button:hover { color: var(--teal); }
 .chart-legend .key-feedback { width: 11px; height: 10px; clip-path: polygon(50% 0,100% 100%,0 100%); }
 .inline-link,.footer>a:last-child { display: inline-flex; align-items: center; gap: 8px; }
 .inline-link .ui-icon,.footer>a:last-child .ui-icon { width: 14px; height: 14px; }
-/* Two clear destinations: the official API-weight repository and the paper. */
-.resource-grid.resource-downloads { display: grid; grid-template-columns: minmax(0,1.8fr) minmax(0,1fr); gap: 24px; border: 0; }
+/* Research destinations, with the API-weight repository as the primary card. */
+.resource-grid.resource-downloads { display: grid; grid-template-columns: minmax(0,1.4fr) repeat(2,minmax(0,1fr)); gap: 24px; border: 0; }
 .resource-downloads .resource { display: flex; flex-direction: column; align-items: flex-start; gap: 0; min-width: 0; min-height: 310px; padding: 32px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: border-color .2s,box-shadow .2s; }
 .resource-downloads .resource:hover { color: var(--ink); border-color: var(--teal); box-shadow: var(--shadow); }
 .resource-downloads .resource::after { content: none; }
@@ -311,10 +315,14 @@ th button:hover { color: var(--teal); }
 .resource-downloads .resource h3 { font: 600 28px/1.3 var(--heading); letter-spacing: -.035em; }
 .resource-downloads .resource-weights h3 { font-size: 34px; color: var(--ink); }
 .resource-downloads .resource-model { font-size: 19px; line-height: 1.6; color: var(--ink); margin-top: 14px; }
-.resource-downloads .resource-meta,.resource-downloads .resource-paper-description { font-size: 14px; line-height: 1.8; color: var(--muted); margin-top: 9px; margin-bottom: 26px; }
-.resource-downloads .resource-paper-description { max-width: 260px; margin-top: 17px; }
+.resource-downloads .resource-meta,.resource-downloads .resource-paper-description,.resource-downloads .resource-code-description { font-size: 14px; line-height: 1.8; color: var(--muted); margin-top: 9px; margin-bottom: 26px; }
+.resource-downloads .resource-paper-description,.resource-downloads .resource-code-description { max-width: 260px; margin-top: 17px; }
 .resource-downloads .resource-action { margin-top: auto; font-size: 14px; }
-.resource-downloads .resource-paper .resource-action { border-color: var(--line); }
+.resource-downloads .resource-paper .resource-action,.resource-downloads .resource-code .resource-action { border-color: var(--line); }
+@media(min-width:701px) and (max-width:1000px) {
+  .resource-grid.resource-downloads { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .resource-downloads .resource-weights { grid-column: 1/-1; min-height: 270px; }
+}
 /* Full stage table, with frozen method names and stage groups. */
 .continual-table-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-block: 6px 16px; }
 .continual-table-heading h3 { font: 600 17px/1.5 var(--sans); letter-spacing: -.02em; }
