@@ -1,30 +1,119 @@
 'use strict';
 (() => {
-  // Keep older cached markup from sending the ChartQA preview to a JSON file.
-  const chartPreview = document.querySelector('.example-image-link');
-  const chartLabel = [...document.querySelectorAll('.example-source')].find(a => a.textContent.trim().startsWith('ChartQA'));
-  if (chartPreview && chartLabel) chartLabel.setAttribute('href', chartPreview.getAttribute('href'));
-  const D = window.ADAPTROUTER_DATA;
-  if (!D) return;
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
+  const root = document.documentElement;
+
+  // Theme toggle icon, nav highlight and the overview connector work without the result data.
+  const themeIcons = {
+    moon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.7 8.7 0 1 0 11 11Z"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>'
+  };
+  function refreshThemeButton(){
+    const zhPage = root.lang.startsWith('zh');
+    $('#theme-toggle').innerHTML = themeIcons[root.dataset.theme === 'dark' ? 'sun' : 'moon'];
+    $('#theme-toggle').setAttribute('aria-label', zhPage ? '切换明暗主题' : 'Toggle color theme');
+  }
+  refreshThemeButton();
+
+  const navLinks = $$('.nav-links a');
+  const navSections = navLinks.map(a => document.getElementById(a.hash.slice(1)));
+  let navFrame = 0;
+  function updateNav(){
+    navFrame = 0;
+    const limit = Math.max(90, innerHeight * .35);
+    let current = -1;
+    navSections.forEach((node, i) => { if (node.getBoundingClientRect().top <= limit) current = i; });
+    navLinks.forEach((a, i) => a.classList.toggle('active', i === current));
+  }
+  addEventListener('scroll', () => { if (!navFrame) navFrame = requestAnimationFrame(updateNav); }, {passive:true});
+  updateNav();
+
+  // Draw the two input branches so they start at the middle of each example and meet at the router.
+  function alignInputConnector(){
+    const stack = $('.request-stack'), svg = $('.routing-visual>.connector .connector-horizontal'), router = $('.router-node');
+    const examples = $$('.request-example');
+    if (!stack || !svg || !router || examples.length !== 2 || !svg.getBoundingClientRect().width) return;
+    const height = stack.offsetHeight;
+    svg.style.height = height + 'px';
+    svg.setAttribute('viewBox', `0 0 100 ${height}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    const top = svg.getBoundingClientRect().top;
+    const center = node => { const r = node.getBoundingClientRect(); return r.top + r.height / 2 - top; };
+    const middle = center(router);
+    const branch = node => { const y = center(node), bend = y < middle ? Math.min(y + 10, middle) : Math.max(y - 10, middle); return `M0 ${y}H30Q50 ${y} 50 ${bend}V${middle}H95`; };
+    svg.querySelector('path').setAttribute('d', examples.map(branch).join(''));
+    svg.querySelector('path.arrow').setAttribute('d', `M87 ${middle - 6}l8 6-8 6`);
+  }
+  alignInputConnector();
+  document.fonts?.ready.then(alignInputConnector);
+  if ('ResizeObserver' in window && $('.request-stack')) new ResizeObserver(alignInputConnector).observe($('.request-stack'));
+
+  const D = window.ADAPTROUTER_DATA;
+  if (!D) return;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const english = new Map($$('[data-i18n]').map(e => [e.dataset.i18n, e.innerHTML]));
   const zh = {
-    methodStageDetails:'新增专家通过新卡片加入；每个阶段继承策略与优化器状态，只学习新任务，并评估所有已见任务。',
-    exampleTextQuestion:'<strong>196</strong> 有多少个正整数因数？',exampleImageQuestion:'图中一共有多少条柱？',exampleImageOpen:'打开完整尺寸的图表。',
-    resourceCode:'训练代码',resourceCodeText:'API 版路由器训练代码与配置',resourceCodeAction:'前往 GitHub',
-    sectionMethod:'01 / 方法',sectionContinual:'02 / 持续适应',sectionPool:'03 / 动态专家池',sectionResults:'04 / 质量与成本',sectionAnalysis:'05 / 深入分析',sectionResources:'06 / 研究资源',routerSize:'0.8B 路由器',navMethod:'方法',navAdapt:'适应能力',navResults:'实验结果',navResources:'资源',paperButton:'论文 ↗',
-    heroEyebrow:'持续学习的模型路由',heroTitle:'持续学习路由策略<br>适应不断变化的任务与模型',heroLede:'新任务，新专家，同一个自适应策略。<br>轻量多模态路由器从任务反馈中学习，保留已有能力，为每个问题选择合适的专家。',exploreResults:'探索实验结果',downloadData:'下载结果数据',heroCaption:'研究手稿 · 匿名作者 · 结果快照：2026年11月8日',
-    boardTitle:'一次决策，适应变化的专家池',inputLabel:'任务输入',inputText:'文本与推理',inputVision:'图像与问题',newTask:'新任务随时间到来',routerCaption:'问题 + 专家卡片',oneExpert:'选择一个冻结的专家',expertLabel:'当前可用的专家',expertSmall:'小型高效模型',expertReason:'推理模型',expertApi:'API 模型',newExpert:'通过卡片加入新专家',feedbackLoop:'任务反馈更新路由策略',boardSchematic:'方法示意图',
-    statApi:'API 基准加权得分',statApiSub:'10 个基准 · 10,363 个问题',statRetention:'相对历史峰值的最大下降',statRetentionSub:'早期任务 · StartLux 两种变体',statPool:'模型池中的专家数量',statPoolSub:'四任务得分：66.7% → 75.5%',statCost:'比较成本降低',statCostSub:'相对适配版 Router-R1 · API 基准',
-    methodTitle:'环境在变。<br>路由器持续学习。',methodLede:'任务和专家不断变化，路由器持续学习。',methodA:'读取输入。',methodAText:'问题、图像与专家卡片。',methodB:'从反馈中学习。',methodBText:'质量优先，兼顾成本。',methodC:'持续适应。',methodCText:'学习新任务，评估已见任务。',objective:'路由目标',objectiveNote:'一次路由器预填充，选定一个专家，由专家生成完整答案。',trainingDetails:'两套训练协议分别报告',trainingDetailsText:'主实验与持续学习实验使用基于任务反馈的策略优化。API 扩展实验利用全专家的质量与成本构建软目标（λ = 0.02，τ = 0.05），并加入遗憾项；API 结果不作为在线强化学习实验展示。',
-    continualTitle:'学会下一项任务。<br>保留之前的能力。',continualLede:'五个基准分四阶段到来。策略只从当前阶段的新增问题中学习，不回放早期训练数据。',trackedTask:'跟踪任务',changeMode:'相对首次阶段的变化',accuracyMode:'准确率',continualNote:'变化以各任务首次出现的阶段为参照。固定专家不参与持续训练。图中展示手稿中的点估计，不暗示置信区间。',continualFinding:'早期任务中，StartLux 两种变体相对峰值的下降均 ≤<strong>0.4 个百分点</strong>；全参数版 MATH-500 初始与最后阶段均为 <strong>92.20%</strong>。',continualTable:'查看完整的逐阶段结果表',
-    poolTitle:'更多专家。<br>让新能力真正被使用。',poolLede:'同一种卡片条件化设计分别在三个、五个和十个专家的模型池中训练。冻结骨干的 JevAny 风格路由器通过反馈学习指针头。',poolChartTitle:'扩大专家池',exploreChartTitle:'需要多少探索反馈？',poolChartNote:'四任务实验，使用匹配的奖励与更新预算。它与 15 基准主实验使用不同的评估任务。',explorationBudget:'探索比例',poolFinding:'专家 3→10：<strong>66.7%→75.5%</strong>；<strong>5% 探索</strong>的留出集得分为 <strong>77.2%</strong>，距已测最高值仅 1.9 个百分点。',poolMore:'专家选择分布与模型池实验细节',poolMoreText:'所有探索预算共用按问题家族划分的固定 10% 留出集，每次训练 500 次更新。“All”与“Held-out”对应不同的评估子集，在下载数据中分别保留。',paperFigureNote:'论文原始图表。T = 思考模式；NT = 非思考模式。',explorationCsv:'下载全部探索比例结果 ↗',
-    resultsTitle:'合适的专家。<br>更好的质量与成本。',resultsLede:'逐项查看基准，对比路由方法，探索质量与成本的权衡。开源模型与 API 模型分别保留各自的评估和成本定义。',apiTab:'API 模型',openTab:'开源模型',qualityCost:'质量与成本',logScale:'成本轴使用对数刻度',scoreColumn:'评分指标',filterLabel:'方法类别',fullMatrix:'在一张表中查看全部基准',includePartial:'包括未完整覆盖的 max 参考行',resultProtocol:'评估范围与比较口径',scopeHeading:'平均方式与覆盖范围',scopeText:'两套基准均报告按请求数加权的平均分。API 基准包含 10,363 个测试问题。max 模式的不完整参考行来自外部公开结果，不进入完整样本的散点图和排名。',costHeading:'成本包含哪些部分',costText:'API 成本按选中专家成功答卷的公开单价折算，不含训练、裁判、本地路由计算和未知失败请求账单。开源成本是相对 Qwen3.5-9B 思考模式的参数量加权 token 代理。',baselineHeading:'适配的对照方法',baselineText:'Router-R1 是单次专家选择的 PPO 适配版，不是原版多轮系统。其 $283.26 采用已记录的保守高口径费用处理。API AdaptRouter 行包含已报告的基准专项训练更新。',selectionTitle:'多数问题交给强模型。<br>高成本问题采用不同的路线。',selectionText:'对于 LongBench v2，手稿报告 StartLux 选定路线的成本为 $9.54，而直接使用 Gemini 为 $112.28。请求占比和费用占比反映不同的信息。',routerLabel:'路由器',
-    analysisTitle:'哪些组件<br>支撑了路由效果？',analysisLede:'消融分析学习信号和视觉输入的作用。耗时与模型规模实验则展示路由决策本身的实际代价。',ablationTitle:'各个组件都有贡献',latencyTitle:'轻量的决策开销',ablationNote:'四任务消融，非 15 基准主实验。完整模型用一张 GPU 训练，消融用八张。评估包含已记录的 400 道训练重叠题。',routingLabel:'路由决策（秒）',executionLabel:'专家执行（GPU 秒）',latencyNote:'每个问题的平均耗时，单位为秒。专家执行以 GPU 秒报告，这些观测不代表受控的端到端加速比。',tradeoffMore:'实验说明、质量—成本权衡与路由器规模',lambdaCaption:'原始 M5 权衡图。较小的 λ 允许以更高成本获得更高准确率。',scaleTitle:'更大的路由器并不总是更好',scaleNote:'M5 上匹配的 LoRA 预算。延迟包含预处理。顺序一致性是在五种循环候选顺序下的两两选择一致率。',
-    studyDetails:'实验说明',ablationDetails:'消融实验',timingDetails:'耗时指标',pointEstimateNote:'数值保留原表精度；这些点估计及差值本身不构成统计显著性证据。',resourcesTitle:'代码、权重与论文。',resourcesLede:'前往 GitHub 查看 AdaptRouter 训练代码，在 Hugging Face 获取路由模型权重，或阅读 AdaptRouter 研究手稿。',resourceWeightsLabel:'API 专家池',resourceWeights:'API 路由模型权重',resourceWeightsText:'全参数微调 · λ = 0.02 · FP32',resourceWeightsAction:'前往 Hugging Face',resourcePaper:'论文',resourcePaperText:'AdaptRouter 研究手稿',resourcePaperAction:'阅读论文',continualTableTitle:'逐阶段实验结果',continualTableUnits:'准确率（%）· S4 相对成本（%）',continualTableNote:'完整展示全部方法与四个阶段。各任务单元格为准确率（%），最后一列为 S4 相对成本（%）。固定专家不参与持续训练。可横向滚动查看各阶段。'
-
+    navMethod:'方法', navContinual:'持续学习', navPool:'专家池', navResults:'实验结果', navAnalysis:'分析', navResources:'资源',
+    pageTitle:'AdaptRouter：面向不断变化的任务与模型的持续学习路由',
+    linkPaper:'论文（PDF）', linkCode:'代码', linkWeights:'路由器权重', linkResults:'结果表格',
+    inputText:'文本问题', inputVision:'图像 + 问题',
+    exampleTextQuestion:'196 有多少个正整数因数？', exampleImageQuestion:'图中一共有多少条柱？', exampleImageOpen:'打开完整尺寸的图表。',
+    routerSize:'0.8B 决策模型', routerCaption:'读取问题和每个专家的卡片',
+    expertLabel:'当前专家池', expertSmall:'小型开源模型', expertReason:'推理模型', expertApi:'API 模型', expertApiCount:'5 个模型', expertChosen:'被选中',
+    overviewCaption:'对每个问题，AdaptRouter 读取文本、图像（如有）以及描述当前池中各专家的简短卡片，然后把问题交给其中一个冻结的专家。图中的两个输入是 MATH-500 和 ChartQA 的公开测试题。',
+    abstractTitle:'摘要',
+    abstractText:'模型路由为每个请求分配合适的基础模型，但任务和可用的模型都在不断变化；现有路由器要么没有针对当前模型池训练，要么只拟合一次，更新时会遗忘早期任务。我们提出 AdaptRouter，把路由看作持续的策略学习：一个轻量的多模态决策模型读取问题以及描述当前各专家的卡片，通过强化学习从任务原生反馈中学习，不需要路由标签，最终选出一个冻结的专家。新任务的学习不依赖回放，新专家以卡片的形式加入，质量优先的优势函数在理论上保证成本不会压过质量。在分四个阶段学习五个基准时，AdaptRouter 在早期任务上最多下降 0.4 个百分点，而基于反馈训练的路由器最多下降 7.0 个百分点；专家池从三个扩大到十个时，它会用上新增的专家；只探索 5% 的问题，留出集得分与最高 90% 的探索预算相比差距在 1.9 个百分点以内。在由五个 API 模型组成的专家池上，它的加权平均分比 GPT-6.1 Sol 和 GPT-6 Astra（low）高出 22 个百分点以上，成本不到它们的三分之一。',
+    summaryTitle:'主要结果',
+    summaryContinual:'<a href="#continual">持续学习。</a>四个阶段、五个基准，不使用回放，StartLux 两种变体在早期任务上相对峰值最多下降 <strong>0.4 个百分点</strong>。',
+    summaryPool:'<a href="#pool">专家池。</a>专家从 3 个增加到 10 个，四任务准确率从 <strong>66.7%</strong> 提高到 <strong>75.5%</strong>。',
+    summaryOpen:'<a href="#results">开源模型基准。</a>在 15 个文本与视觉基准上，路由器的加权平均分为 <strong>65.08%</strong>，成本是 Qwen3.5-9B（思考模式）的 <strong>12.56%</strong>。',
+    summaryApi:'<a href="#results">API 模型基准。</a>在 10 个基准（10,363 个问题）上得分 <strong>71.31%</strong>，成本 $120.46；适配版 Router-R1 得分 70.53%，成本 $283.26，比较成本低 <strong>57.5%</strong>。',
+    methodTitle:'方法',
+    methodLede:'AdaptRouter 把一个轻量的多模态决策模型（StartLux-0.8B）训练成路由策略，并在任务和专家池变化时继续训练。每个阶段的流程相同。',
+    methodA:'<strong>读取。</strong>模型读入完整的问题（包括图像）和每个专家的简短卡片（名称、输入模态、推理模式），输出在所列专家上的分布。',
+    methodB:'<strong>评分。</strong>被采样到的专家完整作答，每个答案得到任务原生的质量分数和一个成本。不使用路由标签。',
+    methodC:'<strong>更新。</strong>用质量优先的优势函数做策略梯度更新：成本只在质量相同的专家之间排序，不会反转质量上的偏好。',
+    methodD:'<strong>继续。</strong>参数和优化器状态带入下一阶段；下一阶段只在新增问题上训练，不回放旧数据。更换专家池只改变卡片和价格，不改变模型结构。',
+    methodFigure:'论文中的方法总览图。决策模型把问题和专家卡片映射为策略；被采样的专家按质量和成本评分，质量优先的优势函数用于更新策略。每个阶段从上一阶段的策略继续训练，更换专家池只需更换卡片。',
+    continualTitle:'四个阶段的持续学习',
+    continualLede:'五个基准分四个阶段到来。策略只从当前阶段的新增问题中学习，不回放早期训练数据，并在所有已见任务上评估。',
+    continualTableTitle:'各阶段之后的结果', continualTableUnits:'准确率（%）；最后一列为 S4 相对成本（%）',
+    continualFinding:'StartLux 两种变体在早期任务上相对峰值最多下降 <strong>0.4 个百分点</strong>。全参数微调的路由器在 MATH-500 上起始和最终均为 <strong>92.20%</strong>。',
+    poolTitle:'更换专家池',
+    poolLede:'同一种以卡片为条件的设计分别在三个、五个和十个专家的池上训练。冻结骨干的 JevAny 风格路由器通过反馈学习指针头。',
+    poolChartTitle:'不同池规模下的准确率', exploreChartTitle:'不同探索预算下的留出集准确率', explorationBudget:'探索预算',
+    poolFinding:'专家从 3 个增加到 10 个，四任务准确率从 <strong>66.7%</strong> 提高到 <strong>75.5%</strong>。探索预算为 <strong>5%</strong> 时，留出集得分为 <strong>77.2%</strong>，比已测的最好预算低 1.9 个百分点。',
+    poolMore:'专家选择占比与实验细节',
+    poolChartNote:'四任务实验，使用匹配的奖励与更新预算。它与 15 基准主实验使用不同的评估任务。',
+    poolMoreText:'所有探索预算共用按问题家族划分的固定 10% 留出集，每次训练 500 次更新。“All”与“Held-out”对应不同的评估子集，在下载数据中分别保留。',
+    paperFigureNote:'论文中的图。T = 思考模式；NT = 非思考模式。', explorationCsv:'下载全部探索预算结果（CSV）',
+    resultsTitle:'质量与成本',
+    resultsLede:'两套基准的结果，各自使用自己的评估方式和成本定义。点击图中的点可将其设为参照；表格各列可排序。',
+    apiTab:'API 模型', apiTabSub:'10 个基准', openTab:'开源模型', openTabSub:'15 个基准',
+    qualityCost:'质量与成本', logScale:'成本轴使用对数刻度', scoreColumn:'评分指标', filterLabel:'方法类别',
+    fullMatrix:'在一张表中查看全部基准', includePartial:'包括未完整覆盖的 max 参考行', resultProtocol:'评估范围与比较口径',
+    scopeHeading:'平均方式与覆盖范围', scopeText:'两套基准均报告按请求数加权的平均分。API 基准包含 10,363 个测试问题。max 模式的不完整参考行来自外部公开结果，不进入完整样本的散点图和排名。',
+    costHeading:'成本包含哪些部分', costText:'API 成本按选中专家成功答卷的公开单价折算，不含训练、裁判、本地路由计算和未知失败请求账单。开源成本是相对 Qwen3.5-9B 思考模式的参数量加权 token 代理。',
+    baselineHeading:'适配的对照方法', baselineText:'Router-R1 是单次专家选择的 PPO 适配版，不是原版多轮系统。其 $283.26 采用已记录的保守高口径费用处理。API AdaptRouter 行包含已报告的基准专项训练更新。',
+    pointEstimateNote:'数值保留原表精度；这些点估计及差值本身不构成统计显著性证据。',
+    selectionTitle:'请求被分给了谁',
+    selectionText:'API 基准中各专家收到的请求占比。请求占比和成本占比并不一致：在 LongBench v2 上，论文报告 StartLux 所选路线的成本为 $9.54，而全部交给 Gemini 为 $112.28。',
+    routerLabel:'路由器',
+    analysisTitle:'消融与路由开销',
+    analysisLede:'消融实验分别去掉学习信号的各个部分和视觉输入。耗时实验把路由决策与专家执行分开统计。',
+    ablationTitle:'四任务消融', latencyTitle:'路由与执行耗时', routingLabel:'路由决策（秒）', executionLabel:'专家执行（GPU 秒）',
+    tradeoffMore:'实验说明、λ 权衡与路由器规模',
+    ablationDetails:'消融实验', ablationNote:'四任务消融，非 15 基准主实验。完整模型用一张 GPU 训练，消融用八张。评估包含已记录的 400 道训练重叠题。',
+    timingDetails:'耗时指标', latencyNote:'每个问题的平均耗时，单位为秒。专家执行以 GPU 秒报告，这些观测不代表受控的端到端加速比。',
+    lambdaCaption:'论文中的权衡图（M5 专家池）。较小的 λ 允许以更高成本获得更高准确率。',
+    scaleTitle:'路由器规模', scaleNote:'M5 上匹配的 LoRA 预算。延迟包含预处理。顺序一致性是在五种循环候选顺序下的两两选择一致率。',
+    resourcesTitle:'资源',
+    resourcePaper:'论文', resourcePaperText:'AdaptRouter 论文手稿（PDF）',
+    resourceCode:'代码', resourceCodeText:'API 版路由器的训练代码与配置。',
+    resourceWeights:'权重', resourceWeightsText:'用于 API 专家池的路由器：StartLux 0.8B，全参数微调，λ = 0.02，FP32。',
+    resourceData:'结果表格',
+    footerText:'总览图中的示例输入是未经修改的 MATH-500 和 ChartQA 公开测试题，来源见<a href="assets/examples/NOTICE.txt">说明文件</a>。'
   };
   let storedLang = 'en';
   try { storedLang = localStorage.getItem('ar-lang') || 'en'; } catch {}
@@ -43,8 +132,6 @@
   function dot(x,y,color,tip,r=4,extra=''){return `<circle class="chart-point" cx="${x}" cy="${y}" r="${r}" fill="${color}" stroke="${colors().surface}" stroke-width="2" ${tipAttrs(tip)} ${extra}/>`;}
   function axes(w,h,p,xTicks,yTicks,xFn,yFn,xLabel,yLabel){const c=colors();let s='';for(const y of yTicks){const yy=yFn(y);s+=line(p.l,yy,w-p.r,yy,c.grid,1,y===0?'':'3 4')+text(p.l-9,yy+4,Number.isInteger(y)?y:y.toFixed(1),c.muted,13,'end');}for(const [x,label]of xTicks){const xx=xFn(x);s+=text(xx,h-p.b+22,label,c.muted,13,'middle');}s+=text(p.l,16,yLabel,c.muted,14)+text(w-p.r,h-4,xLabel,c.muted,14,'end');return s;}
   const W = id => Math.max(({ 'continual-chart':560, 'results-chart':640, 'ablation-chart':450, 'latency-chart':440 })[id] || 320, Math.round($('#'+id).clientWidth || 700));
-  let toastTimer;
-  function toast(msg){const e=$('#toast');e.textContent=msg;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),2400);}
 
   function marker(shape,x,y,color,tip,r=5,extra=''){
     if(shape==='circle')return dot(x,y,color,tip,r,extra);
@@ -64,7 +151,7 @@
     const x=i=>p.l+(i+.5)*(w-p.l-p.r)/3,y=v=>h-p.b-v/100*(h-p.b-p.t);
     let s=axes(w,h,p,rows.map((r,i)=>[i,r.method.match(/M\d+/)[0]]),[0,25,50,75,100],x,y,T('Expert pool','专家池'),T('Score (%)','得分（%）'));
     const bw=Math.min(65,(w-p.l-p.r)/5.5);
-    rows.forEach((r,i)=>{const v=r.values[m],tip=`${r.method}|${D.pool.columns[m]}: ${fmt(v,1)}%`;s+=`<rect class="chart-point" x="${x(i)-bw/2}" y="${y(v)}" width="${bw}" height="${h-p.b-y(v)}" rx="4" fill="${i===2?c.teal:c['soft-blue']}" ${tipAttrs(tip)}/>`+text(x(i),y(v)-9,fmt(v,1),i===2?c.teal:c.ink,12,'middle',600);});
+    rows.forEach((r,i)=>{const v=r.values[m],tip=`${r.method}|${D.pool.columns[m]}: ${fmt(v,1)}%`;s+=`<rect class="chart-point" x="${x(i)-bw/2}" y="${y(v)}" width="${bw}" height="${h-p.b-y(v)}" fill="${i===2?c.teal:c['soft-blue']}" ${tipAttrs(tip)}/>`+text(x(i),y(v)-9,fmt(v,1),i===2?c.teal:c.ink,12,'middle',600);});
     const ref=D.pool.rows.find(r=>r.method==='Qwen3.5-9B (T)').values[m];s+=line(p.l,y(ref),w-p.r,y(ref),c.gray,1,'4 4')+text(w-p.r-3,y(ref)-5,'9B (T) · '+fmt(ref,1),c.muted,8,'end');
     $('#pool-chart').innerHTML=svg(w,h,s,T('Performance as the expert pool grows','扩大专家池后的表现'));
   }
@@ -104,7 +191,7 @@
     const reference=visibleRows.find(r=>r.method===state.highlight)||visibleRows.find(r=>r.method===ours.method);
     if(reference){
       const guideX=x(reference.values.at(-1)),guideY=y(reference.values[state.metric]);
-      content=`<rect class="reference-shade" data-reference="${esc(reference.method)}" x="${guideX}" y="${guideY}" width="${Math.max(0,w-p.r-guideX)}" height="${Math.max(0,h-p.b-guideY)}" fill="${c.blue}" fill-opacity="0.12" aria-hidden="true" pointer-events="none"/>`+content;
+      content=`<rect class="reference-shade" data-reference="${esc(reference.method)}" x="${guideX}" y="${guideY}" width="${Math.max(0,w-p.r-guideX)}" height="${Math.max(0,h-p.b-guideY)}" fill="${c.gray}" fill-opacity="0.10" aria-hidden="true" pointer-events="none"/>`+content;
       content+=`<g class="reference-crosshair" data-reference="${esc(reference.method)}" aria-hidden="true" pointer-events="none" opacity="0.8">${line(guideX,p.t,guideX,h-p.b,c.teal,1,'3 5')}${line(p.l,guideY,w-p.r,guideY,c.teal,1,'3 5')}</g>`;
     }
     const plotted=[...rows].sort((a,b)=>Number(a.ours)-Number(b.ours));
@@ -131,7 +218,7 @@
     const sortIdx=state.sort==='cost'?s.columns.length-1:state.metric;
     rows.sort((a,b)=>{const av=a.values[sortIdx],bv=b.values[sortIdx];if(av==null)return 1;if(bv==null)return -1;return state.descending?bv-av:av-bv;});
     const sortMark=key=>state.sort===key?(state.descending?' ↓':' ↑'):' ↕';
-    $('#results-table').innerHTML=`<table><thead><tr><th>${T('Method','方法')}</th><th><button data-sort="score">${esc(s.columns[state.metric])}${sortMark('score')}</button></th><th><button data-sort="cost">${api?'Cost (USD)':'Cost (%)'}${sortMark('cost')}</button></th><th>${T('Category','类别')}</th></tr></thead><tbody>${rows.length?rows.map((r,i)=>`<tr class="${r.ours?'ours ':''}${state.highlight===r.method?'highlighted':''}"><td translate="no"><span class="rank">${String(i+1).padStart(2,'0')}</span>${esc(resultName(r))}${r.ours?'<span class="method-badge">OURS</span>':''}</td><td><strong>${fmt(r.values[state.metric])}</strong></td><td>${api?'$':''}${fmt(r.values.at(-1))}${api?'':'%'}</td><td class="method-group">${groupName(group(r))}</td></tr>`).join(''):`<tr><td class="empty-table" colspan="4">${T('No matching methods. Try another name or category.','未找到对应方法，请修改名称或类别。')}</td></tr>`}</tbody></table>`;
+    $('#results-table').innerHTML=`<table><thead><tr><th>${T('Method','方法')}</th><th><button data-sort="score">${esc(s.columns[state.metric])}${sortMark('score')}</button></th><th><button data-sort="cost">${api?'Cost (USD)':'Cost (%)'}${sortMark('cost')}</button></th><th>${T('Category','类别')}</th></tr></thead><tbody>${rows.length?rows.map((r,i)=>`<tr class="${r.ours?'ours ':''}${state.highlight===r.method?'highlighted':''}"><td translate="no"><span class="rank">${i+1}</span>${esc(resultName(r))}${r.ours?`<span class="method-badge">${T('(ours)','（本文）')}</span>`:''}</td><td><strong>${fmt(r.values[state.metric])}</strong></td><td>${api?'$':''}${fmt(r.values.at(-1))}${api?'':'%'}</td><td class="method-group">${groupName(group(r))}</td></tr>`).join(''):`<tr><td class="empty-table" colspan="4">${T('No matching methods. Try another name or category.','未找到对应方法，请修改名称或类别。')}</td></tr>`}</tbody></table>`;
     $('#download-current').href=`data/${state.suite}.csv`;
     const matrixRows=state.includePartial?s.rows:s.rows.filter(r=>r.values[avg]!==null);
     $('#results-full-table').innerHTML=fullTable(s.columns,matrixRows);
@@ -140,24 +227,24 @@
   function initMetric(){const s=suiteData();$('#result-metric').innerHTML=s.columns.slice(0,-1).map((col,i)=>`<option value="${i}">${i===s.columns.length-2?T('Weighted average','加权平均'):esc(col)}</option>`).join('');$('#result-metric').value=state.metric;}
 
   function renderSelection(){const c=colors(),palette=[c.gray,c.teal,c.amber,c.blue,c.violet],vals=D.selection[state.selection];$('#selection-chart').innerHTML=D.selection.experts.map((n,i)=>`<div class="selection-row"><span class="name">${esc(n)}</span><div class="bar-track"><div class="bar" style="width:${vals[i]}%;background:${palette[i]}"></div></div><span class="value">${fmt(vals[i])}%</span></div>`).join('');}
-  function renderAblation(){const c=colors(),w=W('ablation-chart'),h=320,p={l:178,r:60,t:35,b:48},x=v=>p.l+(v-68.5)/2*(w-p.l-p.r);let s='';const labs=[T('Full model','完整模型'),T('w/o quality-first','无质量优先优势'),T('w/o small-expert term','无小专家项'),T('w/o reasoning-gain','无推理增益项'),T('w/o visual input','无视觉输入')];[69,69.5,70,70.5].forEach(v=>{s+=line(x(v),p.t,x(v),h-p.b,c.grid,1,'3 4')+text(x(v),h-p.b+18,v.toFixed(1),c.muted,9,'middle');});D.ablation.rows.forEach((r,i)=>{const yy=p.t+12+i*46,v=r.values[4];s+=text(p.l-12,yy+4,labs[i],i===0?c.teal:c.muted,w<400?9:10,'end',i===0?600:400)+`<rect class="chart-point" x="${p.l}" y="${yy-8}" width="${Math.max(0,x(v)-p.l)}" height="17" rx="3" fill="${i===0?c.teal:c['soft-blue']}" ${tipAttrs(`${labs[i]}|${T('All four tasks','四任务得分')}: ${fmt(v)}%|${T('Small-expert share','小专家选择占比')}: ${fmt(r.values[5])}%`)}/>`+text(x(v)+7,yy+4,fmt(v),c.ink,10);});s+=text(w-p.r,h-5,T('Accuracy (%) · axis starts at 68.5','准确率（%）· 轴起点为 68.5'),c.muted,8,'end');$('#ablation-chart').innerHTML=svg(w,h,s,T('Four-task ablation results','四任务消融结果'));}
-  function renderLatency(){const c=colors(),w=W('latency-chart'),h=320,p={l:144,r:55,t:35,b:48},max=9.5,x=v=>p.l+v/max*(w-p.l-p.r);let s='';[0,2,4,6,8].forEach(v=>{s+=line(x(v),p.t,x(v),h-p.b,c.grid,1,'3 4')+text(x(v),h-p.b+18,v,c.muted,9,'middle');});D.latency.forEach((r,i)=>{const yy=p.t+20+i*52,v=r[state.latency],width=x(v[0])-p.l;s+=text(p.l-10,yy+4,r.method.replace('Full FT','FT'),c.muted,w<400?8:9,'end');s+=`<rect class="chart-point" x="${p.l}" y="${yy-8}" width="${width}" height="17" rx="2" fill="${c.teal}" ${tipAttrs(`${r.method}|${T('Routing','路由')}: ${fmt(v[0])} s`)}/><rect class="chart-point" x="${x(v[0])+2}" y="${yy-8}" width="${x(v[1])-p.l}" height="17" rx="2" fill="${c['soft-blue']}" ${tipAttrs(`${r.method}|${T('Expert execution','专家执行')}: ${fmt(v[1])} GPU s`)}/>`+text(x(v[0])+x(v[1])-p.l+8,yy+4,fmt(v[0]+v[1]),c.muted,9);});s+=text(w-p.r,h-5,T('Reported seconds / question','报告的每题秒数'),c.muted,9,'end');$('#latency-chart').innerHTML=svg(w,h,s,T('Routing and expert execution timing','路由与专家执行耗时'));}
+  function renderAblation(){const c=colors(),w=W('ablation-chart'),h=320,p={l:178,r:60,t:35,b:48},x=v=>p.l+(v-68.5)/2*(w-p.l-p.r);let s='';const labs=[T('Full model','完整模型'),T('w/o quality-first','无质量优先优势'),T('w/o small-expert term','无小专家项'),T('w/o reasoning-gain','无推理增益项'),T('w/o visual input','无视觉输入')];[69,69.5,70,70.5].forEach(v=>{s+=line(x(v),p.t,x(v),h-p.b,c.grid,1,'3 4')+text(x(v),h-p.b+18,v.toFixed(1),c.muted,9,'middle');});D.ablation.rows.forEach((r,i)=>{const yy=p.t+12+i*46,v=r.values[4];s+=text(p.l-12,yy+4,labs[i],i===0?c.teal:c.muted,w<400?9:10,'end',i===0?600:400)+`<rect class="chart-point" x="${p.l}" y="${yy-8}" width="${Math.max(0,x(v)-p.l)}" height="17" fill="${i===0?c.teal:c['soft-blue']}" ${tipAttrs(`${labs[i]}|${T('All four tasks','四任务得分')}: ${fmt(v)}%|${T('Small-expert share','小专家选择占比')}: ${fmt(r.values[5])}%`)}/>`+text(x(v)+7,yy+4,fmt(v),c.ink,10);});s+=text(w-p.r,h-5,T('Accuracy (%) · axis starts at 68.5','准确率（%）· 轴起点为 68.5'),c.muted,8,'end');$('#ablation-chart').innerHTML=svg(w,h,s,T('Four-task ablation results','四任务消融结果'));}
+  function renderLatency(){const c=colors(),w=W('latency-chart'),h=320,p={l:144,r:55,t:35,b:48},max=9.5,x=v=>p.l+v/max*(w-p.l-p.r);let s='';[0,2,4,6,8].forEach(v=>{s+=line(x(v),p.t,x(v),h-p.b,c.grid,1,'3 4')+text(x(v),h-p.b+18,v,c.muted,9,'middle');});D.latency.forEach((r,i)=>{const yy=p.t+20+i*52,v=r[state.latency],width=x(v[0])-p.l;s+=text(p.l-10,yy+4,r.method.replace('Full FT','FT'),c.muted,w<400?8:9,'end');s+=`<rect class="chart-point" x="${p.l}" y="${yy-8}" width="${width}" height="17" fill="${c.teal}" ${tipAttrs(`${r.method}|${T('Routing','路由')}: ${fmt(v[0])} s`)}/><rect class="chart-point" x="${x(v[0])+2}" y="${yy-8}" width="${x(v[1])-p.l}" height="17" fill="${c['soft-blue']}" ${tipAttrs(`${r.method}|${T('Expert execution','专家执行')}: ${fmt(v[1])} GPU s`)}/>`+text(x(v[0])+x(v[1])-p.l+8,yy+4,fmt(v[0]+v[1]),c.muted,9);});s+=text(w-p.r,h-5,T('Reported seconds / question','报告的每题秒数'),c.muted,9,'end');$('#latency-chart').innerHTML=svg(w,h,s,T('Routing and expert execution timing','路由与专家执行耗时'));}
   function renderScale(){const rows=D.scale.rows.map(r=>({...r,method:(r.group.includes('StartLux')?'StartLux':'JevAny')+' '+r.method,values:[r.values[4],r.values[5],r.values[6],r.values[7]]}));$('#scale-table').innerHTML=fullTable(['All (%)','Mean (ms)','p95 (ms)','Order (%)'],rows);}
-  function renderAll(){renderContinualTable();renderPool();renderExploration();renderResults();renderSelection();renderAblation();renderLatency();renderScale();}
+  function renderAll(){$$('.table-scroll,.chart-host').forEach(n=>n.setAttribute('tabindex','0'));renderContinualTable();renderPool();renderExploration();renderResults();renderSelection();renderAblation();renderLatency();renderScale();}
 
   function setLanguage(){
     document.documentElement.lang=state.lang==='zh'?'zh-CN':'en';
     $$('[data-i18n]').forEach(e=>{e.innerHTML=state.lang==='zh'?(zh[e.dataset.i18n]??english.get(e.dataset.i18n)):english.get(e.dataset.i18n);});
     $('#lang-toggle').textContent=state.lang==='zh'?'EN':'中文';$('#lang-toggle').setAttribute('aria-label',state.lang==='zh'?'Switch to English':'切换到中文');
-    $('#method-search').placeholder=T('Find a method…','搜索方法…');
+    $('#method-search').placeholder=T('Filter by method name','按方法名称筛选');$('#method-search').setAttribute('aria-label',$('#method-search').placeholder);
     const g=$('#result-group');const labs={all:T('All methods','全部方法'),ours:'AdaptRouter',direct:T('Direct models','直接模型'),released:T('Released / prompted','已发布 / 提示路由'),feedback:T('Feedback-trained','反馈训练')};[...g.options].forEach(o=>o.textContent=labs[o.value]);
     $('#pool-metric').options[0].textContent=T('All four tasks','全部四项任务');
     $('#latency-suite').options[0].textContent=T('Main suite','主实验');$('#latency-suite').options[1].textContent=T('Continual · final stage','持续学习 · 最后阶段');
-    initMetric();renderAll();
+    initMetric();renderAll();refreshThemeButton();alignInputConnector();
   }
 
   $('#lang-toggle').addEventListener('click',()=>{state.lang=state.lang==='en'?'zh':'en';try{localStorage.setItem('ar-lang',state.lang);}catch{}setLanguage();});
-  $('#theme-toggle').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';try{localStorage.setItem('ar-theme',dark?'dark':'light');}catch{}renderAll();});
+  $('#theme-toggle').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';try{localStorage.setItem('ar-theme',dark?'dark':'light');}catch{}refreshThemeButton();renderAll();});
   $('#pool-metric').addEventListener('change',e=>{state.poolMetric=+e.target.value;renderPool();});
   $('#exploration-slider').addEventListener('input',e=>{state.explore=+e.target.value;renderExploration();});
   $$('.result-tabs button').forEach(b=>b.addEventListener('click',()=>{state.suite=b.dataset.suite;state.metric=D[state.suite].columns.length-2;state.highlight='';state.sort='score';state.descending=true;$$('.result-tabs button').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-selected',String(x===b));});initMetric();renderResults();}));

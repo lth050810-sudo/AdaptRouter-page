@@ -1,13 +1,18 @@
-AdaptRouter 完整更新：首屏标签与 ChartQA 入口
+AdaptRouter 项目页：改为常规论文项目页样式
 
-- 左侧标签改为「持续学习的模型路由」，字号提高到 16px。
-- 删除该行日期，以及右侧「任务输入」标签；中英文同步。
-- ChartQA 标签与示例图片均打开完整图表，不再链接到 JSON 源文件。
-- 保留此前的小字清理、图例居中、阶段字号、真实样例、论文及代码/权重入口。
+- 首屏改为论文标题、作者与单位、四个链接（论文 / 代码 / 权重 / 结果表格），去掉大字标语和四格数字。
+- 新增摘要（论文原文）与“主要结果”列表；方法部分改为四步说明，并放入论文的方法总览图。
+- 各节标题改为直述式（方法、四个阶段的持续学习、更换专家池、质量与成本、消融与路由开销、资源）。
+- 去掉滚动渐显动画、阅读进度条、返回顶部按钮、图标方块和卡片阴影；表格改为论文式横线表。
+- 资源部分改为链接列表，并列出全部 CSV。
+- 中英文同步；中文字体子集已按新文案重新生成。
+
+文件变化：
+- 修改：index.html、style.css、app.js、assets/fonts/refined-fonts.css
+- 新增：assets/figures/router.webp、assets/fonts/noto-sans-sc-subset.woff2
+- 删除（仓库里的旧文件也可删除）：polish.css、motion.js，
+  assets/fonts 下的 refined-noto-sc*.woff2、refined-jakarta-*、manrope-*、dm-sans-* 及对应 OFL 文本
 
 使用方法：
-先解压，将包内网页文件与 assets、data 文件夹上传至仓库根目录，覆盖同名文件。
-不要只把 ZIP 本身上传到仓库。保留已有研究代码目录与 README.md。
-如上一版已上传，仅覆盖 index.html、app.js、polish.css 即可。
-等 GitHub Pages 发布完成后刷新；必要时用 Ctrl+F5 强制刷新。
-此更新包不会自动修改线上站点，需要上传后才会生效。
+解压后将全部文件上传到仓库根目录并覆盖同名文件，保留已有研究代码目录与 README.md。
+GitHub Pages 发布完成后用 Ctrl+F5 强制刷新。
