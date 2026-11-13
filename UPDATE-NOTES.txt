@@ -23,3 +23,15 @@ AdaptRouter 视觉更新：参照 RouteAnything 页面风格，结构与内容�
 使用方法：
 解压后上传到仓库根目录并覆盖同名文件，保留已有研究代码目录与 README.md。
 GitHub Pages 发布完成后用 Ctrl+F5 强制刷新。
+
+
+2026-11-13：在本 RA 风格包基础上更新作者与单位
+- 交换第二、第三作者：Fengxian Ji、Tianhao Li。
+- 单位编号为 1 Beihang University；2 Beijing Zhongguancun Academy；
+  3 Northeastern University；4 Renmin University of China；5 Beijing Institute of Technology。
+- 第一作者 Jingpu Yang 标为 1,2；其余作者保留原机构，编号相应调整。
+- 资源区作者/单位文字与新版 PDF 同步，三个论文入口更新版本号。
+- 未修改样式、字体、JavaScript、实验数据与图表资源。
+
+这是完整 RA 风格网页更新包。先解压，再把包内文件覆盖上传到仓库根目录。
+如果已经上传原 RA 风格包，只需替换 index.html 与 assets/adaptrouter-manuscript.pdf。
