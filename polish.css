@@ -691,3 +691,6 @@ tr.ours td:first-child, .continual-table tbody tr.ours th { color: var(--teal); 
 .method-columns p { text-wrap: balance; }
 @media(max-width:900px) { .method-columns article { padding: 30px 24px; } .step-number { align-items: center; margin: 0 0 8px; } }
 @media(max-width:700px) { .step-icon .ui-icon { width: 36px; height: 36px; } }
+
+/* Newly reported exploration metric; reuse the existing scrollable table. */
+.exploration-table-title { margin: 28px 0 16px; font: 600 17px/1.4 var(--sans); }

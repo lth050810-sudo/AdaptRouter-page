@@ -1,41 +1,22 @@
-AdaptRouter 视觉更新：参照 RouteAnything 页面风格，结构与内容不变
+AdaptRouter 网站数据同步 — 2026-11-14
 
-保留：全部章节、图表、表格、交互、中英文切换、明暗主题、数据文件。
+基础包：AdaptRouter-PDF-Only-20261114.zip。
+数据来源：当前 paper_ACL-2026-router-overleaf，提交 529317e039f23c2e246b640abfb4c95faecb664e。
 
-样式（style.css 的颜色/字体变量 + polish.css 末尾新增一段）：
-- 配色改为白 / 浅灰分段 + 单一蓝色强调，去掉绿色底和绿色字。
-- 导航改为浮动圆角条，按钮改为胶囊形。
-- 首屏和各节标题居中；路由示意图放到标题下方的浅灰圆角卡片里。
-- 图表卡片、方法步骤、资源卡片改为无边框的大圆角卡片。
-- 标题字体改为 Inter Tight（自托管，OFL），不再使用 Plus Jakarta Sans。
+本次更新：
+- 专家池连续扩展三行共 15 个数值，与当前论文表格逐项一致；All 为 M3 67.2%、M5 67.3%、M10 72.1%。
+- 更新中英文首屏指标、专家池结论、连续训练协议，以及专家选择分布 PDF / SVG。
+- 探索实验补齐 Remain Unseen 列：70.2、72.9、75.4、75.5、76.6、76.9、77.2、78.4、80.8、77.6。
+  网页在现有折叠区提供完整探索结果表；滑块同时显示 Held-out 与从未探索子集得分。
+- 修正 API 自有路由器的训练类别为 soft-label-trained；更新连续扩展与独立探索实验的说明。
+- API 与开源主结果摘要从对应数据行计算，避免摘要和表格数值分离。
+- 补齐新中文文案的自托管字体字符，避免新增术语使用不同字体回退。
+- 同步 results.json、results.js、七个 CSV 和 provenance.json；记录当前源码与图表哈希。
+- 已逐项核对全部 905 个表格单元格（含缺失项）。其余实验数值保持与论文一致。
 
-少量文案和标记（index.html / app.js / motion.js）：
-- 去掉 logo 图标、标题后的绿色句点、首屏小圆点标签、“01 / …”编号、结论前的小图标、顶部阅读进度条。
-- 首屏简介和“方法”一节的引言改为一句直述的话（原来两处是同一句口号）。
-- 首屏按钮增加“论文”“代码”。
-- 资源一节顶部改为论文标题 + 作者 + 单位（取自论文 PDF 首页）。
+保留：RA 版页面样式、作者与单位、资源入口、中英文、明暗主题、表格、筛选、图表交互和右下角参考阴影。
+原包中的 14 页论文与当前源码隔离重编译后的文本一致，本次保留原包 PDF。
 
-文件变化：
-- 修改：index.html、style.css、polish.css、app.js、motion.js、assets/fonts/refined-fonts.css
-- 新增：assets/fonts/inter-tight-latin.woff2、inter-tight-OFL.txt、refined-noto-sc-style.woff2
-- 删除（不再使用）：assets/fonts 下的 refined-jakarta-*、manrope-*、dm-sans-* 及对应 OFL 文本
-
-使用方法：
-解压后上传到仓库根目录并覆盖同名文件，保留已有研究代码目录与 README.md。
-GitHub Pages 发布完成后用 Ctrl+F5 强制刷新。
-
-
-2026-11-13：最终作者和单位修订
-作者：Jingpu Yang (1,2), Fengxian Ji (3), Tianhao Li (3), Yufeng Wang (1),
-Juanfan Wu (4), Shuxin Zheng (2), Xiaoqing Zhang (2*)。
-单位：1 Beihang University；2 Beijing Zhongguancun Academy；
-3 Northeastern University；4 Beijing Institute of Technology。
-已移除中国人民大学单位，保留通讯作者标记；论文、网页作者区和三个论文入口已同步。
-基于原 RA 风格包，仅修改 index.html、论文 PDF 和本说明，样式与交互文件逐字节一致。
-先解压再覆盖上传到仓库根目录；若已使用 RA 风格版，只需替换 index.html 和论文 PDF。
-
-
-2026-11-14：仅更换论文 PDF
-assets/adaptrouter-manuscript.pdf 由当前论文源码（提交 529317e，main-authors.tex）重新编译，14 页。
-index.html 只改了三处 PDF 链接的缓存版本号。其余文件与上一版逐字节一致。
-上传时覆盖 index.html 和 assets/adaptrouter-manuscript.pdf 即可。
+使用方法：解压后将文件上传到 GitHub 仓库根目录，覆盖同名文件。
+这是完整网站包，保留仓库中已有的研究代码与 README.md。
+GitHub Pages 发布完成后可用 Ctrl+F5 强制刷新；应用脚本与数据已更新缓存版本号。

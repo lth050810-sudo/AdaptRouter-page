@@ -32,3 +32,7 @@
 
 /* Glyphs added with the visual pass; Noto Sans SC, OFL. */
 @font-face {font-family:'AdaptRouter Han';font-style:normal;font-weight:400 700;font-display:swap;src:url('./refined-noto-sc-style.woff2') format('woff2');unicode-range:U+53BB,U+5DE5,U+6B65,U+77ED,U+7B2C,U+7B80;}
+
+/* Current manuscript data copy; Noto Sans SC, OFL. */
+@font-face {font-family:'AdaptRouter Han';font-style:normal;font-weight:400;font-display:swap;src:url('./refined-noto-sc-data-400.woff2') format('woff2');unicode-range:U+590D,U+5B58,U+635F,U+6536,U+671B,U+6CBF,U+7B7E,U+7F13,U+8BE5,U+8FDE;}
+@font-face {font-family:'AdaptRouter Han';font-style:normal;font-weight:700;font-display:swap;src:url('./refined-noto-sc-data-700.woff2') format('woff2');unicode-range:U+590D,U+5B58,U+635F,U+6536,U+671B,U+6CBF,U+7B7E,U+7F13,U+8BE5,U+8FDE;}

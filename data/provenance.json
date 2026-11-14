@@ -1,30 +1,121 @@
 {
   "title": "AdaptRouter: Continual Learning to Route across Evolving Tasks and Models",
-  "snapshot": "2026-11-08",
-  "prepared": "2026-11-11",
-  "manuscript_commit": "f1beee000d4282df8259ee33716773e930edf2be",
+  "snapshot": "2026-11-14",
+  "prepared": "2026-11-14",
+  "manuscript_commit": "529317e039f23c2e246b640abfb4c95faecb664e",
   "sources": [
     {
+      "file": "main-authors.tex",
+      "sha256": "88cf377204d8d959af44951933889903c66c7d94da1cd60b89cee94c49d972ec"
+    },
+    {
+      "file": "sec/0_abstract.tex",
+      "sha256": "8c9f04fb7fa0cc9bfba7cc5d9ccc5bad7ba80378bf4af0b4032abe5d793bc03e"
+    },
+    {
+      "file": "sec/1_intro.tex",
+      "sha256": "98d57da056598cd3047440cc1edb6d1f7937e2f7fd0b9d2c47b55f9d3601552e"
+    },
+    {
       "file": "sec/3_problem.tex",
-      "sha256": "07f3c7c027c545270aa176a580009d1e1c950967c8e8ca7f20ded1fbc54bdeb6"
+      "sha256": "ba158b6edfec9d15d170d23d153fb0eeff2da051a9465e9a75dd4987081980ed"
+    },
+    {
+      "file": "sec/4_method.tex",
+      "sha256": "5f1ac9f7af98c52c1af7f1ff2e62ee7794fd417b09d2ecfd04b0f3cb6e026718"
     },
     {
       "file": "sec/5_experiments.tex",
-      "sha256": "2b12cef1c3b16cc1a95950ac7f8a58843dac603529b93d3c7f33ef8dbe23f828"
+      "sha256": "9689090ac4299c3046cf2dd09bf1eaa3915348d9c7bb1717a57ece5d89260f8c"
     },
     {
       "file": "sec/appendix.tex",
-      "sha256": "72db217f5d2bd582a851d5f16216a26b098a7b68f5629e5ee667db4acd621ea6"
+      "sha256": "ba16a2c3c116b09cc74e55e971f02aa88ecee1e0bb92574c3a9a03a3063881d8"
     }
   ],
-  "scope": "Archived research manuscript tables. Reported point estimates; no new training or model calls.",
+  "scope": "Current manuscript tables and figures, synchronized 2026-11-14. Reported point estimates; no new training or model calls.",
   "api_tasks": 10363,
   "api_cost_note": "List-price cost of selected successful expert answers; excludes training, judges, router compute and unknown failed-attempt invoices. Router-R1 uses the documented conservative high-side comparison policy.",
   "open_cost_note": "Parameter-weighted input/output token proxy relative to Qwen3.5-9B (thinking); not dollar cost or wall time.",
-  "training_note": "Main and continual experiments use feedback-based policy optimization. The API extension uses full-information soft targets with lambda=0.02 and tau=0.05.",
+  "training_note": "Open-weight main and continual studies use feedback-based RL. API routers are fully finetuned using cached feedback with soft-target cross-entropy plus expected regret (lambda=0.02, tau=0.05).",
   "coverage_note": "Open and API suites are different test sets; their averages are not directly comparable. Max-effort reference rows are partial external results, not complete matched local runs.",
-  "continual_note": "Each stage trains on new data only. Curves show reported per-task accuracy, not an average across a changing task set.",
+  "continual_note": "All four stages are reported as per-task accuracies, with no replay of earlier training data. Full-finetuning rows are from the main table; LoRA variants are from the appendix.",
   "ablation_note": "Full model trained on one GPU, ablations on eight. The evaluation includes the documented 400-question training overlap; it is not a wholly independent held-out test.",
   "precision_note": "Numbers reproduce displayed table precision. Narrative summaries are not used to overwrite explicit table cells.",
-  "manuscript_pdf_sha256": "0cb193a09612abe623972fe29b94009786196a76bc41d08fd7080028f949d864"
+  "manuscript_pdf_sha256": "5bd716fd74ae430bc393ff340884d67ebfb9d62d16ac84a7ef5b466a8bf223e4",
+  "pool_note": "One JevAny-0.8B pointer head is trained sequentially on M3, M5 and M10, inheriting the previous head and AdamW state. Each stage adds 500 updates on the same 400 training questions; evaluation uses the same disjoint 2,280 questions.",
+  "exploration_note": "Independent M10 routers, 500 updates each. All: the 2,280 pool-study test questions; Held-out 10%: fixed question families never explored; Remain Unseen: all questions not explored by that run. Values follow the manuscript table; these subsets have distinct denominators.",
+  "figure_sources": [
+    {
+      "file": "figs/api_selection_share.pdf",
+      "sha256": "d632e6a5684658929577ea25245cd97977a5d3944f7e9dfc8fbac565356bc2e1"
+    },
+    {
+      "file": "figs/lambda_tradeoff.pdf",
+      "sha256": "af031e893b3d6f46adf8b47f76b4dfcd3cf662171e69802fa3ea056189d201c5"
+    },
+    {
+      "file": "figs/modelqs.pdf",
+      "sha256": "c171b566b8d37c201c9f1dcc10932a0d82b101f2164e713046c7d2d918a8331e"
+    },
+    {
+      "file": "figs/pool_selection_share.pdf",
+      "sha256": "2d5ea36034de5686be94800d63fd9e92b1fe4abaaee3623d44a80986f88b4aff"
+    },
+    {
+      "file": "figs/router.pdf",
+      "sha256": "4c7f7cea50c08778df01df04a7a5902b4ed3c3d5fd6e86758a744a6f5e7f633f"
+    },
+    {
+      "file": "figs/routing_solving_time.pdf",
+      "sha256": "cdf91faecbe54414b1af73b52cb55079f994584a48c7ad3af2734ed3f8831ff7"
+    }
+  ],
+  "table_sources": {
+    "tab:benchmark_results": {
+      "file": "sec/3_problem.tex",
+      "rows": 15,
+      "numeric_columns": 17
+    },
+    "tab:alternative_benchmark_results": {
+      "file": "sec/appendix.tex",
+      "rows": 4,
+      "numeric_columns": 17
+    },
+    "tab:closed_source_results": {
+      "file": "sec/5_experiments.tex",
+      "rows": 14,
+      "numeric_columns": 12
+    },
+    "tab:continual_results": {
+      "file": "sec/3_problem.tex",
+      "rows": 15,
+      "numeric_columns": 15
+    },
+    "tab:alternative_continual_results": {
+      "file": "sec/appendix.tex",
+      "rows": 4,
+      "numeric_columns": 15
+    },
+    "tab:pool": {
+      "file": "sec/5_experiments.tex",
+      "rows": 7,
+      "numeric_columns": 5
+    },
+    "tab:data_scale": {
+      "file": "sec/5_experiments.tex",
+      "rows": 10,
+      "numeric_columns": 8
+    },
+    "tab:ablation": {
+      "file": "sec/5_experiments.tex",
+      "rows": 5,
+      "numeric_columns": 6
+    },
+    "tab:router_scale": {
+      "file": "sec/5_experiments.tex",
+      "rows": 6,
+      "numeric_columns": 8
+    }
+  }
 }

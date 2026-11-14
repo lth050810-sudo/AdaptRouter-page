@@ -11,5 +11,5 @@ Qwen3.5-4B (Prompted Selector),II. Released and prompted routing methods,76.46,4
 MLP Reward Predictor,III. Feedback-trained routing methods,86.27,19.76,46.55,58.0,62.0,58.41,84.76,48.34,82.91,73.4,67.9,246.87
 LatentRouter (adapted),III. Feedback-trained routing methods,80.93,44.88,38.11,67.6,58.0,60.4,77.83,49.61,83.16,67.02,64.67,123.31
 Router-R1 (PPO),III. Feedback-trained routing methods,86.78,23.66,48.92,60.0,72.0,66.81,88.29,53.8,79.7,74.47,70.53,283.26
-"StartLux 0.8B (Full FT, ours)",IV. RL-trained routing methods,86.68,49.02,48.66,66.8,82.0,62.83,87.44,53.42,83.43,74.47,71.31,120.46
-"JevAny-0.8B (Full FT, ours)",Other,86.6,33.9,48.92,64.4,82.0,62.83,88.36,53.75,83.43,74.47,70.86,134.3
+"StartLux 0.8B (Full FT, ours)",IV. Soft-label-trained routing methods,86.68,49.02,48.66,66.8,82.0,62.83,87.44,53.42,83.43,74.47,71.31,120.46
+"JevAny-0.8B (Full FT, ours)",IV. Soft-label-trained routing methods,86.6,33.9,48.92,64.4,82.0,62.83,88.36,53.75,83.43,74.47,70.86,134.3
