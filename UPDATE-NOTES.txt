@@ -33,3 +33,9 @@ Juanfan Wu (4), Shuxin Zheng (2), Xiaoqing Zhang (2*)。
 已移除中国人民大学单位，保留通讯作者标记；论文、网页作者区和三个论文入口已同步。
 基于原 RA 风格包，仅修改 index.html、论文 PDF 和本说明，样式与交互文件逐字节一致。
 先解压再覆盖上传到仓库根目录；若已使用 RA 风格版，只需替换 index.html 和论文 PDF。
+
+
+2026-11-14：仅更换论文 PDF
+assets/adaptrouter-manuscript.pdf 由当前论文源码（提交 529317e，main-authors.tex）重新编译，14 页。
+index.html 只改了三处 PDF 链接的缓存版本号。其余文件与上一版逐字节一致。
+上传时覆盖 index.html 和 assets/adaptrouter-manuscript.pdf 即可。
