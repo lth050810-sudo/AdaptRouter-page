@@ -43,7 +43,7 @@
     "continual_note": "All four stages are reported as per-task accuracies, with no replay of earlier training data. Full-finetuning rows are from the main table; LoRA variants are from the appendix.",
     "ablation_note": "Full model trained on one GPU, ablations on eight. The evaluation includes the documented 400-question training overlap; it is not a wholly independent held-out test.",
     "precision_note": "Numbers reproduce displayed table precision. Narrative summaries are not used to overwrite explicit table cells.",
-    "manuscript_pdf_sha256": "5bd716fd74ae430bc393ff340884d67ebfb9d62d16ac84a7ef5b466a8bf223e4",
+    "manuscript_pdf_sha256": "5b23efc7a5b60b768ee28b64c24e573e781824246a18c6a553f96ba0fc7c3810",
     "pool_note": "One JevAny-0.8B pointer head is trained sequentially on M3, M5 and M10, inheriting the previous head and AdamW state. Each stage adds 500 updates on the same 400 training questions; evaluation uses the same disjoint 2,280 questions.",
     "exploration_note": "Independent M10 routers, 500 updates each. All: the 2,280 pool-study test questions; Held-out 10%: fixed question families never explored; Remain Unseen: all questions not explored by that run. Values follow the manuscript table; these subsets have distinct denominators.",
     "figure_sources": [
